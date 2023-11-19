@@ -85,21 +85,21 @@ bool admin::login()
 
                 for (int j = 0; j <= 100; j = j + 25)
                 {
-                    cout << "Dang kiem tra thong tin... " << j << "%" << endl;
+                    cout << "Checking Information... " << j << "%" << endl;
                     sleep(1);
                     system("cls");
                 }
-                cout << "Dang Nhap Thanh Cong!" << endl;
+                cout << "Login successfully!" << endl;
                 *(this) = L[i];
                 return true;
             }
         }
-        cout << "Ten Dang Nhap hoac Mat Khau khong dung. Vui long thu lai!!!" << endl;
+        cout << "Username or password is incorrect. Please try again!!!" << endl;
         return false;
     }
     else
     {
-        cout << "Loi Trong Qua Trinh Mo File" << endl;
+        cout << "Error Open File" << endl;
         return false;
     }
 }

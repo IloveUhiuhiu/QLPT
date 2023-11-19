@@ -1,4 +1,8 @@
+#ifndef CUSTOMER_H
+#define CUSTOMER_H
+
 #include "user.h"
+#include "Room.h"
 
 class customer : public user
 {
@@ -43,13 +47,16 @@ public:
     friend istream &operator>>(istream &, customer &);
     friend ostream &operator<<(ostream &, const customer &);
 
-    customer Split(string);
-    string Union (customer&);
+    static customer Split(string);
+    static string Union (customer&);
+
     bool login();
-    void write_File(List<string>&);
+    // static List<string> load_File(const string);
+    static void write_File(List<string>&);
     void add_customer();
-    void find_customer(string);
-    void find_room(string);
-    void update_customer(string);
-    void delete_customer(string);
+    static void find_namecustomer(string);
+    // void update_customer(string);
+    static void delete_customer(string);
+    static void display();
 };
+#endif

@@ -79,21 +79,20 @@ void customer::set_customer_phone(string customer_phone)
 }
 istream &operator>>(istream &i, customer &obj)
 {
-    cout << "customer_id: ";
-    getline(i, obj.customer_id);
-    cout << "room_id: ";
-    getline(i, obj.room_id);
-    cout << "customer_name: ";
+    cout << "Name: ";
+    cin.ignore();
     getline(i, obj.customer_name);
-    cout << "customer_dateofbirth: ";
+    cout << "RoomID: ";
+    getline(i, obj.room_id);
+    cout << "Date Of Birth(yy-mm-dd): ";
     getline(i, obj.customer_dateofbirth);
-    cout << "customer_gender: ";
+    cout << "Gender: ";
     getline(i, obj.customer_gender);
-    cout << "customer_email: ";
+    cout << "Email: ";
     getline(i, obj.customer_email);
-    cout << "customer_address: ";
+    cout << "Address: ";
     getline(i, obj.customer_address);
-    cout << "customer_phone: ";
+    cout << "Phone: ";
     getline(i, obj.customer_phone);
     cout << "user_name: ";
     getline(i, obj.user_name);
@@ -103,26 +102,26 @@ istream &operator>>(istream &i, customer &obj)
 }
 ostream &operator<<(ostream &o, const customer &obj)
 {
-    cout << "customer_id: ";
-    o << obj.customer_id << endl;
-    cout << "room_id: ";
-    o << obj.room_id << endl;
-    cout << "customer_name: ";
-    o << obj.customer_name << endl;
-    cout << "customer_dateofbirth: ";
-    o << obj.customer_dateofbirth << endl;
-    cout << "customer_gender: ";
-    o << obj.customer_gender << endl;
-    cout << "customer_email: ";
-    o << obj.customer_email << endl;
-    cout << "customer_address: ";
-    o << obj.customer_address << endl;
-    cout << "customer_phone: ";
-    o << obj.customer_phone << endl;
-    cout << "user_name: ";
-    o << obj.user_name << endl;
-    cout << "password: ";
-    o << obj.password << endl;
+    // cout << "customer_id: ";
+    o << setw(5) << obj.customer_id; cout << " | ";
+    // cout << "room_id: ";
+    o << setw(5) << obj.room_id << " | ";
+    // cout << "customer_name: ";
+    o << setw(10) << obj.customer_name << " | ";
+    // cout << "customer_dateofbirth: ";
+    o << setw(10) << obj.customer_dateofbirth << " | ";
+    // cout << "customer_gender: ";
+    o << setw(10) << obj.customer_gender << " | ";
+    // cout << "customer_email: ";
+    o << setw(10) << obj.customer_email << " | ";
+    // cout << "customer_address: ";
+    o << setw(10) << obj.customer_address << " | ";
+    // cout << "customer_phone: ";
+    o << setw(10) <<  obj.customer_phone << " | ";
+    // cout << "user_name: ";
+    o << setw(10) << obj.user_name << " | ";
+    // cout << "password: ";
+    o << setw(10) << obj.password << " | ";
     return o;
 }
 
@@ -211,24 +210,25 @@ bool customer::login()
 
                 for (int j = 0; j <= 100; j = j + 25)
                 {
-                    cout << "Dang kiem tra thong tin... " << j << "%" << endl;
+                    cout << "Checking Information... " << j << "%" << endl;
                     sleep(1);
                     system("cls");
                 }
-                cout << "Dang Nhap Thanh Cong!" << endl;
+                cout << "Login successfully!" << endl;
                 *(this) = L[i];
                 return true;
             }
         }
-        cout << "Ten Dang Nhap hoac Mat Khau khong dung. Vui long thu lai!!!" << endl;
+        cout << "Username or password is incorrect. Please try again!!!" << endl;
         return false;
     }
     else
     {
-        cout << "Loi Trong Qua Trinh Mo File" << endl;
+        cout << "Error Open File" << endl;
         return false;
     }
 }
+
 
 void customer::write_File(List<string> &L)
 {
@@ -247,7 +247,7 @@ void customer::write_File(List<string> &L)
     }
     else
     {
-        cout << "Loi Trong Qua Trinh Mo File" << endl;
+        cout << "Error Opening File customer.txt" << endl;
     }
 }
 void customer::add_customer()
@@ -281,112 +281,147 @@ void customer::add_customer()
         L.push_back(str);
     }
     write_File(L);
+    Room obj = Room::find_room(this->room_id);
+    if (obj.isOccupied() == false) {
+        Room::delete_room(obj.getRoomID());
+        obj.setOccupied(true);
+        obj.add_room(0);   
+    } 
 }
-void customer::find_customer(string customer_id)
+
+void customer::find_namecustomer(string name)
 {
     ifstream inputFile;
     inputFile.open("customer.txt");
     string str;
     while (getline(inputFile, str))
-    {
-        customer obj = Split(str);
-        if (customer_id == obj.customer_id)
-        {
-            cout << obj << endl;
+    {   
+        if (str.size()) {
+            customer obj = customer::Split(str);
+            if (obj.get_customer_name() == name)
+            {
+                cout << obj << endl;
+            }
         }
     }
 }
-void customer::find_room(string room_id)
+void customer::display()
 {
     ifstream inputFile;
     inputFile.open("customer.txt");
     string str;
     while (getline(inputFile, str))
-    {
+    {   
+        if (str.size()) {
+        customer obj = customer::Split(str);
+        cout << obj << endl;
+        }
+    }
+}
+// customer customer::find_customer(string customer_id)
+// {
+//     ifstream inputFile;
+//     inputFile.open("customer.txt");
+//     string str;
+//     customer obj;
+//     while (getline(inputFile, str))
+//     {
+//         obj = Split(str);
+//         if (customer_id == obj.customer_id)
+//         {
+//             return obj;
+//         }
+//     }
+//     return obj;
+// }
+// void customer::update_customer(string customer_idd)
+// {
+//     List<string> L;
+//     ifstream inputFile;
+//     inputFile.open("customer.txt");
+//     string str, customer_id, room_id, customer_name, customer_dateofbirth, customer_gender, customer_email, customer_address,
+//         customer_phone, user_name, password;
+//     while (getline(inputFile, str))
+//     {
+//         L.push_back(str);
+//     }
+//     int size = L.getSize();
+//     customer obj;
+//     for (int i = 0; i < size; i++)
+//     {
+//        obj = Split(L[i]);
+//         if (obj.get_customer_id() == customer_idd)
+//         {
+//             cin.ignore();
+//             cout << "customer_id: ";
+//             getline(cin, customer_id);
+//             this->set_customer_id(customer_id);
+            
+//             cout << "room_id: ";
+//             getline(cin, room_id);
+//             this->set_room_id(room_id);
+//             cout << "customer_name: ";
+//             getline(cin, customer_name);
+//             this->set_customer_name(customer_name);
+//             cout << "customer_dateofbirth: ";
+//             getline(cin, customer_dateofbirth);
+//             this->set_customer_dateofbirth(customer_dateofbirth);
+//             cout << "customer_gender: ";
+//             getline(cin, customer_gender);
+//             this->set_customer_gender(customer_gender);
+//             cout << "customer_email: ";
+//             getline(cin, customer_email);
+//             this->set_customer_email(customer_email);
+//             cout << "customer_address: ";
+//             getline(cin, customer_address);
+//             this->set_customer_address(customer_address);
+//             cout << "customer_phone: ";
+//             getline(cin, customer_phone);
+//             this->set_customer_phone(customer_phone);
+//             cout << "user_name: ";
+//             getline(cin, user_name);
+//             this->set_user_name(user_name);
+//             cout << "password: ";
+//             getline(cin, password);
+//             this->set_password(password);
+//             str = Union(*this);
+//             L[i] = str;
+//         }
+//     }
+//     write_File(L);
+// }
+void customer::delete_customer(string customer_id)
+{
+    List<string> L;
+    ifstream inputFile;
+    inputFile.open("customer.txt");
+    string str;
+    string room_id;
+    int cnt = 0;
+    while (getline(inputFile, str))
+    {   
         customer obj = Split(str);
-        if (room_id == obj.room_id)
+        if (obj.get_customer_id() != customer_id)
         {
-            cout << obj << endl;
+            L.push_back(str);
+        } else {
+            room_id = obj.get_room_id();
         }
-    }
-}
-void customer::update_customer(string customer_idd)
-{
-    List<string> L;
-    ifstream inputFile;
-    inputFile.open("customer.txt");
-    string str, customer_id, room_id, customer_name, customer_dateofbirth, customer_gender, customer_email, customer_address,
-        customer_phone, user_name, password;
-    while (getline(inputFile, str))
-    {
-        L.push_back(str);
-    }
-    int size = L.getSize();
-
-    for (int i = 0; i < size; i++)
-    {
-        customer obj = Split(L[i]);
-        if (obj.get_customer_id() == customer_idd)
-        {
-            cin.ignore();
-            cout << "customer_id: ";
-            getline(cin, customer_id);
-            cout << "long" << endl;
-            obj.set_customer_id(customer_id);
-            cout << "room_id: ";
-            getline(cin, room_id);
-            obj.set_room_id(room_id);
-            cout << "customer_name: ";
-            getline(cin, customer_name);
-            obj.set_customer_name(customer_name);
-            cout << "customer_dateofbirth: ";
-            getline(cin, customer_dateofbirth);
-            obj.set_customer_dateofbirth(customer_dateofbirth);
-            cout << "customer_gender: ";
-            getline(cin, customer_gender);
-            obj.set_customer_gender(customer_gender);
-            cout << "customer_email: ";
-            getline(cin, customer_email);
-            obj.set_customer_email(customer_email);
-            cout << "customer_address: ";
-            getline(cin, customer_address);
-            obj.set_customer_address(customer_address);
-            cout << "customer_phone: ";
-            getline(cin, customer_phone);
-            obj.set_customer_phone(customer_phone);
-            cout << "user_name: ";
-            getline(cin, user_name);
-            obj.set_user_name(user_name);
-            cout << "password: ";
-            getline(cin, password);
-            obj.set_password(password);
-            str = Union(obj);
-            L[i] = str;
-        }
+        
     }
     write_File(L);
-}
-void customer::delete_customer(string customer_idd)
-{
-    List<string> L;
-    ifstream inputFile;
-    inputFile.open("customer.txt");
-    string str, customer_id, room_id, customer_name, customer_dateofbirth, customer_gender, customer_email, customer_address,
-        customer_phone, user_name, password;
-    while (getline(inputFile, str))
-    {
-        L.push_back(str);
-    }
     int size = L.getSize();
-
-    for (int i = 0; i < size; i++)
-    {
+    for (int i=0; i<size; i++) {
         customer obj = Split(L[i]);
-        if (obj.get_customer_id() == customer_idd)
-        {
-            L.erase(i);
-            i--;
+        if (obj.get_room_id() == room_id) {
+            cnt++;
         }
     }
-    write_File(L);
+    if (cnt == 0)
+    {
+        Room obj = Room::find_room(room_id);
+        obj.setOccupied(false);
+        Room::delete_room(room_id);
+        obj.add_room(0);
+    }
 }

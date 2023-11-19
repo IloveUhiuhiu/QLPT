@@ -1,9 +1,12 @@
 #pragma once
+#ifndef USER_H
+#define USER_H
 #include <iostream>
-#include "List.h"
+// #include "List.h"
 #include "List.cpp"
 #include <fstream>
 #include <unistd.h>
+#include <iomanip>
 using namespace std;
 class user
 {
@@ -21,3 +24,5 @@ public:
     string get_password() const;
     void set_password(string);
 };
+
+#endif

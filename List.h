@@ -1,5 +1,6 @@
 #pragma once
-
+#ifndef LIST_H
+#define LIST_H
 template <class T>
 class node
 {
@@ -33,3 +34,5 @@ public:
     int getSize();// trả về kích thước của danh sách
     T &operator[](int);// đa năng hóa toán tử []
 };
+
+#endif

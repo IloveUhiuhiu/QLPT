@@ -1,0 +1,427 @@
+#include "dien_nuoc.h"
+dien_nuoc::dien_nuoc(string dien_nuoc_id,string room_id, int num_electric_before, int num_electric_after, int num_water_before,
+                     int num_water_after, int cost_water, int cost_electric,int years, int months, int days ,bool status)
+    : dien_nuoc_id(dien_nuoc_id), room_id (room_id), num_electric_before(num_electric_before), num_electric_after(num_electric_after), num_water_before(num_water_before),
+      num_water_after(num_water_after), cost_water(cost_water), cost_electric(cost_electric),date(years,months,days),status(status) {}
+
+dien_nuoc::~dien_nuoc()
+{
+}
+string dien_nuoc::get_dien_nuoc_id() const
+{
+    return dien_nuoc_id;
+}
+string dien_nuoc::get_room_id() const
+{
+    return room_id;
+}
+int dien_nuoc::get_num_elecric_before() const
+{
+    return num_electric_before;
+}
+int dien_nuoc::get_num_elecric_after() const
+{
+    return num_electric_after;
+}
+int dien_nuoc::get_num_water_before() const
+{
+    return num_water_before;
+}
+int dien_nuoc::get_num_water_after() const
+{
+    return num_water_after;
+}
+int dien_nuoc::get_cost_water() const
+{
+    return cost_water;
+}
+int dien_nuoc::get_cost_electric() const
+{
+    return cost_electric;
+}
+Datetime dien_nuoc::get_date() const
+{
+    return date;
+}
+bool dien_nuoc::get_status() const
+{
+    return status;
+}
+
+void dien_nuoc::set_dien_nuoc_id(string dien_nuoc_id)
+{
+    this->dien_nuoc_id = dien_nuoc_id;
+}
+void dien_nuoc::set_room_id(string room_id)
+{
+    this->room_id = room_id;
+}
+void dien_nuoc::set_num_electric_before(int num_electric_before)
+{
+    this->num_electric_before = num_electric_before;
+}
+void dien_nuoc::set_num_electric_after(int num_electric_after)
+{
+    this->num_electric_after = num_electric_after;
+}
+void dien_nuoc::set_num_water_before(int num_water_before)
+{
+    this->num_water_before = num_water_before;
+}
+void dien_nuoc::set_num_water_after(int num_water_after)
+{
+    this->num_water_after = num_water_after;
+}
+void dien_nuoc::set_cost_water(int cost_water)
+{
+    this->cost_water = cost_water;
+}
+void dien_nuoc::set_cost_electric(int cost_electric)
+{
+    this->cost_electric = cost_electric;
+}
+void dien_nuoc::set_date(int years,int months,int days)
+{
+    this->date = Datetime(years,months,days);
+}
+void dien_nuoc::set_status(bool status)
+{
+    this->status = status;
+}
+istream &operator>>(istream &i, dien_nuoc &obj)
+{
+    cout << "Dien_Nuoc_ID: ";
+    getline(i, obj.dien_nuoc_id);
+    cout << "Room_ID: ";
+    getline(i, obj.room_id);
+    cout << "Num Of Electric Before: ";
+    i >> obj.num_electric_before;
+    cout << "Num Of Electric After: ";
+    i >> obj.num_electric_after;
+    cout << "Num Of Water Before: ";
+    i >> obj.num_water_before;
+    cout << "Num Of Water After: ";
+    i >> obj.num_water_after;
+    cout << "Cost Of Water: ";
+    i >> obj.cost_water;
+    cout << "Cost Of Electric: ";
+    i >> obj.cost_electric;
+    cout << "Date: ";
+    cin.ignore();
+    i >> obj.date;
+    cout << "Status: ";
+    i >> obj.status;
+    return i;
+}
+ostream &operator<<(ostream &o, const dien_nuoc &obj)
+{   
+    cout << "Dien_Nuoc_ID: ";
+    o << obj.dien_nuoc_id << endl;
+    cout << "Room_ID: ";
+    o << obj.room_id << endl;
+    cout << "Num Of Electric Before: ";
+    o << obj.num_electric_before << endl;
+    cout << "Num Of Electric After: ";
+    o << obj.num_electric_after << endl;
+    cout << "Num Of Water Before: ";
+    o << obj.num_water_before << endl;
+    cout << "Num Of Water After: ";
+    o << obj.num_water_after << endl;
+    cout << "Cost Of Ater: ";
+    o << obj.cost_water << endl;
+    cout << "Cost Of Electric : ";
+    o << obj.cost_electric << endl;
+    cout << "Date: ";
+    o << obj.date << endl;
+    cout << "Status: ";
+    o << obj.status << endl;
+    return o;
+}
+
+void dien_nuoc::write_File(List<string> &L) // xuất dữ liệu ra file
+{
+    ofstream inputFile;
+    inputFile.open("dien_nuoc.txt", std::ios::out | std::ios::trunc);
+    if (inputFile.is_open())
+    {
+        int size = L.getSize();
+        if (size)
+        {
+            for (int i = 0; i < size; i++)
+            {
+                inputFile << L[i] << '\n';
+            }
+        }
+    }
+    else
+    {
+        cout << "Error Openning File dien_nuoc.txt" << endl;
+    }
+}
+dien_nuoc dien_nuoc::Split(string str) // hàm tách chuổi
+{
+    string dien_nuoc_id,room_id;
+    int num_electric_before, num_electric_after, num_water_before, num_water_after, cost_water, cost_electric;
+    Datetime date;
+    bool status;
+    str += ',';
+    int id = 1;
+    int begin = 0, end = 0;
+    for (auto x : str)
+    {
+        if (x == ',')
+        {   
+            if (id == 1) 
+            {
+                dien_nuoc_id = str.substr(begin, end-begin);
+            }
+            else if (id == 2)
+            {
+                room_id = str.substr(begin, end - begin);
+            }
+            else if (id == 3)
+            {
+                num_electric_before = Convert::str_to_int(str.substr(begin, end - begin));
+            }
+            else if (id == 4)
+            {
+                num_electric_after = Convert::str_to_int(str.substr(begin, end - begin));
+            }
+            else if (id == 5)
+            {
+                num_water_before = Convert::str_to_int(str.substr(begin, end - begin));
+            }
+            else if (id == 6)
+            {
+                num_water_after = Convert::str_to_int(str.substr(begin, end - begin));
+            }
+            else if (id == 7)
+            {
+                cost_water = Convert::str_to_int(str.substr(begin, end - begin));
+            }
+            else if (id == 8)
+            {
+                cost_electric = Convert::str_to_int(str.substr(begin, end - begin));
+            }
+            else if (id == 9)
+            {
+                date = Datetime::Split(str.substr(begin, end - begin));
+            }
+            else if (id == 10)
+            {
+                status = Convert::str_to_bool(str.substr(begin, end - begin));
+            }
+            ++id;
+            begin = end + 1;
+        }
+        end++;
+    }
+    return dien_nuoc(dien_nuoc_id,room_id, num_electric_before, num_electric_after, num_water_before, num_water_after, cost_water, cost_electric, date.get_years(),date.get_months(),date.get_days(), status);
+}
+string dien_nuoc::Union(dien_nuoc &obj) // hàm gộp chuổi
+{
+    string str = obj.dien_nuoc_id + "," + obj.room_id + "," + Convert::int_to_str(obj.num_electric_before) + "," + Convert::int_to_str(obj.num_electric_after) + "," + Convert::int_to_str(obj.num_water_before) + "," + Convert::int_to_str(obj.num_water_after) + "," + Convert::int_to_str(obj.cost_water) + "," + Convert::int_to_str(obj.cost_electric) + "," + Datetime::Union(obj.date) + "," + Convert::bool_to_str(obj.status);
+    return str;
+}
+
+int dien_nuoc::getNewCostWater()
+{
+    ifstream inputFile;
+    inputFile.open("costWater.txt");
+    int cost_water;
+    inputFile >> cost_water;
+    return cost_water;
+}
+int dien_nuoc::getNewCostElectric()
+{
+    ifstream inputFile;
+    inputFile.open("costElectric.txt");
+    int cost_electric;
+    inputFile >> cost_electric;
+    return cost_electric;
+}
+
+void dien_nuoc::updateCostElectric(int newCostElectric)
+{
+    ofstream outputFile;
+    outputFile.open("costElectric.txt", std::ios::out | std::ios::trunc);
+    outputFile << newCostElectric;
+}
+void dien_nuoc::updateCostWater(int newCostWater)
+{
+    ofstream outputFile;
+    outputFile.open("costWater.txt", std::ios::out | std::ios::trunc);
+    outputFile << newCostWater;
+}
+void dien_nuoc::add_dien_nuoc()
+{
+    ifstream inputFile;
+    inputFile.open("dien_nuoc.txt");
+    string str, dien_nuoc_id;
+    List<string> L;
+    bool add = true;
+    while (getline(inputFile, str))
+    {
+        int end = 0;
+        for (auto x : str)
+        {
+            if (x == ',')
+            {
+                dien_nuoc_id = str.substr(0, end);
+                break;
+            }
+            end++;
+        }
+        if (dien_nuoc_id == this->dien_nuoc_id)
+        {
+            add = false;
+        }
+        L.push_back(str);
+    }
+    if (add)
+    {
+        str = Union(*this);
+        L.push_back(str);
+    }
+    write_File(L);
+}
+
+void dien_nuoc::display()
+{
+    ifstream inputFile;
+    inputFile.open("dien_nuoc.txt");
+    string str;
+    while (getline(inputFile, str))
+    {   
+        dien_nuoc dn = Split(str);
+        cout << dn << endl;
+    }
+}
+// void dien_nuoc::find_room(string room_id) // hàm đọc file  và lấy room_id để update hoặc delete
+// {
+//     ifstream inputFile;
+//     inputFile.open("dien_nuoc.txt");
+//     string str;
+//     while (getline(inputFile, str))
+//     {
+//         dien_nuoc obj = Split(str);
+//         if (room_id == obj.room_id)
+//         {
+//             cout << obj << endl;
+//         }
+//     }
+// }
+// void dien_nuoc::update_dien_nuoc(string room_idd)
+// {
+//     List<string> L;
+//     ifstream inputFile;
+//     inputFile.open("dien_nuoc.txt");
+//     string str, room_id, date;
+//     string num_electric_before, num_electric_after, num_water_before, num_water_after, cost_water, cost_eclectric;
+//     string status;
+//     while (getline(inputFile, str))
+//     {
+//         L.push_back(str);
+//     }
+//     int size = L.getSize();
+
+//     for (int i = 0; i < size; i++)
+//     {
+//         dien_nuoc obj = Split(L[i]);
+//         if (obj.get_room_id() == room_idd)
+//         {
+//             // cout << "room_id: ";
+//             // getline(cin, room_id);
+
+//             cout << "num_electric_before: ";
+//             getline(cin, num_electric_before);
+//             obj.set_num_elecric_before(Convert::str_to_int(num_electric_before));
+
+//             cout << "num_electric_after: ";
+//             getline(cin, num_electric_after);
+//             obj.set_num_elecric_after(Convert::str_to_int(num_electric_after));
+
+//             cout << "num_water_before: ";
+//             getline(cin, num_water_before);
+//             obj.set_num_water_before(Convert::str_to_int(num_water_before));
+
+//             cout << "num_water_after: ";
+//             getline(cin, num_water_after);
+//             obj.set_num_water_after(Convert::str_to_int(num_water_after));
+
+//             cout << "cost_water: ";
+//             getline(cin, cost_water);
+//             obj.set_cost_water(Convert::str_to_int(cost_water));
+
+//             cout << "cost_electric: ";
+//             getline(cin, cost_eclectric);
+//             obj.set_cost_electric(Convert::str_to_int(cost_eclectric));
+
+//             cout << "date: ";
+//             cin >> date;
+//             obj.set_date(date);
+
+//             cout << "status: ";
+//             getline(cin, status);
+//             obj.set_status(Convert::str_to_bool(status));
+//             str = Union(obj);
+//             L[i] = str;
+//         }
+//     }
+//     write_File(L);
+// }
+void dien_nuoc::delete_dien_nuoc(string dien_nuoc_id)
+{
+    List<string> L;
+    ifstream inputFile;
+    inputFile.open("dien_nuoc.txt");
+    string str;
+    while (getline(inputFile, str))
+    {
+        L.push_back(str);
+    }
+    int size = L.getSize();
+
+    for (int i = 0; i < size; i++)
+    {
+        dien_nuoc obj = Split(L[i]);
+        if (obj.get_dien_nuoc_id() == dien_nuoc_id)
+        {
+            L.erase(i);
+            i--;
+        }
+    }
+    write_File(L);
+}
+
+// int dien_nuoc::Electric_bill()
+// {
+//     dien_nuoc obj;
+//     ifstream inputFile;
+//     inputFile.open("dien_nuoc.txt");
+//     string str;
+//     int electric_bill = 0;
+//     while (getline(inputFile, str))
+//     {
+//         obj = Split(str);
+//     }
+//     electric_bill += (obj.num_electric_after - obj.num_electric_before) * obj.cost_electric;
+
+//     return electric_bill;
+// }
+
+// int dien_nuoc::Water_bill()
+// {
+//     dien_nuoc obj1;
+//     ifstream inputFile;
+//     inputFile.open("dien_nuoc.txt");
+//     string str;
+//     int water_bill = 0;
+//     while (getline(inputFile, str))
+//     {
+//         obj1 = Split(str);
+//     }
+//     water_bill += (obj1.num_water_after - obj1.num_water_before) * obj1.cost_water;
+
+//     return water_bill;
+// }

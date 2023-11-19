@@ -1,584 +1,266 @@
-#include <iostream>
-#include <iomanip>
+#include "user.h"
 #include "admin.h"
 #include "customer.h"
-using namespace std;
-void menu()
-{
-    cout << "\t\t\t*****************************************************************" << endl;
-    cout << "\t\t\t*\t                                                        *" << endl;
-    cout << "\t\t\t*\t **** Welcome To System Phong Tro Manager ****          *" << endl;
-    cout << "\t\t\t*\t                                                        *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  1) Login                     |                       *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  2) View Phong Tro Dang Trong |                       *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  0) Exit                      |                       *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*****************************************************************" << endl;
-    cout << endl;
-}
-void menu_login()
-{
-    cout << "\t\t\t*****************************************************************" << endl;
-    cout << "\t\t\t*\t                                                        *" << endl;
-    cout << "\t\t\t*\t **** Login  ****                                       *" << endl;
-    cout << "\t\t\t*\t                                                        *" << endl;
-    cout << "\t\t\t* Are You:                                                      *      " << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  1) Admin    |                                        *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  2) Customer |                                        *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  0) Exit     |                                        *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*****************************************************************" << endl;
-    cout << endl;
-}
-void menu_admin(string str)
-{
-    cout << "\t\t\t*****************************************************************" << endl;
-    cout << "\t\t\t*\t                                                        *" << endl;
-    cout << "\t\t\t*\t **** Welcome To Admin " << setw(10) << str << " ****                *" << endl;
-    cout << "\t\t\t*\t                                                        *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  1) Manager Customer             |                    *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  2) Manager Phong Tro            |                    *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  3) Manager Dien Nuoc            |                    *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  4) Thong Ke Doanh Thu Phong Tro |                    *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  5) Tinh Doanh Thu Theo Thang    |                    *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  0) Logout                       |                    *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*****************************************************************" << endl;
-    cout << endl;
-}
-void menu_Manager_Customer()
-{
-    cout << "\t\t\t*****************************************************************" << endl;
-    cout << "\t\t\t*\t                                                        *" << endl;
-    cout << "\t\t\t*\t **** Welcome To Customer Manager ****                  *" << endl;
-    cout << "\t\t\t*\t                                                        *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  1) View List Customer |                              *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  2) Add Customer       |                              *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  3) Delete Customer    |                              *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  4) Edit Customer      |                              *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  0) Exit               |                              *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*****************************************************************" << endl;
-    cout << endl;
-}
-void menu_Manager_Phong_Tro()
-{
-    cout << "\t\t\t*****************************************************************" << endl;
-    cout << "\t\t\t*\t                                                        *" << endl;
-    cout << "\t\t\t*\t **** Welcome To Phong Tro Manager ****                 *" << endl;
-    cout << "\t\t\t*\t                                                        *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  1) View List Phong Tro              |                *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  2) View List Phong Tro Da Duoc Thue |                *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  3) View List Phong Tro Dang Trong   |                *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  4) Add Phong Tro                    |                *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  5) Delete Phong Tro                 |                *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  6) Edit Phong Tro                   |                *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  7) View List Thanh Toan Phong Tro   |                *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  8) Add Thanh Toan Phong Tro         |                *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  9) Delete Thanh Toan Phong Tro      |                *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  10) Edit Thanh Toan Phong Tro       |                *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  0) Exit                             |                *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*****************************************************************" << endl;
-    cout << endl;
-}
-void menu_Manager_Dien_Nuoc()
-{
-    cout << "\t\t\t*****************************************************************" << endl;
-    cout << "\t\t\t*\t                                                        *" << endl;
-    cout << "\t\t\t*\t **** Welcome To Dien Nuoc Manager ****                 *" << endl;
-    cout << "\t\t\t*\t                                                        *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  1) View list Dien Nuoc |                             *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  2) Add Dien Nuoc       |                             *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  3) Delete Dien Nuoc    |                             *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  4) Edit Dien Nuoc      |                             *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  0) Exit                |                             *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*****************************************************************" << endl;
-    cout << endl;
-}
-void menu_user(string str)
-{
-    cout << "\t\t\t*****************************************************************" << endl;
-    cout << "\t\t\t*\t                                                        *" << endl;
-    cout << "\t\t\t*\t **** Wellcome Khach Tro" << setw(15) << str << " ****            *" << endl;
-    cout << "\t\t\t*\t                                                        *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  1) Info Khach Tro |                                  *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  2) Info Phong Tro |                                  *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  3) Info Dien Nuoc |                                  *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  0) Logout         |                                  *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*****************************************************************" << endl;
-    cout << endl;
-}
-void menu_Info_Khach_Tro()
-{
-    cout << "\t\t\t*****************************************************************" << endl;
-    cout << "\t\t\t*\t                                                        *" << endl;
-    cout << "\t\t\t*\t **** Welcome To Info Khach Tro ****                    *" << endl;
-    cout << "\t\t\t*\t                                                        *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  1) View Info Khach Tro |                             *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  2) Edit Info Khach Tro |                             *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  0) Exit                |                             *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*****************************************************************" << endl;
-    cout << endl;
-}
-void menu_Info_Phong_Tro()
-{
-    cout << "\t\t\t*****************************************************************" << endl;
-    cout << "\t\t\t*\t                                                        *" << endl;
-    cout << "\t\t\t*\t **** Welcome To Info Phong Tro ****                    *" << endl;
-    cout << "\t\t\t*\t                                                        *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  1) View Info Phong Tro       |                       *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  2) Huy Phong Tro             |                       *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  3) View Thanh Toan Phong Tro |                       *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  0) Exit                      |                       *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*****************************************************************" << endl;
-    cout << endl;
-}
-void menu_Info_Dien_Nuoc()
-{
-    cout << "\t\t\t*****************************************************************" << endl;
-    cout << "\t\t\t*\t                                                        *" << endl;
-    cout << "\t\t\t*\t **** Welcome To Info Dien Nuoc ****                    *" << endl;
-    cout << "\t\t\t*\t                                                        *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  1) View Info Dien Nuoc  |                            *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  2) Thanh Toan Dien Nuoc |                            *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*\t|  0) Exit                 |                            *" << endl;
-    cout << "			*    	                                                        *" << endl;
-    cout << "\t\t\t*****************************************************************" << endl;
-    cout << endl;
-}
+#include "DoanhThu.h"
+#include "dien_nuoc.h"
+#include "hoa_don.h"
+
+
 void warn()
 {
     cout << "Chua Co Gi" << endl;
 }
-int main()
+
+// void update_dien_nuoc(dien_nuoc& dn)
+// {   
+//     int choice;
+//     do
+//     {   
+//         system("cls");
+//         cout << "\t\t\t*****************************************************************" << endl;
+//         cout << "\t\t\t*\t                                                        *" << endl;
+//         cout << "\t\t\t*\t **** Welcome To Update dien nuoc ****                     *" << endl;
+//         cout << "\t\t\t*\t                                                        *" << endl;
+//         cout << "			*    	                                                        *" << endl;
+//         cout << "\t\t\t*\t|  1) Number Electric Before |                              *" << endl;
+//         cout << "			*    	                                                        *" << endl;
+//         cout << "\t\t\t*\t|  2) Number Electric Before |                              *" << endl;
+//         cout << "			*    	                                                        *" << endl;
+//         cout << "\t\t\t*\t|  3) Number Electric After  |                              *" << endl;
+//         cout << "			*    	                                                        *" << endl;
+//         cout << "\t\t\t*\t|  4) Number Electric After  |                              *" << endl;
+//         cout << "			*    	                                                        *" << endl;
+//         cout << "\t\t\t*\t|  5) Status                 |                              *" << endl;
+//         cout << "			*    	                                                        *" << endl;
+//         cout << "\t\t\t*\t|  0) Exit                   |                              *" << endl;
+//         cout << "			*    	                                                        *" << endl;
+//         cout << "\t\t\t*****************************************************************" << endl;
+//         cout << endl;
+
+//         cout << "***********************" << endl
+//              << endl;
+//         cout << "Enter Your Choice : ";
+//         cin >> choice;
+//         while (choice < 0 || choice > 5)
+//         {
+//             cout << "Enter Right Choice : ";
+//             cin >> choice;
+//         }
+//         cout << "\n***********************" << endl;
+//         system("cls");
+//         int number;
+//         string status;
+//         switch (choice)
+//         {
+//         case 1:
+//             cout << "Enter Number Electric Before : "; cin >> number;
+//             dn.set_num_electric_before(number);
+//             dien_nuoc::delete_dien_nuoc(dn.get_dien_nuoc_id());
+//             dn.add_dien_nuoc();
+//             break;
+//         case 2:
+//             cout << "Enter Number Water Before : "; cin >> number;
+//             dn.set_num_water_before(number);
+//             dien_nuoc::delete_dien_nuoc(dn.get_dien_nuoc_id());
+//             dn.add_dien_nuoc();
+//             break;
+//         case 3:
+//             cout << "Enter Number Electric After : "; cin >> number;
+//             dn.set_num_electric_after();
+//             dien_nuoc::delete_dien_nuoc(dn.get_dien_nuoc_id());
+//             dn.add_dien_nuoc();
+//             break;
+//         case 4:
+//             cout << "Enter Number Water After : "; cin >> number;
+//             dn.set_num_water_after(number);
+//             dien_nuoc::delete_dien_nuoc(dn.get_dien_nuoc_id());
+//             dn.add_dien_nuoc();
+//             break;
+//         case 5:
+//             cout << "Enter Status (Yes or No) : "; cin >> status;
+//             dn.set_status(Convert::str_to_bool(status));
+//             dien_nuoc::delete_dien_nuoc(dn.get_dien_nuoc_id());
+//             dn.add_dien_nuoc();
+//             break;
+//         default:
+//             break;
+//         }
+//         if (choice == 0) break;
+//         system("pause");
+//     } while (choice != 0);
+// }
+void menu_display_customer()
 {
-    // string name = "iloveuhiuhiu";
-    // menu_admin(name);
-    // menu_Manager_Customer();
-    // menu_Manager_Phong_Tro();
-    // menu_Info_Khach_Tro();
-    // menu_Info_Dien_Nuoc();
-    // menu_Info_Phong_Tro();
-    // string name = "Thai Viet Hung";
-    // menu_user(name);
-    char ch_value;
+    cout << setw(5) << "Customer_ID";
+    cout << " | ";
+    cout << setw(5) << "Room_ID";
+    cout << " | ";
+    cout << setw(10) << "Name";
+    cout << " | ";
+    cout << setw(10) << "Date Of Birth";
+    cout << " | ";
+    cout << setw(10) << "Gender";
+    cout << " | ";
+    cout << setw(15) << "Email";
+    cout << " | ";
+    cout << setw(10) << "Address";
+    cout << " | ";
+    cout << setw(10) << "Phone";
+    cout << " | ";
+    cout << setw(10) << "user_name";
+    cout << " | ";
+    cout << setw(10) << "password";
+    cout << " | ";
+    cout << endl;
+}
+
+void menu_Info_Khach_Tro(customer &object2)
+{
+    int choice;
     do
-    {
-        menu();
-        int choice1;
+    {   
+        system("cls");
+        cout << "\t\t\t*****************************************************************" << endl;
+        cout << "\t\t\t*\t                                                        *" << endl;
+        cout << "\t\t\t*\t **** Welcome To Info Customer ****                     *" << endl;
+        cout << "\t\t\t*\t                                                        *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  1) View Info Customer |                              *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  2) Edit Info Customer |                              *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  0) Exit               |                              *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*****************************************************************" << endl;
+        cout << endl;
+
         cout << "***********************" << endl
              << endl;
         cout << "Enter Your Choice : ";
-        cin >> choice1;
-        while (choice1 < 0 || choice1 > 2)
+        cin >> choice;
+        while (choice < 0 || choice > 2)
         {
             cout << "Enter Right Choice : ";
-            cin >> choice1;
+            cin >> choice;
         }
         cout << "\n***********************" << endl;
-        admin object1;
-        customer object2;
-        string user_name, password;
-        switch (choice1)
+        system("cls");
+        switch (choice)
         {
         case 1:
-            do
-            {
-                menu_login();
-                int choice2;
-                cout << "***********************" << endl
-                     << endl;
-                cout << "Enter Your Choice : ";
-                cin >> choice2;
-                while (choice2 < 0 || choice2 > 2)
-                {
-                    cout << "Enter Right Choice : ";
-                    cin >> choice2;
-                }
-                cout << "\n***********************" << endl;
+            // display
+            menu_display_customer();
+            cout << object2;
+            cout << endl;
+            break;
+        case 2:
+            warn();
+            // edit
+            // menu_display_customer();
+            // cout << object2;
+            // cout << endl;
+            // object2.update_customer(object2.get_customer_id());
+            // break;
+        default:
+            break;
+        }
+        if (choice == 0) break;
+        system("pause");
+    } while (choice != 0);
+}
+void menu_Info_Phong_Tro(customer& object2)
+{
+    int choice;
+    do
+    {   
+        system("cls");
+        cout << "\t\t\t*****************************************************************" << endl;
+        cout << "\t\t\t*\t                                                        *" << endl;
+        cout << "\t\t\t*\t **** Welcome To Info Room ****                    *" << endl;
+        cout << "\t\t\t*\t                                                        *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  1) View Info Room       |                       *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  2) Cancel Room          |                       *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  3) View Payment Room    |                       *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  4) Transfer Room        |                       *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  0) Exit                 |                       *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*****************************************************************" << endl;
+        cout << endl;
 
-                switch (choice2)
-                {
-                case 1:
+        cout << "***********************" << endl
+             << endl;
+        cout << "Enter Your Choice : ";
+        cin >> choice;
+        while (choice < 0 || choice > 4)
+        {
+            cout << "Enter Right Choice : ";
+            cin >> choice;
+        }
+        cout << "\n***********************" << endl;
+        system("cls");
+        Room room;
+        switch (choice)
+        {
+        case 1:
+            room = Room::find_room(object2.get_room_id());
+            cout << room;
+            break;
+        case 2:
+            warn();
+            break;
+        case 3:
+            warn();
+            break;
+        case 4:
+            warn();
+            break;
+        default:
+            break;
+        }
+        if (choice == 0) break;
+        system("pause");
+    } while (choice != 0);
+}
+void menu_Info_Dien_Nuoc(customer &object2)
+{
+    int choice;
+    do
+    {   
+        system("cls");
+        cout << "\t\t\t*****************************************************************" << endl;
+        cout << "\t\t\t*\t                                                        *" << endl;
+        cout << "\t\t\t*\t **** Welcome To Info Electric_Water ****                    *" << endl;
+        cout << "\t\t\t*\t                                                        *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  1) View Info Electric_Water  |                            *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  2) Payment Electric_Water    |                            *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  0) Exit                      |                            *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*****************************************************************" << endl;
+        cout << endl;
 
-                    do
-                    {
-                        cin.ignore();
-                        cout << "Enter Admin: ";
-                        getline(cin, user_name);
-                        object1.set_user_name(user_name);
-                        cout << "Enter Admin Password: ";
-                        getline(cin, password);
-                        object1.set_password(password);
-                    } while (!object1.login());
-                    do
-                    {
-                        menu_admin(object1.get_user_name());
-                        int choice3;
-                        cout << "***********************" << endl
-                             << endl;
-                        cout << "Enter Your Choice : ";
-                        cin >> choice3;
-                        while (choice3 < 0 || choice3 > 5)
-                        {
-                            cout << "Enter Right Choice : ";
-                            cin >> choice3;
-                        }
-                        cout << "\n***********************" << endl;
-                        switch (choice3)
-                        {
-                        case 1:
-                            do
-                            {
-                                menu_Manager_Customer();
-                                int choice4;
-                                cout << "***********************" << endl
-                                     << endl;
-                                cout << "Enter Your Choice : ";
-                                cin >> choice4;
-                                while (choice4 < 0 || choice4 > 4)
-                                {
-                                    cout << "Enter Right Choice : ";
-                                    cin >> choice4;
-                                }
-                                cout << "\n***********************" << endl;
-                                switch (choice4)
-                                {
-                                case 1:
-                                    warn();
-                                    break;
-                                case 2:
-                                    warn();
-                                    break;
-                                case 3:
-                                    warn();
-                                    break;
-                                case 4:
-                                    warn();
-                                    break;
-                                default:
-                                    break;
-                                }
-                                cout << endl;
-                                menu_Manager_Customer();
-                                cout << "Do You Want To Continue Again Customer Manager (y/n)? : ";
-                                cin >> ch_value;
-                                system("cls");
-                            } while (ch_value == 'Y' || ch_value == 'y');
-                            break;
-                        case 2:
-                            do
-                            {
-                                menu_Manager_Phong_Tro();
-                                int choice5;
-                                cout << "***********************" << endl
-                                     << endl;
-                                cout << "Enter Your Choice : ";
-                                cin >> choice5;
-                                while (choice5 < 0 || choice5 > 10)
-                                {
-                                    cout << "Enter Right Choice : ";
-                                    cin >> choice5;
-                                }
-                                cout << "\n***********************" << endl;
-                                switch (choice5)
-                                {
-                                case 1:
-                                    warn();
-                                    break;
-                                case 2:
-                                    warn();
-                                    break;
-                                case 3:
-                                    warn();
-                                    break;
-                                case 4:
-                                    warn();
-                                    break;
-                                case 5:
-                                    warn();
-                                    break;
-                                case 6:
-                                    warn();
-                                    break;
-                                case 7:
-                                    warn();
-                                    break;
-                                case 8:
-                                    warn();
-                                    break;
-                                case 9:
-                                    warn();
-                                    break;
-                                case 10:
-                                    warn();
-                                    break;
-                                default:
-                                    break;
-                                }
-                                cout << endl;
-                                menu_Manager_Phong_Tro();
-                                cout << "Do You Want To Continue Again Phong Tro Manager (y/n)? : ";
-                                cin >> ch_value;
-                                system("cls");
-                            } while (ch_value == 'Y' || ch_value == 'y');
-                            break;
-                        case 3:
-                            do
-                            {
-                                menu_Manager_Dien_Nuoc();
-                                int choice6;
-                                cout << "***********************" << endl
-                                     << endl;
-                                cout << "Enter Your Choice : ";
-                                cin >> choice6;
-                                while (choice6 < 0 || choice6 > 4)
-                                {
-                                    cout << "Enter Right Choice : ";
-                                    cin >> choice6;
-                                }
-                                cout << "\n***********************" << endl;
-                                switch (choice6)
-                                {
-                                case 1:
-                                    warn();
-                                    break;
-                                case 2:
-                                    warn();
-                                    break;
-                                case 3:
-                                    warn();
-                                    break;
-                                case 4:
-                                    warn();
-                                    break;
-                                default:
-                                    break;
-                                }
-                                cout << endl;
-                                menu_Manager_Dien_Nuoc();
-                                cout << "Do You Want To Continue Again Dien Nuoc Manager (y/n)? : ";
-                                cin >> ch_value;
-                                system("cls");
-                            } while (ch_value == 'Y' || ch_value == 'y');
-                            break;
-                        case 4:
-                            warn();
-                            break;
-                        case 5:
-                            warn();
-                            break;
-                        default:
-                            break;
-                        }
-                        cout << endl;
-                        menu_admin(object1.get_user_name());
-                        cout << "Do You Want To Continue Again Admin (y/n)? : ";
-                        cin >> ch_value;
-                        system("cls");
-                    } while (ch_value == 'Y' || ch_value == 'y');
-
-                    break;
-                case 2:
-                    do
-                    {
-                        cin.ignore();
-                        cout << "Enter Customer: ";
-                        getline(cin, user_name);
-                        object2.set_user_name(user_name);
-                        cout << "Enter Customer Password: ";
-                        getline(cin, password);
-                        object2.set_password(password);
-                    } while (!object2.login());
-                    do
-                    {
-                        menu_user(object2.get_customer_name());
-                        int choice7;
-                        cout << "***********************" << endl
-                             << endl;
-                        cout << "Enter Your Choice : ";
-                        cin >> choice7;
-                        while (choice7 < 0 || choice7 > 3)
-                        {
-                            cout << "Enter Right Choice : ";
-                            cin >> choice7;
-                        }
-                        cout << "\n***********************" << endl;
-                        switch (choice7)
-                        {
-                        case 1:
-                            do
-                            {
-                                menu_Info_Khach_Tro();
-                                int choice8;
-                                cout << "***********************" << endl
-                                     << endl;
-                                cout << "Enter Your Choice : ";
-                                cin >> choice8;
-                                while (choice8 < 0 || choice8 > 2)
-                                {
-                                    cout << "Enter Right Choice : ";
-                                    cin >> choice8;
-                                }
-                                cout << "\n***********************" << endl;
-                                switch (choice8)
-                                {
-                                case 1:
-                                    warn();
-                                    break;
-                                case 2:
-                                    warn();
-                                    break;
-                                default:
-                                    break;
-                                }
-                                cout << endl;
-                                menu_Info_Khach_Tro();
-                                cout << "Do You Want To Continue Again Info Khach Tro (y/n)? : ";
-                                cin >> ch_value;
-                                system("cls");
-                            } while (ch_value == 'Y' || ch_value == 'y');
-                            break;
-                        case 2:
-                            do
-                            {
-                                menu_Info_Phong_Tro();
-                                int choice9;
-                                cout << "***********************" << endl
-                                     << endl;
-                                cout << "Enter Your Choice : ";
-                                cin >> choice9;
-                                while (choice9 < 0 || choice9 > 3)
-                                {
-                                    cout << "Enter Right Choice : ";
-                                    cin >> choice9;
-                                }
-                                cout << "\n***********************" << endl;
-                                switch (choice9)
-                                {
-                                case 1:
-                                    warn();
-                                    break;
-                                case 2:
-                                    warn();
-                                    break;
-                                case 3:
-                                    warn();
-                                    break;
-                                default:
-                                    break;
-                                }
-                                cout << endl;
-                                menu_Info_Phong_Tro();
-                                cout << "Do You Want To Continue Again Info Phong Tro (y/n)? : ";
-                                cin >> ch_value;
-                                system("cls");
-                            } while (ch_value == 'Y' || ch_value == 'y');
-                            break;
-                        case 3:
-                            do
-                            {
-                                menu_Info_Dien_Nuoc();
-                                int choice10;
-                                cout << "***********************" << endl
-                                     << endl;
-                                cout << "Enter Your Choice : ";
-                                cin >> choice10;
-                                while (choice10 < 0 || choice10 > 2)
-                                {
-                                    cout << "Enter Right Choice : ";
-                                    cin >> choice10;
-                                }
-                                cout << "\n***********************" << endl;
-                                switch (choice10)
-                                {
-                                case 1:
-                                    warn();
-                                    break;
-                                case 2:
-                                    warn();
-                                    break;
-                                default:
-                                    break;
-                                }
-                                cout << endl;
-                                menu_Info_Dien_Nuoc();
-                                cout << "Do You Want To Continue Again Info Phong Tro (y/n)? : ";
-                                cin >> ch_value;
-                                system("cls");
-                            } while (ch_value == 'Y' || ch_value == 'y');
-                            break;
-                        default:
-                            break;
-                        }
-                        cout << endl;
-                        menu_user(object2.get_customer_name());
-                        cout << "Do You Want To Continue Again Customer (y/n)? : ";
-                        cin >> ch_value;
-                        system("cls");
-                    } while (ch_value == 'Y' || ch_value == 'y');
-                    break;
-                default:
-                    break;
-                }
-                cout << endl;
-                menu_login();
-                cout << "Do You Want To Continue Again Login (y/n)? : ";
-                cin >> ch_value;
-                system("cls");
-            } while (ch_value == 'Y' || ch_value == 'y');
+        cout << "***********************" << endl
+             << endl;
+        cout << "Enter Your Choice : ";
+        cin >> choice;
+        while (choice < 0 || choice > 2)
+        {
+            cout << "Enter Right Choice : ";
+            cin >> choice;
+        }
+        cout << "\n***********************" << endl;
+        system("cls");
+        switch (choice)
+        {
+        case 1:
+            warn();
             break;
         case 2:
             warn();
@@ -586,44 +268,483 @@ int main()
         default:
             break;
         }
-
-        cout << endl;
-        menu();
-        cout << "Do You Want To Continue Again System Phong Tro Manager(y/n)? : ";
-        cin >> ch_value;
+        if (choice == 0) break;
+        system("pause");
+    } while (choice != 0);
+}
+void menu_user(customer &object2)
+{
+    int choice;
+    do
+    {   
         system("cls");
-    } while (ch_value == 'Y' || ch_value == 'y');
+        cout << "\t\t\t*****************************************************************" << endl;
+        cout << "\t\t\t*\t                                                        *" << endl;
+        cout << "\t\t\t*\t **** Wellcome Customer" << setw(15) << object2.get_customer_name() << " ****             *" << endl;
+        cout << "\t\t\t*\t                                                        *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  1) Info Customer       |                             *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  2) Info Room           |                             *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  3) Info Electric-Water |                             *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  0) Logout              |                             *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*****************************************************************" << endl;
+        cout << endl;
 
-    // login
-    //  string admin_name= "Long", admin_email = "long2019@gmail.com", user_name= "iloveuhiuhiu", password = "1234";
-    //  while (true) {
-    //      // admin obj;
-    //      customer obj;
-    //      string user_name, password;
-    //      cout <<"nhap ten dang nhap: "; getline(cin,user_name);
-    //      cout << "nhap pasword: "; getline(cin,password);
-    //      obj.set_user_name(user_name);
-    //      obj.set_password(password);
-    //      if (obj.login()) {
-    //          cout << "Thong tin cua ban: " <<endl;
-    //          cout << obj;
-    //          break;
-    //      }
-    //  }
-    //  them 1 customer
-    //  customer obj1;
-    //  cin >> obj1;
-    //  obj1.add_customer();
-    //  tim don
-    //  string id; cin >> id;
-    //  customer obj;
-    //  obj.find_customer(id);
-    //  tim doi
-    //  string id; cin >> id;
-    //  customer obj;
-    //  obj.update_customer(id);
-    // xoa
-    //  string id; cin >> id;
-    //  customer obj;
-    //  obj.delete_customer(id);
+        cout << "***********************" << endl
+             << endl;
+        cout << "Enter Your Choice : ";
+        cin >> choice;
+        while (choice < 0 || choice > 3)
+        {
+            cout << "Enter Right Choice : ";
+            cin >> choice;
+        }
+        cout << "\n***********************" << endl;
+        system("cls");
+        switch (choice)
+        {
+        case 1:
+            menu_Info_Khach_Tro(object2);
+            break;
+        case 2:
+            menu_Info_Phong_Tro(object2);
+            break;
+        case 3:
+            menu_Info_Dien_Nuoc(object2);
+            break;
+        default:
+            break;
+        }
+        if (choice == 0) break;
+        system("pause");
+
+    } while (choice != 0);
+}
+
+void menu_Manager_Customer()
+{
+    customer object2;
+    string ID;
+    int choice;
+    do
+    {   
+        system("cls");
+        cout << "\t\t\t*****************************************************************" << endl;
+        cout << "\t\t\t*\t                                                        *" << endl;
+        cout << "\t\t\t*\t **** Welcome To Customer Manager ****                  *" << endl;
+        cout << "\t\t\t*\t                                                        *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  1) View List Customer |                              *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  2) Add Customer       |                              *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  3) Delete Customer    |                              *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  4) Edit Customer      |                              *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  0) Exit               |                              *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*****************************************************************" << endl;
+        cout << endl;
+
+        cout << "***********************" << endl
+             << endl;
+        cout << "Enter Your Choice : ";
+        cin >> choice;
+        while (choice < 0 || choice > 4)
+        {
+            cout << "Enter Right Choice : ";
+            cin >> choice;
+        }
+        cout << "\n***********************" << endl;
+        system("cls");
+        switch (choice)
+        {
+        case 1:
+            // display
+            // menu_display_customer();
+            customer::display();
+            break;
+        case 2:
+            // add
+            cin >> object2;
+            object2.set_customer_id(Convert::CreateID("customer.txt"));
+            object2.add_customer();
+            break;
+        case 3:
+            // delete
+            // menu_display_customer();
+            customer::display();
+            cout << "Enter ID: ";
+            cin >> ID;
+            customer::delete_customer(ID);
+            break;
+        case 4:
+            // edit
+            // menu_display_customer();
+            customer::display();
+            cout << "Enter ID: ";
+            cin >> ID;
+            // object2.update_customer(ID);
+            break;
+        default:
+            break;
+        }
+        if (choice == 0) break;
+        system("pause");
+
+    } while (choice != 0);
+}
+void menu_Manager_Phong_Tro()
+{
+    int choice;
+    do
+    {   
+        system("cls");
+        cout << "\t\t\t*****************************************************************" << endl;
+        cout << "\t\t\t*\t                                                        *" << endl;
+        cout << "\t\t\t*\t **** Welcome To Room Manager ****                 *" << endl;
+        cout << "\t\t\t*\t                                                        *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  1) View List Room           |                        *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  2) View List Empty Room     |                        *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  3) View List Rented Room    |                        *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  4) Add Room                 |                        *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  5) Delete Room              |                        *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  6) Edit Room                |                        *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  7) View List Payment Room   |                        *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  8) Add Payment Room         |                        *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  9) Delete Payment Room      |                        *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  10) Edit Payment Room       |                        *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  0) Exit                     |                        *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*****************************************************************" << endl;
+        cout << endl;
+
+        cout << "***********************" << endl
+             << endl;
+        cout << "Enter Your Choice : ";
+        cin >> choice;
+        Room room;
+        string ID;
+        int month;
+        while (choice < 0 || choice > 10)
+        {
+            cout << "Enter Right Choice : ";
+            cin >> choice;
+        }
+        cout << "\n***********************" << endl;
+        system("cls");
+        switch (choice)
+        {
+        case 1:
+           Room::display();
+            break;
+        case 2:
+            Room::view_empty_room();
+            break;
+        case 3:
+            Room::view_rented_room();
+            break;
+        case 4:
+            cin >> room;
+            room.add_room(1);
+            break;
+        case 5:
+            cout << "Enter ID: ";
+            cin >> ID;
+            Room::delete_room(ID);
+            break;
+        case 6:
+            warn();
+            break;
+        case 7:
+            hoa_don::view_payment_room();
+            break;
+        case 8:
+            warn();
+
+            break;
+        case 9:
+            warn();
+            break;
+        case 10:
+            warn();
+            break;
+        default:
+            break;
+        }
+        if (choice == 0) break;
+        system("pause");
+        
+    } while (choice != 0);
+}
+
+void menu_Manager_Dien_Nuoc()
+{   
+    
+    int choice;
+    do
+    {   system("cls");
+        cout << "\t\t\t*****************************************************************" << endl;
+        cout << "\t\t\t*\t                                                        *" << endl;
+        cout << "\t\t\t*\t **** Welcome To Electric-Water Manager ****                 *" << endl;
+        cout << "\t\t\t*\t                                                        *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  1) View list Electric-Water |                             *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  2) Add Electric-Water       |                             *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  3) Delete Electric-Water    |                             *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  4) Edit Electric-Water      |                             *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  0) Exit                     |                             *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*****************************************************************" << endl;
+        cout << endl;
+
+        cout << "***********************" << endl
+             << endl;
+        cout << "Enter Your Choice : ";
+        cin >> choice;
+        while (choice < 0 || choice > 4)
+        {
+            cout << "Enter Right Choice : ";
+            cin >> choice;
+        }
+        cout << "\n***********************" << endl;
+        system("cls");
+        switch (choice)
+        {
+        case 1:
+            // dien_nuoc::display();
+            break;
+        case 2:
+            warn();
+            break;
+        case 3:
+            warn();
+            break;
+        case 4:
+            warn();
+            break;
+        default:
+            break;
+        }
+        if (choice == 0) break;
+        system("pause");
+    } while (choice != 0);
+}
+void menu_admin(admin &object1)
+{
+    int choice;
+    do
+    {   
+        system("cls");
+        cout << "\t\t\t*****************************************************************" << endl;
+        cout << "\t\t\t*\t                                                        *" << endl;
+        cout << "\t\t\t*\t **** Welcome To Admin " << setw(10) << object1.get_user_name() << " ****                *" << endl;
+        cout << "\t\t\t*\t                                                        *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  1) Manager Customer             |                    *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  2) Manager Room                 |                    *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  3) Manager Electric-Water       |                    *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  4) Calculate Revenue by Year    |                    *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  5) Calculate Revenue by Month   |                    *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  0) Logout                       |                    *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*****************************************************************" << endl;
+        cout << endl;
+
+        cout << "***********************" << endl
+             << endl;
+        cout << "Enter Your Choice : ";
+        cin >> choice;
+        int year, month, revenue;
+        while (choice < 0 || choice > 5)
+        {
+            cout << "Enter Right Choice : ";
+            cin >> choice;
+        }
+        cout << "\n***********************" << endl;
+        system("cls");
+        switch (choice)
+        {
+        case 1:
+            menu_Manager_Customer();
+            break;
+        case 2:
+            menu_Manager_Phong_Tro();
+            break;
+        case 3:
+            menu_Manager_Dien_Nuoc();
+            break;
+        case 4:
+            cout << "Enter Year:";
+            cin >> year;
+            revenue = DoanhThu::tongDoanhThutheonam(year);
+            cout << "Revenue: " << revenue << endl;
+            break;
+        case 5:
+            cout << "Enter Month:";
+            cin >> month;
+            while (month < 1 || month > 12)
+            {
+                cout << "Enter Right Month:";
+                cin >> month;
+            }
+            revenue = DoanhThu::tongDoanhThutheothang(month);
+            cout << "Revenue: " << revenue << endl;
+            break;
+        default:
+            break;
+        }
+        if (choice == 0) break;
+        system("pause");
+    } while (choice != 0);
+}
+void menu_login()
+{
+    admin object1;
+    customer object2;
+    string user_name, password, ID;
+    int choice;
+    do
+    {   system("cls");
+        cout << "\t\t\t*****************************************************************" << endl;
+        cout << "\t\t\t*\t                                                        *" << endl;
+        cout << "\t\t\t*\t **** Login  ****                                       *" << endl;
+        cout << "\t\t\t*\t                                                        *" << endl;
+        cout << "\t\t\t* Are You:                                                      *      " << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  1) Admin    |                                        *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  2) Customer |                                        *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  0) Exit     |                                        *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*****************************************************************" << endl;
+        cout << endl;
+
+        cout << "***********************" << endl
+             << endl;
+        cout << "Enter Your Choice : ";
+        cin >> choice;
+        while (choice < 0 || choice > 2)
+        {
+            cout << "Enter Right Choice : ";
+            cin >> choice;
+        }
+        cout << "\n***********************" << endl;
+        system("cls");
+        switch (choice)
+        {
+        case 1:
+
+            do
+            {
+                cin.ignore();
+                cout << "Enter Admin: ";
+                getline(cin, user_name);
+                object1.set_user_name(user_name);
+                cout << "Enter Admin Password: ";
+                getline(cin, password);
+                object1.set_password(password);
+                
+            } while (!object1.login());
+            menu_admin(object1);
+            break;
+        case 2:
+            do
+            {
+                cin.ignore();
+                cout << "Enter Customer: ";
+                getline(cin, user_name);
+                object2.set_user_name(user_name);
+                cout << "Enter Customer Password: ";
+                getline(cin, password);
+                object2.set_password(password);
+                system("cls");
+            } while (!object2.login());
+            menu_user(object2);
+            break;
+        default:
+            break;
+        }
+        if (choice == 0) break;
+        system("pause");
+
+    } while (choice != 0);
+}
+void menu()
+{
+    int choice;
+    do
+    {   system("cls");
+        cout << "\t\t\t*****************************************************************" << endl;
+        cout << "\t\t\t*\t                                                        *" << endl;
+        cout << "\t\t\t*\t **** Welcome To System Motel Room Manager ****         *" << endl;
+        cout << "\t\t\t*\t                                                        *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  1) Login                     |                       *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  2) View Empty Room           |                       *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  0) Exit                      |                       *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*****************************************************************" << endl;
+        cout << endl;
+
+        cout << "***********************" << endl
+             << endl;
+        cout << "Enter Your Choice : ";
+        cin >> choice;
+        while (choice < 0 || choice > 2)
+        {
+            cout << "Enter Right Choice : ";
+            cin >> choice;
+        }
+        cout << "\n***********************" << endl;
+        system("cls");
+
+        switch (choice)
+        {
+        case 1:
+            menu_login();
+            break;
+        case 2:
+            Room::view_empty_room();
+            break;
+        default:
+            break;
+        }
+        if (choice == 0) break;
+        system("pause");
+    } while (choice != 0);
+}
+
+int main()
+{
+    menu();
+    return 0;
 }

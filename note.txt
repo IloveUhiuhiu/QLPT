@@ -1,0 +1,5 @@
+điện nước có cần lưu lịch sử không???
+hoa don cần lịch sử không ??? -> cần 
+add customer
+- không muốn nhập nữa
+- Lỗi nhập sai ID phòng
