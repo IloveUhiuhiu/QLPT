@@ -49,12 +49,14 @@ public:
 
     static customer Split(string);
     static string Union (customer&);
+    static bool find_namecustomer(string);
+    static customer find_idcustomer(string);
+    static void update_customer(customer&);
 
     bool login();
     // static List<string> load_File(const string);
     static void write_File(List<string>&);
     void add_customer();
-    static void find_namecustomer(string);
     // void update_customer(string);
     static void delete_customer(string);
     static void display();

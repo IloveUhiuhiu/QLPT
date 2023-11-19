@@ -5,17 +5,16 @@
 #include "dien_nuoc.h"
 #include "hoa_don.h"
 
-
 void warn()
 {
     cout << "Chua Co Gi" << endl;
 }
 
 // void update_dien_nuoc(dien_nuoc& dn)
-// {   
+// {
 //     int choice;
 //     do
-//     {   
+//     {
 //         system("cls");
 //         cout << "\t\t\t*****************************************************************" << endl;
 //         cout << "\t\t\t*\t                                                        *" << endl;
@@ -118,7 +117,7 @@ void menu_Info_Khach_Tro(customer &object2)
 {
     int choice;
     do
-    {   
+    {
         system("cls");
         cout << "\t\t\t*****************************************************************" << endl;
         cout << "\t\t\t*\t                                                        *" << endl;
@@ -164,15 +163,16 @@ void menu_Info_Khach_Tro(customer &object2)
         default:
             break;
         }
-        if (choice == 0) break;
+        if (choice == 0)
+            break;
         system("pause");
     } while (choice != 0);
 }
-void menu_Info_Phong_Tro(customer& object2)
+void menu_Info_Phong_Tro(customer &object2)
 {
     int choice;
     do
-    {   
+    {
         system("cls");
         cout << "\t\t\t*****************************************************************" << endl;
         cout << "\t\t\t*\t                                                        *" << endl;
@@ -222,7 +222,8 @@ void menu_Info_Phong_Tro(customer& object2)
         default:
             break;
         }
-        if (choice == 0) break;
+        if (choice == 0)
+            break;
         system("pause");
     } while (choice != 0);
 }
@@ -230,7 +231,7 @@ void menu_Info_Dien_Nuoc(customer &object2)
 {
     int choice;
     do
-    {   
+    {
         system("cls");
         cout << "\t\t\t*****************************************************************" << endl;
         cout << "\t\t\t*\t                                                        *" << endl;
@@ -268,7 +269,8 @@ void menu_Info_Dien_Nuoc(customer &object2)
         default:
             break;
         }
-        if (choice == 0) break;
+        if (choice == 0)
+            break;
         system("pause");
     } while (choice != 0);
 }
@@ -276,7 +278,7 @@ void menu_user(customer &object2)
 {
     int choice;
     do
-    {   
+    {
         system("cls");
         cout << "\t\t\t*****************************************************************" << endl;
         cout << "\t\t\t*\t                                                        *" << endl;
@@ -319,7 +321,8 @@ void menu_user(customer &object2)
         default:
             break;
         }
-        if (choice == 0) break;
+        if (choice == 0)
+            break;
         system("pause");
 
     } while (choice != 0);
@@ -331,7 +334,7 @@ void menu_Manager_Customer()
     string ID;
     int choice;
     do
-    {   
+    {
         system("cls");
         cout << "\t\t\t*****************************************************************" << endl;
         cout << "\t\t\t*\t                                                        *" << endl;
@@ -378,23 +381,42 @@ void menu_Manager_Customer()
         case 3:
             // delete
             // menu_display_customer();
-            customer::display();
-            cout << "Enter ID: ";
-            cin >> ID;
-            customer::delete_customer(ID);
+            cout << "Enter Name:";
+            cin.ignore();
+            getline(cin,ID);
+            if (!customer::find_namecustomer(ID))
+            {
+                cout << "Not Found" << endl;
+            }
+            else
+            {
+                cout << "Enter ID: ";
+                cin >> ID;
+                customer::delete_customer(ID);
+            }
             break;
         case 4:
             // edit
-            // menu_display_customer();
-            customer::display();
-            cout << "Enter ID: ";
-            cin >> ID;
-            // object2.update_customer(ID);
+            cout << "Enter Name:";
+            cin.ignore();
+            getline(cin,ID);
+            if (!customer::find_namecustomer(ID))
+            {
+                cout << "Not Found" << endl;
+            }
+            else
+            {
+                cout << "Enter ID: ";
+                cin >> ID;
+                object2 = customer::find_idcustomer(ID);
+                customer::update_customer(object2);
+            }
             break;
         default:
             break;
         }
-        if (choice == 0) break;
+        if (choice == 0)
+            break;
         system("pause");
 
     } while (choice != 0);
@@ -403,7 +425,7 @@ void menu_Manager_Phong_Tro()
 {
     int choice;
     do
-    {   
+    {
         system("cls");
         cout << "\t\t\t*****************************************************************" << endl;
         cout << "\t\t\t*\t                                                        *" << endl;
@@ -452,7 +474,7 @@ void menu_Manager_Phong_Tro()
         switch (choice)
         {
         case 1:
-           Room::display();
+            Room::display();
             break;
         case 2:
             Room::view_empty_room();
@@ -488,18 +510,20 @@ void menu_Manager_Phong_Tro()
         default:
             break;
         }
-        if (choice == 0) break;
+        if (choice == 0)
+            break;
         system("pause");
-        
+
     } while (choice != 0);
 }
 
 void menu_Manager_Dien_Nuoc()
-{   
-    
+{
+
     int choice;
     do
-    {   system("cls");
+    {
+        system("cls");
         cout << "\t\t\t*****************************************************************" << endl;
         cout << "\t\t\t*\t                                                        *" << endl;
         cout << "\t\t\t*\t **** Welcome To Electric-Water Manager ****                 *" << endl;
@@ -546,7 +570,8 @@ void menu_Manager_Dien_Nuoc()
         default:
             break;
         }
-        if (choice == 0) break;
+        if (choice == 0)
+            break;
         system("pause");
     } while (choice != 0);
 }
@@ -554,7 +579,7 @@ void menu_admin(admin &object1)
 {
     int choice;
     do
-    {   
+    {
         system("cls");
         cout << "\t\t\t*****************************************************************" << endl;
         cout << "\t\t\t*\t                                                        *" << endl;
@@ -619,7 +644,8 @@ void menu_admin(admin &object1)
         default:
             break;
         }
-        if (choice == 0) break;
+        if (choice == 0)
+            break;
         system("pause");
     } while (choice != 0);
 }
@@ -630,7 +656,8 @@ void menu_login()
     string user_name, password, ID;
     int choice;
     do
-    {   system("cls");
+    {
+        system("cls");
         cout << "\t\t\t*****************************************************************" << endl;
         cout << "\t\t\t*\t                                                        *" << endl;
         cout << "\t\t\t*\t **** Login  ****                                       *" << endl;
@@ -670,7 +697,7 @@ void menu_login()
                 cout << "Enter Admin Password: ";
                 getline(cin, password);
                 object1.set_password(password);
-                
+
             } while (!object1.login());
             menu_admin(object1);
             break;
@@ -691,7 +718,8 @@ void menu_login()
         default:
             break;
         }
-        if (choice == 0) break;
+        if (choice == 0)
+            break;
         system("pause");
 
     } while (choice != 0);
@@ -700,7 +728,8 @@ void menu()
 {
     int choice;
     do
-    {   system("cls");
+    {
+        system("cls");
         cout << "\t\t\t*****************************************************************" << endl;
         cout << "\t\t\t*\t                                                        *" << endl;
         cout << "\t\t\t*\t **** Welcome To System Motel Room Manager ****         *" << endl;
@@ -738,7 +767,8 @@ void menu()
         default:
             break;
         }
-        if (choice == 0) break;
+        if (choice == 0)
+            break;
         system("pause");
     } while (choice != 0);
 }

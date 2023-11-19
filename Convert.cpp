@@ -41,7 +41,7 @@ bool Convert::str_to_bool(string str) // hàm chuyển từ kiểu string sang k
 string Convert::CreateID(const string filename)
 {
     ifstream inputFile;
-    inputFile.open("filename");
+    inputFile.open(filename);
     string str,room_id;
     int ID = 0;
     while (getline(inputFile, str))
