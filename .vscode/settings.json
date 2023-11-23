@@ -1,8 +1,12 @@
 {
+<<<<<<< HEAD
                   "files.associations": {
                                     "fstream": "cpp",
                                     "istream": "cpp",
                                     "ostream": "cpp",
                                     "iostream": "cpp"
                   }
+=======
+    "C_Cpp.errorSquiggles": "disabled"
+>>>>>>> 69e0dd7a30a41cf356d6a1c4c43d890c79881b59
 }
