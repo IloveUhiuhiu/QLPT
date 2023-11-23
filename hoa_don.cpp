@@ -244,6 +244,7 @@ void hoa_don::view_payment_room() {
         if (1) {
             std::cout <<"nam dep trai " << endl;
             std::cout << "Bill ID: " << obj.get_bill_id() << std::endl;
+    
             std::cout << "Room ID: " << obj.get_room_id() << std::endl;
             std::cout << "Date: " << obj.get_date().get_years() << "-"
           << obj.get_date().get_months() << "-"
