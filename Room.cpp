@@ -1,6 +1,7 @@
 // Room.cpp
 #include "Room.h"
-
+#include "hoa_don.h"
+#include <string.h>
 
 // Constructor with initialization
 Room::Room(string room_id, string kind_of, int cost, bool occupied)
@@ -265,6 +266,155 @@ void Room::display()
         }
     }
 }
+
+
+void Room::edit_room() {
+    // Display the list of rooms
+    display();
+
+    // Ask for the room ID to edit
+    std::string roomToEditID;
+    std::cout << "Enter the Room ID to edit: ";
+    std::cin >> roomToEditID;
+
+    // Retrieve existing details of the selected room
+    Room roomToEdit = find_room(roomToEditID);
+
+    if (roomToEdit.getRoomID().empty()) {
+        std::cout << "Room not found. Please enter a valid Room ID." << std::endl;
+        return;
+    }
+
+    // Allow the user to update the details
+    std::cout << "Enter new details for the room (or press Enter to keep existing values):" << std::endl;
+
+    std::cout << "New Room ID [" << roomToEdit.getRoomID() << "]: ";
+    std::string newRoomID;
+    std::getline(std::cin >> std::ws, newRoomID);
+    if (!newRoomID.empty()) {
+        roomToEdit.setRoomID(newRoomID);
+    }
+
+    std::cout << "New Kind of [" << roomToEdit.getKindOf() << "]: ";
+    std::string newKindOf;
+    std::getline(std::cin >> std::ws, newKindOf);
+    if (!newKindOf.empty()) {
+        roomToEdit.setKindOf(newKindOf);
+    }
+
+    std::cout << "New Cost [" << roomToEdit.getCost() << "]: ";
+    std::string newCostStr;
+    std::getline(std::cin >> std::ws, newCostStr);
+    if (!newCostStr.empty()) {
+        int newCost = Convert::str_to_int(newCostStr);
+        roomToEdit.setCost(newCost);
+    }
+
+    std::cout << "Is the room occupied? (Yes/No) [" << (roomToEdit.isOccupied() ? "Yes" : "No") << "]: ";
+    std::string newOccupiedStr;
+    std::getline(std::cin >> std::ws, newOccupiedStr);
+    if (!newOccupiedStr.empty()) {
+        bool newOccupied = Convert::str_to_bool(newOccupiedStr);
+        roomToEdit.setOccupied(newOccupied);
+    }
+
+    // Save the updated details back to the file
+    List<std::string> roomsList;
+    std::ifstream inputFile("room.txt");
+    std::string line;
+    while (std::getline(inputFile, line)) {
+        Room room = Split(line);
+        if (room.getRoomID() == roomToEditID) {
+            // Replace the line with updated details
+            roomsList.push_back(Union(roomToEdit));
+        } else {
+            roomsList.push_back(line);
+        }
+    }
+    inputFile.close();
+
+    // Write the updated list back to the file
+    write_File(roomsList);
+
+    std::cout << "Room details updated successfully." << std::endl;
+}
+
+
+void Room::add_payment_room() {
+    display();
+    // Ask for the room ID to which the payment will be added
+    std::string roomID;
+    std::cout << "Enter the Room ID to add payment: ";
+    std::cin >> roomID;
+
+    // Retrieve existing details of the selected room
+    Room room = find_room(roomID);
+
+    if (room.getRoomID().empty()) {
+        std::cout << "Room not found. Please enter a valid Room ID." << std::endl;
+        return;
+    }
+
+    // Allow the user to input payment details
+    hoa_don newPayment;
+
+    std::cout << "Enter Payment ID: ";
+    string bill_id ;
+    std::cin >> bill_id;
+    newPayment.set_bill_id(bill_id); // Assuming set_bill_id is a setter method
+
+    // Assuming Datetime is a class with proper input method
+    int year, month, day;
+    std::cout << "Enter Payment Date:" << std::endl;
+    std::cout << "Year: "; std::cin >> year;
+    std::cout << "Month: "; std::cin >> month;
+    std::cout << "Day: "; std::cin >> day;
+    newPayment.set_date(year, month, day);
+
+    std::cout << "Enter Payment Amount: ";
+    int amount;
+    std::cin >> amount;
+    newPayment.set_total_cost(amount);
+
+    // Assuming status is a boolean field
+    newPayment.set_status(true);  // You can set it based on your logic
+
+    newPayment.set_room_id(room.getRoomID());
+
+    // Update the payment information for the room
+    std::ofstream outputFile("hoa_don.txt", std::ios::app); // Open file in append mode
+
+     if (outputFile.is_open()) {
+        // Format the payment record and write it to the file
+        std::string paymentRecord = newPayment.get_bill_id() + "," + newPayment.get_room_id() + ","
+                                    + Convert::int_to_str(newPayment.get_date().get_years()) + "-"
+                                    + Convert::int_to_str(newPayment.get_date().get_months()) + "-"
+                                    + Convert::int_to_str(newPayment.get_date().get_days()) + ","
+                                    + Convert::int_to_str(newPayment.get_total_cost()) + ","
+                                    + Convert::bool_to_str(newPayment.get_status()) + "\n";
+        outputFile << paymentRecord;
+        outputFile.close();
+
+        std::cout << "Payment added successfully for Room ID " << room.getRoomID() << std::endl;
+    } else {
+        std::cerr << "Error opening file hoa_don.txt for writing." << std::endl;
+    }
+}
+
+
+
+void Room::delete_payment_room() {
+    // Implement the logic to delete payment details for a room
+    // For example, ask for the room ID, find the payment record, and then delete it.
+}
+
+void Room::edit_payment_room() {
+    // Implement the logic to edit payment details for a room
+    // For example, ask for the room ID, find the payment record, and then edit the details.
+}
+
+
+
 // Display room information method
 // Function to load room data from file
 // void Room::loadRoomListFromFile(List<Room>& roomList) {

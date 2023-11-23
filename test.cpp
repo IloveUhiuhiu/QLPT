@@ -469,21 +469,20 @@ void menu_Manager_Phong_Tro()
             cin >> ID;
             Room::delete_room(ID);
             break;
-        case 6:
-            warn();
+         case 6:
+            Room::edit_room();
             break;
         case 7:
             hoa_don::view_payment_room();
             break;
         case 8:
-            warn();
-
+            Room::add_payment_room();
             break;
         case 9:
-            warn();
+            Room::delete_payment_room();
             break;
         case 10:
-            warn();
+            Room::edit_payment_room();
             break;
         default:
             break;
