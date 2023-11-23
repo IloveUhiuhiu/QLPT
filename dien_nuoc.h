@@ -22,8 +22,8 @@ public:
     ~dien_nuoc();
     string get_dien_nuoc_id() const;
     string get_room_id() const;
-    int get_num_elecric_before() const;
-    int get_num_elecric_after() const;
+    int get_num_electric_before() const;
+    int get_num_electric_after() const;
     int get_num_water_before() const;
     int get_num_water_after() const;
     int get_cost_water() const;
@@ -61,10 +61,17 @@ public:
     static void updateCostElectric(int);
     void add_dien_nuoc();
     
-    // void find_room(string);
-    // void update_dien_nuoc(string);
+    static bool find_room(string);
+    static dien_nuoc find_dien_nuoc_id(string);
+    static dien_nuoc find_nearest_dien_nuoc(string);
+    string find_max_dien_nuoc_id();
+    static void update_dien_nuoc(dien_nuoc&);
+    static void Pay_dien_nuoc(dien_nuoc&);
     static void delete_dien_nuoc(string);
-    // int Electric_bill();
-    // int Water_bill();
+    static void view_Paid_room();
+    static void view_unpaid_room();
+
+    // static int Electric_bill(string);
+    // static int Water_bill(string);
 };
 #endif

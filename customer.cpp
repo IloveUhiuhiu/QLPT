@@ -103,7 +103,8 @@ istream &operator>>(istream &i, customer &obj)
 ostream &operator<<(ostream &o, const customer &obj)
 {
     // cout << "customer_id: ";
-    o << setw(5) << obj.customer_id; cout << " | ";
+    o << setw(5) << obj.customer_id;
+    cout << " | ";
     // cout << "room_id: ";
     o << setw(5) << obj.room_id << " | ";
     // cout << "customer_name: ";
@@ -117,7 +118,7 @@ ostream &operator<<(ostream &o, const customer &obj)
     // cout << "customer_address: ";
     o << setw(10) << obj.customer_address << " | ";
     // cout << "customer_phone: ";
-    o << setw(10) <<  obj.customer_phone << " | ";
+    o << setw(10) << obj.customer_phone << " | ";
     // cout << "user_name: ";
     o << setw(10) << obj.user_name << " | ";
     // cout << "password: ";
@@ -229,7 +230,6 @@ bool customer::login()
     }
 }
 
-
 void customer::write_File(List<string> &L)
 {
     ofstream inputFile;
@@ -282,11 +282,34 @@ void customer::add_customer()
     }
     write_File(L);
     Room obj = Room::find_room(this->room_id);
-    if (obj.isOccupied() == false) {
+    if (obj.isOccupied() == false)
+    {
         Room::delete_room(obj.getRoomID());
         obj.setOccupied(true);
-        obj.add_room(0);   
-    } 
+        obj.add_room(0);
+    }
+    dien_nuoc dn = dien_nuoc::find_nearest_dien_nuoc(room_id); // tìm thằng gần nhất cùng phòng - trả về dien nuoc
+    // set lại thằng ni xong add
+    if (dn.get_num_electric_after() > 0) { 
+        dn.set_dien_nuoc_id(Convert::CreateID("dien_nuoc.txt"));
+        dn.set_num_electric_before(dn.get_num_electric_after());
+        dn.set_num_water_before(dn.get_num_water_after());
+        dn.set_num_water_after(0);
+        dn.set_num_electric_after(0);
+        dn.set_cost_water(dien_nuoc::getNewCostWater());
+        dn.set_cost_electric(dien_nuoc::getNewCostElectric());
+        dn.set_date(0, 0, 0);
+        dn.set_status(false);
+        dn.add_dien_nuoc();
+    }
+
+    hoa_don hd;
+    hd.set_bill_id(Convert::CreateID("hoa_don.txt"));
+    hd.set_room_id(this->room_id);
+    hd.set_date(0, 0, 0);
+    hd.set_status(false);
+    hd.add_hoa_don();
+
 }
 
 bool customer::find_namecustomer(string name)
@@ -296,17 +319,19 @@ bool customer::find_namecustomer(string name)
     string str;
     int cnt = 0;
     while (getline(inputFile, str))
-    {   
-        if (str.size()) {
+    {
+        if (str.size())
+        {
             customer obj = customer::Split(str);
             if (obj.get_customer_name() == name)
-            {   
+            {
                 ++cnt;
                 cout << obj << endl;
             }
         }
     }
-    if (cnt == 0) return false;
+    if (cnt == 0)
+        return false;
     return true;
 }
 void customer::display()
@@ -315,10 +340,11 @@ void customer::display()
     inputFile.open("customer.txt");
     string str;
     while (getline(inputFile, str))
-    {   
-        if (str.size()) {
-        customer obj = customer::Split(str);
-        cout << obj << endl;
+    {
+        if (str.size())
+        {
+            customer obj = customer::Split(str);
+            cout << obj << endl;
         }
     }
 }
@@ -338,7 +364,7 @@ customer customer::find_idcustomer(string customer_id)
     }
     return obj;
 }
-void customer::update_customer(customer& obj1)
+void customer::update_customer(customer &obj1)
 {
     List<string> L;
     ifstream inputFile;
@@ -347,40 +373,49 @@ void customer::update_customer(customer& obj1)
         customer_phone, user_name, password;
     while (getline(inputFile, str))
     {
-        if (str.size()) L.push_back(str);
+        if (str.size())
+            L.push_back(str);
     }
     int size = L.getSize();
     customer obj;
     for (int i = 0; i < size; i++)
     {
-       obj = Split(L[i]);
+        obj = Split(L[i]);
         if (obj.get_customer_id() == obj1.get_customer_id())
         {
             cout << "customer_name: ";
             cin.ignore();
             getline(cin, customer_name);
-            if (customer_name.size()) obj1.set_customer_name(customer_name);
+            if (customer_name.size())
+                obj1.set_customer_name(customer_name);
             cout << "customer_dateofbirth: ";
             getline(cin, customer_dateofbirth);
-            if(customer_dateofbirth.size())obj1.set_customer_dateofbirth(customer_dateofbirth);
+            if (customer_dateofbirth.size())
+                obj1.set_customer_dateofbirth(customer_dateofbirth);
             cout << "customer_gender: ";
             getline(cin, customer_gender);
-            if(customer_gender.size())obj1.set_customer_gender(customer_gender);
+            if (customer_gender.size())
+                obj1.set_customer_gender(customer_gender);
             cout << "customer_email: ";
             getline(cin, customer_email);
-            if(customer_email.size())obj1.set_customer_email(customer_email);
+            if (customer_email.size())
+                obj1.set_customer_email(customer_email);
             cout << "customer_address: ";
             getline(cin, customer_address);
-            if(customer_address.size())obj1.set_customer_address(customer_address);
+            if (customer_address.size())
+                obj1.set_customer_address(customer_address);
             cout << "customer_phone: ";
             getline(cin, customer_phone);
-            if(customer_phone.size())obj1.set_customer_phone(customer_phone);
+            if (customer_phone.size())
+                obj1.set_customer_phone(customer_phone);
             cout << "user_name: ";
             getline(cin, user_name);
-            if(user_name.size())obj1.set_user_name(user_name);
+            if (user_name.size())
+                obj1.set_user_name(user_name);
             cout << "password: ";
             getline(cin, password);
-            if(password.size())obj1.set_password(password);
+            if (password.size())
+                obj1.set_password(password);
             str = Union(obj1);
             L[i] = str;
         }
@@ -396,21 +431,24 @@ void customer::delete_customer(string customer_id)
     string room_id;
     int cnt = 0;
     while (getline(inputFile, str))
-    {   
+    {
         customer obj = Split(str);
         if (obj.get_customer_id() != customer_id)
         {
             L.push_back(str);
-        } else {
+        }
+        else
+        {
             room_id = obj.get_room_id();
         }
-        
     }
     write_File(L);
     int size = L.getSize();
-    for (int i=0; i<size; i++) {
+    for (int i = 0; i < size; i++)
+    {
         customer obj = Split(L[i]);
-        if (obj.get_room_id() == room_id) {
+        if (obj.get_room_id() == room_id)
+        {
             cnt++;
         }
     }

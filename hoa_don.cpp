@@ -228,17 +228,15 @@ void hoa_don::display()
     }
 }
 
-void hoa_don::view_payment_room() {
-    std::ifstream inputFile("hoa_don.txt");
-
-    if (!inputFile.is_open()) {
-        std::cerr << "Error opening file hoa_don.txt for reading." << std::endl;
-        return;
-    }
-
-    std::string str;
-    while (getline(inputFile, str)) {
+void hoa_don::view_payment_room()
+{
+    ifstream inputFile;
+    inputFile.open("hoa_don.txt");
+    string str;
+    while (getline(inputFile, str))
+    {
         hoa_don obj = Split(str);
+<<<<<<< HEAD
 
         // Display payment information only for entries with status set to true
         if (1) {
@@ -252,12 +250,14 @@ void hoa_don::view_payment_room() {
             std::cout << "Total Cost: " << obj.get_total_cost() << std::endl;
             std::cout << "Status: " << (obj.get_status() ? "Paid" : "Unpaid") << std::endl;
             std::cout << "---------------------" << std::endl;
+=======
+        if (obj.get_status() == true)
+        {
+            cout << obj << endl;
+>>>>>>> 5e06760843fe4aa94b2d2f791e75dc4e5bd75acc
         }
     }
-
-    inputFile.close();
 }
-
 // void hoa_don::find_room(string room_id) // hàm đọc file  và lấy room_id để update hoặc delete
 // {
 //     ifstream inputFile;

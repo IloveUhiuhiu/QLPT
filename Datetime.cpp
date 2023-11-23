@@ -101,6 +101,7 @@ istream& operator>>(istream& i, Datetime &obj)
     i >> obj.days;
     return i;
 }
+<<<<<<< HEAD
 bool Datetime::operator==(const Datetime& other) const {
     return (years == other.years) && (months == other.months) && (days == other.days);
 }
@@ -128,3 +129,7 @@ bool Datetime::operator>(const Datetime& other) const {
 bool Datetime::operator>=(const Datetime& other) const {
     return !(*this < other);
 }
+=======
+
+
+>>>>>>> 5e06760843fe4aa94b2d2f791e75dc4e5bd75acc
