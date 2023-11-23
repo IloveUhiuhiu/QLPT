@@ -44,11 +44,6 @@ public:
     // static void loadRoomListFromFile(List<Room>& roomList);
 
 
-    static void edit_room();
-    static void add_payment_room();
-    static void delete_payment_room();
-    static void edit_payment_room();
-
 private:
     string room_id;
     string kind_of;

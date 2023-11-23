@@ -3,6 +3,8 @@
 
 #include "user.h"
 #include "Room.h"
+#include "dien_nuoc.h"
+#include "hoa_don.h"
 
 class customer : public user
 {
