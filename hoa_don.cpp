@@ -236,25 +236,9 @@ void hoa_don::view_payment_room()
     while (getline(inputFile, str))
     {
         hoa_don obj = Split(str);
-<<<<<<< HEAD
-
-        // Display payment information only for entries with status set to true
-        if (1) {
-            std::cout <<"nam dep trai " << endl;
-            std::cout << "Bill ID: " << obj.get_bill_id() << std::endl;
-    
-            std::cout << "Room ID: " << obj.get_room_id() << std::endl;
-            std::cout << "Date: " << obj.get_date().get_years() << "-"
-          << obj.get_date().get_months() << "-"
-          << obj.get_date().get_days() << std::endl;
-            std::cout << "Total Cost: " << obj.get_total_cost() << std::endl;
-            std::cout << "Status: " << (obj.get_status() ? "Paid" : "Unpaid") << std::endl;
-            std::cout << "---------------------" << std::endl;
-=======
         if (obj.get_status() == true)
         {
             cout << obj << endl;
->>>>>>> 5e06760843fe4aa94b2d2f791e75dc4e5bd75acc
         }
     }
 }
