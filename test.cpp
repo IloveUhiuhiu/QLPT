@@ -2,7 +2,7 @@
 #include "admin.h"
 #include "customer.h"
 #include "DoanhThu.h"
-
+///////////////////////////////////
 
 void warn()
 {
@@ -762,7 +762,7 @@ void menu_login()
 
     } while (choice != 0);
 }
-void menu()
+void menu2()
 {
     int choice;
     do
@@ -813,6 +813,7 @@ void menu()
 
 int main()
 {
-    menu();
+    menu2();
     return 0;
 }
+//////////////////////////
