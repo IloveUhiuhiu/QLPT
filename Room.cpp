@@ -274,7 +274,6 @@ void Room::display()
     }
 }
 
-<<<<<<< HEAD
 
 void Room::edit_room() {
     string search_term;
@@ -302,8 +301,6 @@ void Room::edit_room() {
     }
 }
 
-=======
->>>>>>> 7811c75f512cb70fd07c82a68f1843a19c9778fb
 // Display room information method
 // Function to load room data from file
 // void Room::loadRoomListFromFile(List<Room>& roomList) {
