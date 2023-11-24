@@ -115,9 +115,11 @@ istream &operator>>(istream &i, customer &obj)
             cout << "Room Not Found.Try Again!" << endl;
         }
     } while (room.getRoomID() != obj.room_id);
+    string customer_dateofbirth;
     cout << "Enter Date Of Birth(yy-mm-dd): ";
-    cin >> obj.customer_dateofbirth;
-    
+    getline(cin,customer_dateofbirth);
+    obj.customer_dateofbirth = Datetime::Split(customer_dateofbirth);
+    cout << obj.customer_dateofbirth << endl;
     cout << "Enter Gender: ";
     getline(i, obj.customer_gender);
     cout << "Enter Email: ";

@@ -138,8 +138,8 @@ void menu_user(customer &object2)
         cout << "\t\t\t*****************************************************************" << endl;
         cout << endl;
 
-        cout << "***********************" << endl
-             << endl;
+        cout << "***********************" << endl;
+        cout  << endl;
         cout << "Enter Your Choice : ";
         cin >> choice;
         while (choice < 0 || choice > 4)

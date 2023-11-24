@@ -4,3 +4,7 @@
 -cặc
 -chưa tìm kiếm theo ngày
 
+// thêm thuộc tính ngày vào 
+// kiểm tra những thằng cùng phòn là set tên
+
+

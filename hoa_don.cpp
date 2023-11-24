@@ -222,9 +222,10 @@ void hoa_don::display()
     inputFile.open("hoa_don.txt");
     string str;
     while (getline(inputFile, str))
-    {
-        hoa_don obj = Split(str);
-        cout << obj << endl;
+    {   if (str.size()) {
+            hoa_don obj = Split(str);
+            cout << obj << endl;
+        }
     }
 }
 void hoa_don::view_payment_room()
@@ -431,6 +432,7 @@ void hoa_don::Pay_bill(hoa_don& obj1)
                 write_File(L);
                 hd.set_room_id(obj.get_room_id());
                 hd.set_bill_id(Convert::CreateID("hoa_don.txt"));
+                hd.set_total_cost(obj.get_total_cost());
                 hd.set_date(0,0,0);
                 hd.set_status(false);
                 hd.add_hoa_don();
