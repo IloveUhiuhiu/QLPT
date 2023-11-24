@@ -134,7 +134,7 @@ ostream &operator<<(ostream &o, const dien_nuoc &obj)
     cout << "Date: ";
     o << obj.date << endl;
     cout << "Status: ";
-    o << obj.status << endl;
+    o <<(obj.status ? "Yes" : "No") << endl;
     return o;
 }
 
@@ -297,7 +297,7 @@ void dien_nuoc::display()
         cout << dn << endl;
     }
 }
-bool dien_nuoc::find_room(string room_id) // hàm đọc file  và lấy room_id để update hoặc delete
+bool dien_nuoc::find_room(string room_id) 
 {
     ifstream inputFile;
     inputFile.open("dien_nuoc.txt");
@@ -367,6 +367,56 @@ dien_nuoc dien_nuoc::find_dien_nuoc_id(string dien_nuoc_id)
         }
     }
     return obj;
+}
+void dien_nuoc::find_dien_nuoc()
+{
+    ifstream inputFile;
+    inputFile.open("dien_nuoc.txt");
+    string str, dien_nuoc_id, room_id, date;
+    dien_nuoc obj;
+    bool ok = false;
+    cin.ignore();
+    cout << "Enter dien_nuoc_id: ";
+    getline(cin, dien_nuoc_id);
+    cout << "Enter room_id: ";
+    getline(cin, room_id);
+    if ((dien_nuoc_id.size() > 0) && (room_id.size() == 0))
+    {
+        while (getline(inputFile, str))
+        {
+            obj = Split(str);
+            if (dien_nuoc_id == obj.dien_nuoc_id)
+            {
+                cout << obj << endl;
+                ok = true;
+            }
+        }
+    }
+    else if ((dien_nuoc_id.size() == 0) && (room_id.size() > 0))
+    {
+        while (getline(inputFile, str))
+        {
+            obj = Split(str);
+            if (room_id == obj.room_id)
+            {
+                cout << obj << endl;
+                ok = true;
+            }
+        }
+    }
+    else if ((dien_nuoc_id.size() > 0) && (room_id.size() > 0))
+    {
+        while (getline(inputFile, str))
+        {
+            obj = Split(str);
+            if (dien_nuoc_id == obj.dien_nuoc_id && room_id == obj.room_id)
+            {
+                cout << obj << endl;
+                ok = true;
+            }
+        }
+    }
+    if(!ok) cout << "NOt Found!!" << endl;
 }
 void dien_nuoc::update_dien_nuoc(dien_nuoc& obj1)
 {

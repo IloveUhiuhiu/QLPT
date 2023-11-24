@@ -28,5 +28,11 @@ public:
 
     friend ostream& operator << (ostream&,const Datetime&);
     friend istream& operator >> (istream&, Datetime&);
+    bool operator==(const Datetime& other) const;
+    bool operator!=(const Datetime& other) const;
+    bool operator<(const Datetime& other) const;
+    bool operator<=(const Datetime& other) const;
+    bool operator>(const Datetime& other) const;
+    bool operator>=(const Datetime& other) const;
 };
 #endif

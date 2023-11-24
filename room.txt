@@ -1,4 +1,14 @@
+<<<<<<< HEAD
 R001,Single,1000000,Yes
 R002,Single,1200000,Yes
 R003,Single,1500000,Yes
 R004,Single,1600000,Yes
+=======
+<<<<<<< HEAD
+
+R002,Double,2000000,No
+R001,Single,1000000,Yes
+=======
+023940234,single,324234234,Yes
+>>>>>>> a4a7de819828ebed409c7daec6092a353a002a19
+>>>>>>> 48852aa834a0232179efaadbf5cab9aa668ba687
