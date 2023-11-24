@@ -762,7 +762,11 @@ void menu_login()
 
     } while (choice != 0);
 }
+<<<<<<< HEAD
 void menu2()
+=======
+void menu1()
+>>>>>>> 46e1c4f5afcf59869c9738912547f18185d84093
 {
     int choice;
     do
@@ -813,7 +817,6 @@ void menu2()
 
 int main()
 {
-    menu2();
+    menu1();
     return 0;
 }
-//////////////////////////
