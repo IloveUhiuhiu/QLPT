@@ -1,1 +1,5 @@
-
+000001,R001,Dang Phuc Long,2004-12-01,Nam,dangphuclong@gmail.com,Hue,0366646901,long111,1111
+000002,R001,Thai Viet Hung,2004-10-10,Nam,thaihung@gmail.com,Hue,0344445456,hung222,2222
+000003,R002,Nguyen Thanh Nam,2004-03-02,Nam,namthanh@gmail.com,Quang Tri,0322212212,nam111,1111
+000004,R003,Tran Nhu Thuan,2004-10-23,Nu,nhuthuan@gmail.com,Quang Tri,034456765,thuan444,4444
+000005,R004,Hoang Bao Long,2004-5-20,nam,longhoang@gmail.com,Ho Chi Minh,0467891234,long22,2222

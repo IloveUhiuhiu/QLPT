@@ -265,6 +265,7 @@ void Room::display()
         }
     }
 }
+
 // Display room information method
 // Function to load room data from file
 // void Room::loadRoomListFromFile(List<Room>& roomList) {

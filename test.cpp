@@ -175,6 +175,7 @@ void menu_Manager_Customer()
 {
     customer object2;
     string ID;
+    Room room;
     int choice;
     do
     {
@@ -224,28 +225,34 @@ void menu_Manager_Customer()
             object2.add_customer();
             break;
         case 3:
-            // delete
-            // menu_display_customer();
-            cout << "Enter Name:";
-            cin.ignore();
-            getline(cin, ID);
-            if (!customer::find_namecustomer(ID))
+            cout << "Find Information Customer: " << endl;
+            if (!customer::find_customer())
             {
-                cout << "Not Found" << endl;
-            }
-            else
-            {
-                cout << "Enter ID: ";
-                cin >> ID;
-                customer::delete_customer(ID);
+                cout << "Not Found!" << endl;
             }
             break;
         case 4:
-            // edit
-            
+            cout << "Find Information Customer: " << endl;
+            if (!customer::find_customer())
+            {
+                cout << "Not Found!" << endl;
+                continue;
+            }
+            cout << "Enter ID: "; cin >> ID;
+            object2 = customer::find_idcustomer(ID);
+            customer::delete_customer(ID);
             break;
         case 5:
-        break;
+            cout << "Find Information Customer: " << endl;
+            if (!customer::find_customer())
+            {
+                cout << "Not Found!" << endl;
+                continue;
+            }
+            cout << "Enter ID:"; cin >> ID;
+            object2 = customer::find_idcustomer(ID);
+            customer::update_customer(object2);
+            break;
         default:
             break;
         }
@@ -443,9 +450,7 @@ void menu_Manager_Dien_Nuoc()
         cout << "			*    	                                                        *" << endl;
         cout << "\t\t\t*\t|  6) Add Electric-Water              |                             *" << endl;
         cout << "			*    	                                                        *" << endl;
-        cout << "\t\t\t*\t|  7) Delete Electric-Water           |                             *" << endl;
-        cout << "			*    	                                                        *" << endl;
-        cout << "\t\t\t*\t|  8) Edit Electric-Water             |                             *" << endl;
+        cout << "\t\t\t*\t|  7) Edit Electric-Water             |                             *" << endl;
         cout << "			*    	                                                        *" << endl;
         cout << "\t\t\t*\t|  0) Exit                            |                             *" << endl;
         cout << "			*    	                                                        *" << endl;
@@ -456,7 +461,7 @@ void menu_Manager_Dien_Nuoc()
              << endl;
         cout << "Enter Your Choice : ";
         cin >> choice;
-        while (choice < 0 || choice > 8)
+        while (choice < 0 || choice > 7)
         {
             cout << "Enter Right Choice : ";
             cin >> choice;

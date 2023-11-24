@@ -1,1 +1,4 @@
-
+R001,Single,1000000,Yes
+R002,Single,1200000,Yes
+R003,Single,1500000,Yes
+R004,Single,1600000,Yes
