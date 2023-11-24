@@ -40,7 +40,6 @@ public:
 
     static void display();
     static void view_payment_room();
-<<<<<<< HEAD
     static void view_unpayment_room();
     static void find_hoa_don();
     static bool find_room(string);
@@ -49,9 +48,3 @@ public:
     static void update_hoa_don(hoa_don&);
     static void Pay_bill(hoa_don&);
 };
-=======
-    // void find_room(string);
-    // void update_hoa_don(string);
-    //     void deletehoa_don();
-};
->>>>>>> a4a7de819828ebed409c7daec6092a353a002a19
