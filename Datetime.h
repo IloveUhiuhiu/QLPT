@@ -23,7 +23,7 @@ public:
 
     bool is_mid_month();
     
-    static string Union(Datetime&);
+    static string Union(Datetime);
     static Datetime Split(string);
 
     friend ostream& operator << (ostream&,const Datetime&);

@@ -430,7 +430,7 @@ void customer::add_customer()
     }
 }
 
-bool customer::find_customer()
+bool customer::find_customer(List<customer> &L)
 {
     string customer_id, room_id, customer_name, customer_dateofbirth, customer_gender, customer_email, customer_address,
         customer_phone, customer_user_name, customer_password;
@@ -556,28 +556,29 @@ bool customer::find_customer()
                 }
             }
             ++cnt;
-            cout << obj << endl;
+            L.push_back(obj);
         }
     }
     if (cnt == 0)
         return false;
     return true;
 }
-void customer::display()
+void customer::display(List<customer>& L)
 {
     ifstream inputFile;
     inputFile.open("customer.txt");
     string str;
+    customer obj;
     while (getline(inputFile, str))
     {
         if (str.size())
         {
-            customer obj = customer::Split(str);
-            cout << obj << endl;
+            obj = customer::Split(str);
+            L.push_back(obj);
         }
     }
 }
-customer customer::find_idcustomer(string customer_id)
+void customer::find_idcustomer(string customer_id,List<customer>&L)
 {
     ifstream inputFile;
     inputFile.open("customer.txt");
@@ -588,10 +589,9 @@ customer customer::find_idcustomer(string customer_id)
         obj = Split(str);
         if (customer_id == obj.customer_id)
         {
-            return obj;
+           L.push_back(obj);
         }
-    }
-    return obj;
+    };
 }
 void customer::update_customer(customer &obj1)
 {

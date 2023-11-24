@@ -52,8 +52,8 @@ public:
 
     static customer Split(string);
     static string Union (customer&);
-    static bool find_customer();
-    static customer find_idcustomer(string);
+    static bool find_customer(List<customer>&);
+    static void find_idcustomer(string, List<customer>&);
     static bool find_user_name(string);
     static void update_customer(customer&);
     static List<customer> find_idroom(string);
@@ -66,6 +66,6 @@ public:
     void add_customer();
     // void update_customer(string);
     static void delete_customer(string);
-    static void display();
+    static void display(List<customer>&);
 };
 #endif

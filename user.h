@@ -2,11 +2,14 @@
 #ifndef USER_H
 #define USER_H
 #include <iostream>
+#include <conio.h>
+#include <windows.h>
 // #include "List.h"
 #include "List.cpp"
 #include <fstream>
 #include <unistd.h>
 #include <iomanip>
+
 using namespace std;
 class user
 {
