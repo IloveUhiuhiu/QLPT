@@ -469,8 +469,14 @@ void menu_Manager_Phong_Tro()
             Room::edit_room();
             break;
         case 8:
-            // hủy phòng
+        {
+            // hủy phòng : đặt trạng thái của phòng về false
+            cout <<"nhap id phong muon huy " << endl;
+            string room_id ;
+            cin >> room_id;
+            Room::cancel_room(room_id);
             break;
+        }
         case 9:
             // chuyển phòng
             break;
@@ -667,11 +673,11 @@ void menu_Manager_Dien_Nuoc()
     } while (choice != 0);
 }
 
-void menu_Calculte_Revenue()
-{
+void menu_Calculate_Revenue() {
     int choice, month, year, revenue;
-    do
-    {
+    DoanhThu doanhThu;  // Create an object of the DoanhThu class
+
+    do {
         system("cls");
         cout << "\t\t\t*****************************************************************" << endl;
         cout << "\t\t\t*\t                                                        *" << endl;
@@ -693,38 +699,110 @@ void menu_Calculte_Revenue()
              << endl;
         cout << "Enter Your Choice : ";
         cin >> choice;
-        while (choice < 0 || choice > 3)
-        {
+
+        while (choice < 0 || choice > 3) {
             cout << "Enter Right Choice : ";
             cin >> choice;
         }
+
         cout << "\n***********************" << endl;
         system("cls");
-        switch (choice)
-        {
-        case 1:
-            cout << "Enter Month:";
-            cin >> month;
-            while (month < 1 || month > 12)
-            {
-                cout << "Enter Right Month:";
+
+        switch (choice) {
+            case 1:
+                cout << "Enter Month:";
                 cin >> month;
+                while (month < 1 || month > 12) {
+                    cout << "Enter Right Month:";
+                    cin >> month;
+                }
+                revenue = doanhThu.tongDoanhThutheothang(month);
+                cout << "Total Revenue for Month " << month << ": " << revenue << endl;
+                break;
+
+            case 2:
+                cout << "Enter Year:";
+                cin >> year;
+                revenue = doanhThu.tongDoanhThutheonam(year);
+                cout << "Total Revenue for Year " << year << ": " << revenue << endl;
+                break;
+
+            case 3:
+            {
+                int startYear, startMonth, startDay, endYear, endMonth, endDay;
+                cout << "Enter Start Year:";
+                cin >> startYear;
+
+                cout << "Enter Start Month:";
+                cin >> startMonth;
+                while (startMonth < 1 || startMonth > 12) {
+                    cout << "Enter Right Start Month:";
+                    cin >> startMonth;
+                }
+
+                cout << "Enter Start Day:";
+                cin >> startDay;
+                while (startDay < 1 || startDay > 31) {
+                    cout << "Enter Right Start Day:";
+                    cin >> startDay;
+                }
+
+                cout << "Enter End Year:";
+                cin >> endYear;
+
+                cout << "Enter End Month:";
+                cin >> endMonth;
+                while (endMonth < 1 || endMonth > 12) {
+                    cout << "Enter Right End Month:";
+                    cin >> endMonth;
+                }
+
+                cout << "Enter End Day:";
+                cin >> endDay;
+                while (endDay < 1 || endDay > 31) {
+                    cout << "Enter Right End Day:";
+                    cin >> endDay;
+                }
+
+                Datetime startDate(startYear, startMonth, startDay);
+                Datetime endDate(endYear, endMonth, endDay);
+                int totalRevenue = 0;
+                Datetime currentDate = startDate;
+
+                while (currentDate <= endDate) {
+                    // Calculate revenue for the current month
+                    int revenue = doanhThu.tongDoanhThutheothang(currentDate.get_months());
+
+                    // Accumulate the revenue
+                    totalRevenue += revenue;
+
+                    // Move to the next month
+                    int nextMonth = currentDate.get_months() + 1;
+                    int nextYear = currentDate.get_years();
+
+                    if (nextMonth > 12) {
+                        nextMonth = 1;
+                        nextYear++;
+                    }
+
+                    // Update currentDate
+                    currentDate = Datetime(nextYear, nextMonth, currentDate.get_days());
+                }
+
+                cout << "Total Revenue for the specified time period: " << totalRevenue << endl;
+                break;
             }
-            break;
-        case 2:
-            cout << "Enter Year:";
-            cin >> year;
-            break;
-        case 3:
-            break;
-        default:
-            break;
+            default:
+                break;
         }
+
         if (choice == 0)
             break;
+
         system("pause");
     } while (choice != 0);
 }
+
 void menu_admin(admin &object1)
 {
     int choice;
@@ -778,7 +856,7 @@ void menu_admin(admin &object1)
             menu_Manager_Payment();
             break;
         case 5:
-            menu_Calculte_Revenue();
+            menu_Calculate_Revenue();
             break;
         default:
             break;
