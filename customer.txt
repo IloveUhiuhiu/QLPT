@@ -1,1 +1,4 @@
-
+000001,R001,Thai Viet Hung,2004-01-21,Nam,hung55555hung@gmail.com,Hue,0328563121,rgrey,1234
+000002,R001,Truong Quan,2004-06-01,Nam,quan123@gmail.com,Hue,0328482919,quan123,1234
+000003,R001,Nguyen Dung,2004-9-12,Nu,dung123@gmail.com,Hue,0327482848,dung123,1234
+000004,R001,Ngo Thinh,2004-12-23,Nu,thinh@gmail.com,Hue,0428484828,thinh123,123

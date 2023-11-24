@@ -1,1 +1,3 @@
 
+R002,Double,2000000,No
+R001,Single,1000000,Yes
