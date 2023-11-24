@@ -1,3 +1,7 @@
+<<<<<<< HEAD
 
 R002,Double,2000000,No
 R001,Single,1000000,Yes
+=======
+023940234,single,324234234,Yes
+>>>>>>> a4a7de819828ebed409c7daec6092a353a002a19
