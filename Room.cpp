@@ -160,7 +160,6 @@ void Room::add_room(int k)
         dien_nuoc dn;
         dn.set_room_id(this->room_id);
         dn.set_dien_nuoc_id(Convert::CreateID("dien_nuoc.txt"));
-        cout << dn.get_dien_nuoc_id() << endl;
         dn.set_cost_water(dien_nuoc::getNewCostWater());
         dn.set_cost_electric(dien_nuoc::getNewCostElectric());
         dn.add_dien_nuoc();
@@ -183,15 +182,7 @@ istream& operator>> (istream& i, Room& room)
     cout << "Cost: ";
     i >> room.cost;
 
-    cout << "Occupied (Yes or No): ";
-    string ok;
-    i >> ok;
-    while (ok != "Yes" && ok != "No")
-    {
-        cout << "Occupied (Yes or No): ";
-        i >> ok;
-    }
-    room.occupied = Convert::str_to_bool(ok);
+    room.occupied = false;
     return i;
 }
 
