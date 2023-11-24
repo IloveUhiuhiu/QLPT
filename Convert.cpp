@@ -59,3 +59,10 @@ string Convert::CreateID(const string filename)
     return id;
 }
 
+string Convert::Tolower(string str)
+{
+    string ans = "";
+    for (auto x: str) ans += tolower(x);
+    return ans;
+}
+

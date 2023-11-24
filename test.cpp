@@ -3,6 +3,7 @@
 #include "customer.h"
 #include "DoanhThu.h"
 
+
 void warn()
 {
     cout << "Chua Co Gi" << endl;
@@ -114,6 +115,8 @@ void menu_user(customer &object2)
 {
     int choice;
     Room room;
+    dien_nuoc dn;
+    hoa_don hd;
     do
     {
         system("cls");
@@ -158,8 +161,12 @@ void menu_user(customer &object2)
             cout << room;
             break;
         case 3:
+            dn = dien_nuoc::find_dien_nuoc_id(dn.find_max_dien_nuoc_id());
+            cout << dn;
             break;
         case 4:
+            hd = hoa_don::find_bill_id(hd.find_max_bill_id());
+            cout << hd;
             break;
         default:
             break;
@@ -175,6 +182,7 @@ void menu_Manager_Customer()
 {
     customer object2;
     string ID;
+    Room room;
     int choice;
     do
     {
@@ -224,28 +232,34 @@ void menu_Manager_Customer()
             object2.add_customer();
             break;
         case 3:
-            // delete
-            // menu_display_customer();
-            cout << "Enter Name:";
-            cin.ignore();
-            getline(cin, ID);
-            if (!customer::find_namecustomer(ID))
+            cout << "Find Information Customer: " << endl;
+            if (!customer::find_customer())
             {
-                cout << "Not Found" << endl;
-            }
-            else
-            {
-                cout << "Enter ID: ";
-                cin >> ID;
-                customer::delete_customer(ID);
+                cout << "Not Found!" << endl;
             }
             break;
         case 4:
-            // edit
-            
+            cout << "Find Information Customer: " << endl;
+            if (!customer::find_customer())
+            {
+                cout << "Not Found!" << endl;
+                continue;
+            }
+            cout << "Enter ID: "; cin >> ID;
+            object2 = customer::find_idcustomer(ID);
+            customer::delete_customer(ID);
             break;
         case 5:
-        break;
+            cout << "Find Information Customer: " << endl;
+            if (!customer::find_customer())
+            {
+                cout << "Not Found!" << endl;
+                continue;
+            }
+            cout << "Enter ID:"; cin >> ID;
+            object2 = customer::find_idcustomer(ID);
+            customer::update_customer(object2);
+            break;
         default:
             break;
         }
@@ -369,7 +383,8 @@ void menu_Manager_Phong_Tro()
 }
 void menu_Manager_Payment()
 {
-
+    hoa_don object2;
+    string ID;
     int choice;
     do
     {
@@ -412,25 +427,42 @@ void menu_Manager_Payment()
         switch (choice)
         {
         case 1:
-            // view list
+            hoa_don::display();
             break;
         case 2:
-            // view list thanh toan
+            hoa_don::view_payment_room();
             break;
         case 3:
-            // view list chưa thanh toán
+            hoa_don::view_unpayment_room();
             break;
         case 4:
-            // Find bill
+            hoa_don::find_hoa_don();
             break;
         case 5:
             // add
             break;
         case 6:
-            // thanh toán
+            hoa_don::view_unpayment_room();
+            cout << "Enter ID OF BILL want to pay: ";
+            cin >> ID;
+            object2 = hoa_don::find_bill_id(ID);
+            hoa_don::Pay_bill(object2);
             break;
         case 7:
-            // edit
+            cout << "Enter ID OF ROOM:";
+            cin.ignore();
+            getline(cin,ID);
+            if (!hoa_don::find_room(ID))
+            {
+                cout << "Not Found" << endl;
+            }
+            else
+            {
+                cout << "Enter ID: ";
+                cin >> ID;
+                object2 = hoa_don::find_bill_id(ID);
+                hoa_don::update_hoa_don(object2);
+            }
             break;
         default:
             break;
@@ -444,8 +476,9 @@ void menu_Manager_Payment()
 }
 void menu_Manager_Dien_Nuoc()
 {
-
+    dien_nuoc object2;
     int choice;
+    string ID;
     do
     {
         system("cls");
@@ -466,9 +499,7 @@ void menu_Manager_Dien_Nuoc()
         cout << "			*    	                                                        *" << endl;
         cout << "\t\t\t*\t|  6) Add Electric-Water              |                             *" << endl;
         cout << "			*    	                                                        *" << endl;
-        cout << "\t\t\t*\t|  7) Delete Electric-Water           |                             *" << endl;
-        cout << "			*    	                                                        *" << endl;
-        cout << "\t\t\t*\t|  8) Edit Electric-Water             |                             *" << endl;
+        cout << "\t\t\t*\t|  7) Edit Electric-Water             |                             *" << endl;
         cout << "			*    	                                                        *" << endl;
         cout << "\t\t\t*\t|  0) Exit                            |                             *" << endl;
         cout << "			*    	                                                        *" << endl;
@@ -479,7 +510,7 @@ void menu_Manager_Dien_Nuoc()
              << endl;
         cout << "Enter Your Choice : ";
         cin >> choice;
-        while (choice < 0 || choice > 8)
+        while (choice < 0 || choice > 7)
         {
             cout << "Enter Right Choice : ";
             cin >> choice;
@@ -489,16 +520,42 @@ void menu_Manager_Dien_Nuoc()
         switch (choice)
         {
         case 1:
-            // dien_nuoc::display();
+            dien_nuoc::display();
             break;
         case 2:
-            warn();
+            dien_nuoc::view_unpaid_room();
             break;
         case 3:
-            warn();
+            dien_nuoc::view_Paid_room();
             break;
         case 4:
-            warn();
+            dien_nuoc::find_dien_nuoc();
+            break;
+        case 5:
+            dien_nuoc::view_unpaid_room();
+            cout << "Enter ID OF ELECTRIC_WATER want to pay: ";
+            cin >> ID;
+            object2 = dien_nuoc::find_dien_nuoc_id(ID);
+            dien_nuoc::Pay_dien_nuoc(object2);
+            break;
+        case 6:
+            // add đien nước
+            break;
+        case 7:
+            cout << "Enter ID OF ROOM:";
+            cin.ignore();
+            getline(cin,ID);
+            if (!dien_nuoc::find_room(ID))
+            {
+                cout << "Not Found" << endl;
+            }
+            else
+            {
+                cout << "Enter ID: ";
+                cin >> ID;
+                object2 = dien_nuoc::find_dien_nuoc_id(ID);
+                dien_nuoc::update_dien_nuoc(object2);
+            }
             break;
         default:
             break;

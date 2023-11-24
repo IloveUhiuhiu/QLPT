@@ -22,7 +22,7 @@ public:
     int get_days();
 
     bool is_mid_month();
-
+    
     static string Union(Datetime&);
     static Datetime Split(string);
 

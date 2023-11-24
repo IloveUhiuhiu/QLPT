@@ -2,6 +2,7 @@
 #define ROOM_H
 
 #include "dien_nuoc.h"
+#include "hoa_don.h"
 class Room {
 public:
     // Constructors

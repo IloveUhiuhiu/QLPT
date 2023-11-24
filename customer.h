@@ -3,8 +3,6 @@
 
 #include "user.h"
 #include "Room.h"
-#include "dien_nuoc.h"
-#include "hoa_don.h"
 
 class customer : public user
 {
@@ -12,14 +10,14 @@ private:
     string customer_id;
     string room_id;
     string customer_name;
-    string customer_dateofbirth;
+    Datetime customer_dateofbirth;
     string customer_gender;
     string customer_email;
     string customer_address;
     string customer_phone;
 
 public:
-    customer(string = "",string = " ",string = "", string = "", string = "", string = "", string = "", string = "", string = "", string = "");
+    customer(string = "",string = " ",string = "", Datetime = Datetime(0,0,0), string = "", string = "", string = "", string = "", string = "", string = "");
     ~customer();
 
     string get_customer_id() const;
@@ -31,8 +29,8 @@ public:
     string get_customer_name() const;
     void set_customer_name(string);
 
-    string get_customer_dateofbirth() const;
-    void set_customer_dateofbirth(string);
+    Datetime get_customer_dateofbirth() const;
+    void set_customer_dateofbirth(Datetime);
 
     string get_customer_gender() const;
     void set_customer_gender(string);
@@ -45,16 +43,18 @@ public:
 
     string get_customer_phone() const;
     void set_customer_phone(string);
-
+    static bool find_user_name(string);
     friend istream &operator>>(istream &, customer &);
     friend ostream &operator<<(ostream &, const customer &);
 
     static customer Split(string);
     static string Union (customer&);
-    static bool find_namecustomer(string);
+    static bool find_customer();
     static customer find_idcustomer(string);
     static void update_customer(customer&);
 
+    // static void change_room(string , string );
+   
     bool login();
     // static List<string> load_File(const string);
     static void write_File(List<string>&);

@@ -11,5 +11,6 @@ public:
     static int str_to_int(string);
     static bool str_to_bool(string);
     static string CreateID(const string);
+    static string Tolower(const string);
 };
 #endif
