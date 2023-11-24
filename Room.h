@@ -38,13 +38,13 @@ public:
     friend istream& operator>>(istream&, Room&);
     friend ostream& operator<<(ostream&, const Room&);
 
-    static Room find_room(string);
+    static Room find_room(string searchTerm);
     // Display room information method
     // void display() const;
       // Function to load room data from file
     // static void loadRoomListFromFile(List<Room>& roomList);
 
-
+     static void edit_room();
 private:
     string room_id;
     string kind_of;

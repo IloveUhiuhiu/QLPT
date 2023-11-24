@@ -329,8 +329,30 @@ void menu_Manager_Phong_Tro()
             Room::view_rented_room();
             break;
         case 4:
-            // Find room
-            break;
+            {
+                cout << "Choose search type:" << endl;
+                cout << "1. By Room ID" << endl;
+                cout << "2. By Kind of Room(A , B , C)" << endl;
+
+                int searchType;
+                cin >> searchType;
+
+                cout << "Enter search term: ";
+                string searchTerm;
+                cin >> searchTerm;
+
+                Room foundRoom = Room::find_room(searchTerm);
+
+                if (!foundRoom.getRoomID().empty()) {
+                    cout << "Room found:" << endl;
+                    cout << foundRoom << endl;
+                } else {
+                    cout << "Room not found." << endl;
+                }
+
+                break;
+            }
+
         case 5:
             cin >> room;
             room.add_room(1);
@@ -341,7 +363,8 @@ void menu_Manager_Phong_Tro()
             Room::delete_room(ID);
             break;
         case 7:
-            // Room::edit_room();
+            Room::display();
+            Room::edit_room();
             break;
         case 8:
             // hủy phòng
