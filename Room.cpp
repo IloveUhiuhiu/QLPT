@@ -172,17 +172,20 @@ istream& operator>> (istream& i, Room& room)
     cout << "RoomID: ";
     i >> room.room_id;
 
-    cout << "Kind of (Single or Double): ";
+    cout << "Kind of (A, B, or C): ";
     i >> room.kind_of;
-    while (room.kind_of != "Single" && room.kind_of != "Double")
+    while (room.kind_of != "A" && room.kind_of != "B" && room.kind_of != "C")
     {
-        cout << "Kind of (Single or Double): ";
+        cout << "Kind of (A, B, or C): ";
         i >> room.kind_of;
     }
+
     cout << "Cost: ";
     i >> room.cost;
+
     cout << "Occupied (Yes or No): ";
-    string ok; i >> ok;
+    string ok;
+    i >> ok;
     while (ok != "Yes" && ok != "No")
     {
         cout << "Occupied (Yes or No): ";
@@ -200,23 +203,28 @@ ostream& operator << (ostream& o,const Room& room)
     o << "Occupied: " << (room.occupied ? "Yes" : "No")  << endl;
     return o;
 }
-
-Room Room:: find_room(string room_id)
+Room Room::find_room(string search_term)
 {
     ifstream inputFile;
     inputFile.open("room.txt");
     string str;
     Room obj;
+    
     while (getline(inputFile, str))
     {
         obj = Room::Split(str);
-        if (obj.getRoomID() == room_id)
+
+        // Check if either room_id or kind_of matches the search term
+        if (obj.getRoomID() == search_term || obj.getKindOf() == search_term)
         {
             return obj;
         }
     }
-    return obj;
+
+    // Return an empty Room object if no match is found
+    return Room();
 }
+
 
 void Room::view_empty_room()
 {
@@ -265,6 +273,34 @@ void Room::display()
         }
     }
 }
+
+
+void Room::edit_room() {
+    string search_term;
+    cout << "Enter the RoomID you want to edit: ";
+    cin >> search_term;
+
+    Room roomToEdit = find_room(search_term);
+
+    if (roomToEdit.getRoomID().empty()) {
+        cout << "Room not found." << endl;
+    } else {
+        cout << "Current Room Information:\n" << roomToEdit << endl;
+
+        // Allow the user to edit the room information
+        cout << "Enter new information:" << endl;
+        cin >> roomToEdit; // Use the overloaded operator>> to input new values
+
+        // Delete the existing room entry
+        delete_room(search_term);
+
+        // Add the updated room information
+        roomToEdit.add_room(0);
+
+        cout << "Room information updated successfully." << endl;
+    }
+}
+
 // Display room information method
 // Function to load room data from file
 // void Room::loadRoomListFromFile(List<Room>& roomList) {
