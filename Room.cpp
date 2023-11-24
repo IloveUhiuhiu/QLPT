@@ -160,7 +160,6 @@ void Room::add_room(int k)
         dien_nuoc dn;
         dn.set_room_id(this->room_id);
         dn.set_dien_nuoc_id(Convert::CreateID("dien_nuoc.txt"));
-        cout << dn.get_dien_nuoc_id() << endl;
         dn.set_cost_water(dien_nuoc::getNewCostWater());
         dn.set_cost_electric(dien_nuoc::getNewCostElectric());
         dn.add_dien_nuoc();

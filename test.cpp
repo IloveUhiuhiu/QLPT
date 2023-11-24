@@ -2,7 +2,7 @@
 #include "admin.h"
 #include "customer.h"
 #include "DoanhThu.h"
-
+///////////////////////////////////
 
 void warn()
 {
@@ -138,8 +138,8 @@ void menu_user(customer &object2)
         cout << "\t\t\t*****************************************************************" << endl;
         cout << endl;
 
-        cout << "***********************" << endl
-             << endl;
+        cout << "***********************" << endl;
+        cout  << endl;
         cout << "Enter Your Choice : ";
         cin >> choice;
         while (choice < 0 || choice > 4)
@@ -192,17 +192,19 @@ void menu_Manager_Customer()
         cout << "\t\t\t*\t **** Welcome To Customer Manager ****                  *" << endl;
         cout << "\t\t\t*\t                                                        *" << endl;
         cout << "			*    	                                                        *" << endl;
-        cout << "\t\t\t*\t|  1) View List Customer |                              *" << endl;
+        cout << "\t\t\t*\t|  1) View List Customer  |                             *" << endl;
         cout << "			*    	                                                        *" << endl;
-        cout << "\t\t\t*\t|  2) Add Customer       |                              *" << endl;
+        cout << "\t\t\t*\t|  2) Add Customer        |                             *" << endl;
         cout << "			*    	                                                        *" << endl;
-        cout << "\t\t\t*\t|  3) Find Customer       |                              *" << endl;
+        cout << "\t\t\t*\t|  3) Find Customer       |                             *" << endl;
         cout << "			*    	                                                        *" << endl;
-        cout << "\t\t\t*\t|  4) Delete Customer    |                              *" << endl;
+        cout << "\t\t\t*\t|  4) Delete Customer     |                             *" << endl;
         cout << "			*    	                                                        *" << endl;
-        cout << "\t\t\t*\t|  5) Edit Customer      |                              *" << endl;
+        cout << "\t\t\t*\t|  5) Edit Customer       |                             *" << endl;
         cout << "			*    	                                                        *" << endl;
-        cout << "\t\t\t*\t|  0) Exit               |                              *" << endl;
+        cout << "\t\t\t*\t|  6) Change User_Password|                             *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  0) Exit                |                             *" << endl;
         cout << "			*    	                                                        *" << endl;
         cout << "\t\t\t*****************************************************************" << endl;
         cout << endl;
@@ -211,7 +213,7 @@ void menu_Manager_Customer()
              << endl;
         cout << "Enter Your Choice : ";
         cin >> choice;
-        while (choice < 0 || choice > 5)
+        while (choice < 0 || choice > 6)
         {
             cout << "Enter Right Choice : ";
             cin >> choice;
@@ -245,7 +247,7 @@ void menu_Manager_Customer()
                 cout << "Not Found!" << endl;
                 continue;
             }
-            cout << "Enter ID: "; cin >> ID;
+            cout << "Enter Customer ID: "; cin >> ID;
             object2 = customer::find_idcustomer(ID);
             customer::delete_customer(ID);
             break;
@@ -256,9 +258,16 @@ void menu_Manager_Customer()
                 cout << "Not Found!" << endl;
                 continue;
             }
-            cout << "Enter ID:"; cin >> ID;
+            cout << "Enter Customer ID:"; cin >> ID;
             object2 = customer::find_idcustomer(ID);
+            cout << "Informatin Current Customer: " << endl;
+            cout << object2 << endl;
+            cout << "Enter New Information: " << endl;
             customer::update_customer(object2);
+            break;
+        case 6:
+            cout <<"Enter Room ID: "; cin >> ID;
+            customer::change_user_name(ID);
             break;
         default:
             break;
@@ -840,7 +849,11 @@ void menu_login()
 
     } while (choice != 0);
 }
-void menu()
+<<<<<<< HEAD
+void menu2()
+=======
+void menu1()
+>>>>>>> 46e1c4f5afcf59869c9738912547f18185d84093
 {
     int choice;
     do
@@ -891,6 +904,6 @@ void menu()
 
 int main()
 {
-    menu();
+    menu1();
     return 0;
 }

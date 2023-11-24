@@ -52,8 +52,8 @@ bool Datetime::is_mid_month()
 
 Datetime Datetime::Split(string str) // hàm tách chuổi
 {
-    int years, months, days, hours, minutes, seconds;
-    str += ':';
+    int years, months, days;
+    str += '-';
     int id = 1;
     int begin = 0, end = 0;
     for (auto x : str)
