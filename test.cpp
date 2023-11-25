@@ -740,10 +740,16 @@ void menu_Manager_Payment()
             hoa_don::view_unpayment_room();
             break;
         case 4:
-            hoa_don::find_hoa_don();
+           cout << "Find Information BILL: " << endl;
+            if (!hoa_don::find_hoa_don())
+            {
+                cout << "Not Found!" << endl;
+            }
             break;
         case 5:
-            // add
+            cin >> object2;
+            object2.set_bill_id(Convert::CreateID("hoa_don.txt"));
+            object2.add_hoa_don();
             break;
         case 6:
             hoa_don::view_unpayment_room();
@@ -756,17 +762,29 @@ void menu_Manager_Payment()
             cout << "Enter ID Of Room:";
             cin.ignore();
             getline(cin, ID);
-            if (!hoa_don::find_room(ID))
+            if(ID.size())
             {
-                cout << "Not Found" << endl;
+                if(!hoa_don::find_bill_id_check(ID))
+                {
+                    cout << "Not Found" << endl;
+                }
+                else
+                {
+                    object2 = hoa_don::find_bill_id(ID);
+                    hoa_don::Pay_bill(object2);
+                }
             }
-            else
+            break;
+        case 7:
+            cout << "Edit BILL: " << endl;
+            if (!hoa_don::find_hoa_don())
             {
-                cout << "Enter ID: ";
-                cin >> ID;
-                object2 = hoa_don::find_bill_id(ID);
-                hoa_don::update_hoa_don(object2);
+                cout << "Not Found!" << endl;
+                continue;
             }
+            cout << "Enter ID:"; cin >> ID;
+            object2 = hoa_don::find_bill_id(ID);
+            hoa_don::update_hoa_don(object2);
             break;
         default:
             break;
@@ -862,17 +880,34 @@ void menu_Manager_Dien_Nuoc()
             cout << "Enter ID Of Room:";
             cin.ignore();
             getline(cin, ID);
-            if (!dien_nuoc::find_room(ID))
+            if(ID.size())
             {
-                cout << "Not Found" << endl;
+                if(!dien_nuoc::find_dien_nuoc_id_check(ID))
+                {
+                    cout << "Not Found" << endl;
+                }
+                else
+                {
+                    object2 = dien_nuoc::find_dien_nuoc_id(ID);
+                    dien_nuoc::Pay_dien_nuoc(object2);
+                }
             }
-            else
+            break;
+        case 6:
+            cin >> object2;
+            object2.set_dien_nuoc_id(Convert::CreateID("dien_nuoc.txt"));
+            object2.add_dien_nuoc();
+            break;
+        case 7:
+            cout << "Edit Information ELECTRIC_WATER: " << endl;
+            if (!dien_nuoc::find_dien_nuoc())
             {
-                cout << "Enter ID: ";
-                cin >> ID;
-                object2 = dien_nuoc::find_dien_nuoc_id(ID);
-                dien_nuoc::update_dien_nuoc(object2);
+                cout << "Not Found!" << endl;
+                continue;
             }
+            cout << "Enter ID:"; cin >> ID;
+            object2 = dien_nuoc::find_dien_nuoc_id(ID);
+            dien_nuoc::update_dien_nuoc(object2);
             break;
         default:
             break;
@@ -1163,7 +1198,6 @@ void menu_login()
 
     } while (choice != 0);
 }
-
 void menu()
 {
     List<Room> L;

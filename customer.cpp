@@ -399,6 +399,7 @@ void customer::add_customer()
     }
     write_File(L);
     Room obj = Room::find_room(this->room_id);
+    Datetime dt;
     if (obj.isOccupied() == false)
     {
         Room::delete_room(obj.getRoomID());
@@ -415,7 +416,7 @@ void customer::add_customer()
             dn.set_num_electric_after(0);
             dn.set_cost_water(dien_nuoc::getNewCostWater());
             dn.set_cost_electric(dien_nuoc::getNewCostElectric());
-            dn.set_date(0, 0, 0);
+            dn.set_date(Datetime(0, 0, 0));
             dn.set_status(false);
             dn.add_dien_nuoc();
         }
@@ -424,7 +425,7 @@ void customer::add_customer()
         hd.set_bill_id(Convert::CreateID("hoa_don.txt"));
         hd.set_room_id(this->room_id);
         hd.set_total_cost(obj.getCost());
-        hd.set_date(0, 0, 0);
+        hd.set_date(Datetime(0,0,0));
         hd.set_status(false);
         hd.add_hoa_don();
     }

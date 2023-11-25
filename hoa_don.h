@@ -1,11 +1,7 @@
-// #include <iostream>
-// #include <string>
-// #include "List.cpp"
-// #include <fstream>
+#ifndef HOA_DON_H
+#define HOA_DON_H
 #include "Datetime.h"
-
-// #include "dien_nuoc.h"
-// using namespace std;
+#include "Room.h"
 class hoa_don
 {
 private:
@@ -16,7 +12,7 @@ private:
     bool status;
 
 public:
-    hoa_don(string = "", string = "",int = 0,int =0,int = 0, int = 0, bool = false);
+    hoa_don(string = "", string = "",Datetime = Datetime(0,0,0), int = 0, bool = false);
     ~hoa_don();
     string get_room_id() const;
     string get_bill_id() const;
@@ -26,7 +22,7 @@ public:
 
     void set_room_id(string);
     void set_bill_id(string);
-    void set_date(int,int,int);
+    void set_date(Datetime);
     void set_total_cost(int);
     void set_status(bool);
 
@@ -41,10 +37,12 @@ public:
     static void display();
     static void view_payment_room();
     static void view_unpayment_room();
-    static void find_hoa_don();
+    static bool find_hoa_don();
     static bool find_room(string);
     static hoa_don find_bill_id(string);
+    static bool find_bill_id_check(string);
     string find_max_bill_id();
     static void update_hoa_don(hoa_don&);
     static void Pay_bill(hoa_don&);
 };
+#endif
