@@ -375,12 +375,15 @@ void menu_user(customer &object2)
     Room room;
     dien_nuoc dn;
     hoa_don hd;
+    List<customer> L;
+    List<Room> L1;
+    List<dien_nuoc> L2;
     do
     {
         system("cls");
         cout << "\t\t\t*****************************************************************" << endl;
         cout << "\t\t\t*\t                                                        *" << endl;
-        cout << "\t\t\t*\t **** Wellcome Customer" << setw(15) << object2.get_user_name() << " ****             *" << endl;
+        cout << "\t\t\t*\t **** Wellcome Customer" << setw(10) << object2.get_user_name() << " ****             *" << endl;
         cout << "\t\t\t*\t                                                        *" << endl;
         cout << "			*    	                                                        *" << endl;
         cout << "\t\t\t*\t|  1) View Info Customer       |                             *" << endl;
@@ -410,17 +413,19 @@ void menu_user(customer &object2)
         switch (choice)
         {
         case 1:
-            // menu_display_customer();
-            cout << object2;
-            cout << endl;
+            customer::find_idroom(object2.get_room_id(),L);
+            box_customer(3,3,L);
+            gotoXY(0,0);
             break;
         case 2:
-            room = Room::find_room(object2.get_room_id());
-            cout << room;
+            Room::find_idroom(object2.get_room_id(),L1);
+            box_room(3,3,L1);
+            gotoXY(0,0);
             break;
         case 3:
-            // dn = dien_nuoc::find_dien_nuoc_id(dn.find_max_dien_nuoc_id());
-            // cout << dn;
+            dien_nuoc::find_dien_nuoc_id(dn.find_max_dien_nuoc_id(),L2);
+            box_diennuoc(3,3,L2);
+            gotoXY(0,0);
             break;
         case 4:
             hd = hoa_don::find_bill_id(hd.find_max_bill_id());
@@ -429,6 +434,9 @@ void menu_user(customer &object2)
         default:
             break;
         }
+        L.clear();
+        L1.clear();
+        L2.clear();
         if (choice == 0)
             break;
         system("pause");
@@ -842,7 +850,7 @@ void menu_Manager_Dien_Nuoc()
             break;
         case 4:
             if (dien_nuoc::find_dien_nuoc(L)) {
-                box_diennuoc(3,2 * L.getSize() + 5, L);
+                box_diennuoc(3,5, L);
                 gotoXY(0,0);
             } else {
                 cout << "Not Found!" << endl;
@@ -870,9 +878,10 @@ void menu_Manager_Dien_Nuoc()
             }
             box_diennuoc(3, 3, L);
             gotoXY(0,2*L.getSize() + 6);
-            L.clear();
             cout << "Enter ID:"; cin >> ID;
+            L.clear();
             system("cls");
+            
             cout << "Information Current Electric_Water: " << endl;
             dien_nuoc::find_dien_nuoc_id(ID,L);
             // tin diem nuoc

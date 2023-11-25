@@ -477,29 +477,29 @@ void dien_nuoc::update_dien_nuoc(dien_nuoc& obj1)
        obj = Split(L[i]);
         if (obj.get_dien_nuoc_id() == obj1.get_dien_nuoc_id())
         {
-            cout << "num_electric_before: ";
+            cout << "Num Electric Before: ";
             cin.ignore();
             getline(cin,num_electric_before);
             if (num_electric_before.size()) obj1.set_num_electric_before(Convert::str_to_int(num_electric_before));
-            cout << "num_electric_after: ";
+            cout << "Num Electric After: ";
             getline(cin, num_electric_after);
             if(num_electric_after.size()) obj1.set_num_electric_after(Convert::str_to_int(num_electric_after));
-            cout << "num_water_before: ";
+            cout << "Num Water Before: ";
             getline(cin, num_water_before);
             if(num_water_before.size()) obj1.set_num_water_before(Convert::str_to_int(num_water_before));
-            cout << "num_water_after: ";
+            cout << "Num Water After: ";
             getline(cin, num_water_after);
             if(num_water_after.size()) obj1.set_num_water_after(Convert::str_to_int(num_water_after));
-            cout << "cost_water: ";
+            cout << "Cost Water: ";
             getline(cin, cost_water);
             if(cost_water.size()) obj1.set_cost_water(Convert::str_to_int(cost_water));
-            cout << "cost_electric: ";
+            cout << "Cost Electric: ";
             getline(cin, cost_electric);
             if(cost_electric.size()) obj1.set_cost_electric(Convert::str_to_int(cost_electric));
-            cout << "date(yy-mm-dd): ";
+            cout << "Payment Date(yy-mm-dd): ";
             getline(cin, date);
             if(date.size()) obj1.set_date(Datetime::Split(date));
-            cout << "status: ";
+            cout << "Status: ";
             getline(cin,status);
             if(status.size()) obj1.set_status(Convert::str_to_bool(status));
             str = Union(obj1);
@@ -528,10 +528,10 @@ void dien_nuoc::Pay_dien_nuoc(dien_nuoc& obj1)
         if (obj.get_dien_nuoc_id() == obj1.get_dien_nuoc_id())
         {
             // if(obj.get_num_electric_after() == 0 && obj.get_num_water_after() == 0){
-            cout << "num_electric_after: ";
+            cout << "Num Electric After: ";
             cin.ignore();
             getline(cin,num_electric_after); obj1.set_num_electric_after(Convert::str_to_int(num_electric_after));
-            cout << "num_water_after: ";
+            cout << "Num Water After: ";
             getline(cin, num_water_after); obj1.set_num_water_after(Convert::str_to_int(num_water_after));
             str = Union(obj1);
             L[i] = str;

@@ -516,6 +516,7 @@ void hoa_don::Pay_bill(hoa_don& obj1)
         if (obj.get_bill_id() == obj1.get_bill_id())
         {
             cout << "total_cost: " << obj1.get_total_cost() << endl;
+            cin.ignore();
             cout << "Do you want to pay?(Yes/No): ";
             getline(cin,status);
             obj1.set_status(Convert::str_to_bool(status));

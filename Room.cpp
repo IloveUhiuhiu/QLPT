@@ -194,6 +194,23 @@ ostream& operator << (ostream& o,const Room& room)
     o << "Occupied: " << (room.occupied ? "Yes" : "No")  << endl;
     return o;
 }
+void Room::find_idroom(string room_id,List<Room>&L)
+{
+    ifstream inputFile;
+    inputFile.open("room.txt");
+    string str;
+    Room obj;
+    while (getline(inputFile, str))
+    {   
+        if (str.size()) {
+            obj = Room::Split(str);
+            if (obj.getRoomID() == room_id)
+            {
+                L.push_back(obj);
+            }
+        }
+    }
+}
 Room Room::find_room(string search_term)
 {
     ifstream inputFile;
@@ -358,13 +375,15 @@ void Room::cancel_room(string room_id)
     customerFile.open("customer.txt");
     string customerStr;
     while (getline(customerFile, customerStr))
-    {
-        customer obj = customer::Split(customerStr);
+    {   
+        if (customerStr.size()) {
+            customer obj = customer::Split(customerStr);
 
-        // Nếu người dùng có room_id tương ứng, không thêm thông tin người dùng này vào danh sách (để xóa nó)
-        if (obj.get_room_id() != room_id)
-        {
-            customerList.push_back(customer::Union(obj));
+            // Nếu người dùng có room_id tương ứng, không thêm thông tin người dùng này vào danh sách (để xóa nó)
+            if (obj.get_room_id() != room_id)
+            {
+                customerList.push_back(customerStr);
+            }
         }
     }
 

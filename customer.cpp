@@ -430,7 +430,28 @@ void customer::add_customer()
         hd.add_hoa_don();
     }
 }
-
+void customer::find_idroom(string room_id, List<customer>&L)
+{
+    ifstream inputFile;
+    inputFile.open("customer.txt");
+    string str;
+    if (inputFile.is_open())
+    {
+        while (getline(inputFile, str))
+        {
+            if (str.size())
+            {
+                customer obj = customer::Split(str);
+                if (obj.get_room_id() == room_id)
+                {
+                    L.push_back(obj);
+                }
+            }
+        }
+    } else {
+        cout << "Error Opening File customer.txt" << endl;
+    }
+}
 bool customer::find_customer(List<customer> &L)
 {
     string customer_id, room_id, customer_name, customer_dateofbirth, customer_gender, customer_email, customer_address,
