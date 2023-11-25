@@ -376,7 +376,7 @@ string dien_nuoc::find_max_dien_nuoc_id()
     }
     return max_id;
 }
-dien_nuoc dien_nuoc::find_dien_nuoc_id(string dien_nuoc_id)
+void dien_nuoc::find_dien_nuoc_id(string dien_nuoc_id,List<dien_nuoc>&L)
 {
     ifstream inputFile;
     inputFile.open("dien_nuoc.txt");
@@ -387,10 +387,9 @@ dien_nuoc dien_nuoc::find_dien_nuoc_id(string dien_nuoc_id)
         obj = Split(str);
         if (dien_nuoc_id == obj.dien_nuoc_id)
         {
-            return obj;
+            L.push_back(obj);
         }
     }
-    return obj;
 }
 bool dien_nuoc::find_dien_nuoc(List<dien_nuoc>&L)
 {

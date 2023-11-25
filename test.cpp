@@ -419,8 +419,8 @@ void menu_user(customer &object2)
             cout << room;
             break;
         case 3:
-            dn = dien_nuoc::find_dien_nuoc_id(dn.find_max_dien_nuoc_id());
-            cout << dn;
+            // dn = dien_nuoc::find_dien_nuoc_id(dn.find_max_dien_nuoc_id());
+            // cout << dn;
             break;
         case 4:
             hd = hoa_don::find_bill_id(hd.find_max_bill_id());
@@ -758,23 +758,7 @@ void menu_Manager_Payment()
             object2 = hoa_don::find_bill_id(ID);
             hoa_don::Pay_bill(object2);
             break;
-        case 7:
-            cout << "Enter ID Of Room:";
-            cin.ignore();
-            getline(cin, ID);
-            if(ID.size())
-            {
-                if(!hoa_don::find_bill_id_check(ID))
-                {
-                    cout << "Not Found" << endl;
-                }
-                else
-                {
-                    object2 = hoa_don::find_bill_id(ID);
-                    hoa_don::Pay_bill(object2);
-                }
-            }
-            break;
+            
         case 7:
             cout << "Edit BILL: " << endl;
             if (!hoa_don::find_hoa_don())
@@ -870,28 +854,8 @@ void menu_Manager_Dien_Nuoc()
             // dien_nuoc::view_unpaid_room();
             cout << "Enter ID Of Electric Water Want To Pay: ";
             cin >> ID;
-            object2 = dien_nuoc::find_dien_nuoc_id(ID);
-            dien_nuoc::Pay_dien_nuoc(object2);
-            break;
-        case 6:
-            // add đien nước
-            break;
-        case 7:
-            cout << "Enter ID Of Room:";
-            cin.ignore();
-            getline(cin, ID);
-            if(ID.size())
-            {
-                if(!dien_nuoc::find_dien_nuoc_id_check(ID))
-                {
-                    cout << "Not Found" << endl;
-                }
-                else
-                {
-                    object2 = dien_nuoc::find_dien_nuoc_id(ID);
-                    dien_nuoc::Pay_dien_nuoc(object2);
-                }
-            }
+            dien_nuoc::find_dien_nuoc_id(ID,L);
+            dien_nuoc::Pay_dien_nuoc(L[0]);
             break;
         case 6:
             cin >> object2;
@@ -899,15 +863,24 @@ void menu_Manager_Dien_Nuoc()
             object2.add_dien_nuoc();
             break;
         case 7:
-            cout << "Edit Information ELECTRIC_WATER: " << endl;
-            if (!dien_nuoc::find_dien_nuoc())
+            if (!dien_nuoc::find_dien_nuoc(L))
             {
                 cout << "Not Found!" << endl;
                 continue;
             }
+            box_diennuoc(3, 3, L);
+            gotoXY(0,2*L.getSize() + 6);
+            L.clear();
             cout << "Enter ID:"; cin >> ID;
-            object2 = dien_nuoc::find_dien_nuoc_id(ID);
-            dien_nuoc::update_dien_nuoc(object2);
+            system("cls");
+            cout << "Information Current Electric_Water: " << endl;
+            dien_nuoc::find_dien_nuoc_id(ID,L);
+            // tin diem nuoc
+            box_diennuoc(3, 3, L);
+            gotoXY(0, 2 * L.getSize() + 6);
+            // dien_nuoc::display(L);
+            cout << "Information New Electric_Water: " << endl;
+            dien_nuoc::update_dien_nuoc(L[0]);
             break;
         default:
             break;

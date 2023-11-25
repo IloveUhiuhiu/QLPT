@@ -64,7 +64,7 @@ public:
     
     static bool find_room(string);
     static bool find_dien_nuoc(List<dien_nuoc>&);
-    static dien_nuoc find_dien_nuoc_id(string);
+    static void find_dien_nuoc_id(string,List<dien_nuoc>&);
     static dien_nuoc find_nearest_dien_nuoc(string);
     string find_max_dien_nuoc_id();
     static void update_dien_nuoc(dien_nuoc&);
