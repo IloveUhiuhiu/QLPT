@@ -2,6 +2,7 @@
 #define DIEN_NUOC_H
 
 #include "Datetime.h"
+#include "Room.h"
 
 class dien_nuoc
 {
@@ -18,7 +19,7 @@ private:
     bool status;
 
 public:
-    dien_nuoc(string = "", string = "", int = 0, int = 0, int = 0, int = 0, int = 0, int = 0, int = 0, int = 0, int = 0, bool = false);
+    dien_nuoc(string = "", string = "", int = 0, int = 0, int = 0, int = 0, int = 0, int = 0, Datetime = Datetime(0,0,0), bool = false);
     ~dien_nuoc();
     string get_dien_nuoc_id() const;
     string get_room_id() const;
@@ -39,7 +40,7 @@ public:
     void set_num_water_after(int);
     void set_cost_water(int);
     void set_cost_electric(int);
-    void set_date(int, int, int);
+    void set_date(Datetime);
     void set_status(bool);
 
     friend ostream &operator<<(ostream &, const dien_nuoc &);
@@ -62,7 +63,8 @@ public:
     void add_dien_nuoc();
     
     static bool find_room(string);
-    static void find_dien_nuoc();
+    static bool find_dien_nuoc();
+    static bool find_dien_nuoc_id_check(string); ///////////////
     static dien_nuoc find_dien_nuoc_id(string);
     static dien_nuoc find_nearest_dien_nuoc(string);
     string find_max_dien_nuoc_id();

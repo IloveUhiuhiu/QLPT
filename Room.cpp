@@ -326,3 +326,21 @@ void Room::edit_room() {
 //         std::cerr << "Error opening file for reading: room.txt" << std::endl;
 //     }
 // }
+bool Room::find_room_with_status_true(string room_id)
+{
+    ifstream inputFile;
+    inputFile.open("room.txt");
+    string str;
+    while (getline(inputFile, str))
+    {
+        if (str.size())
+        {
+            Room obj = Room::Split(str);
+            if (obj.getRoomID() == room_id && obj.isOccupied())
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
