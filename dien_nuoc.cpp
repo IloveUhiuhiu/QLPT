@@ -286,15 +286,21 @@ void dien_nuoc::add_dien_nuoc()
     write_File(L);
 }
 
-void dien_nuoc::display()
+void dien_nuoc::display(List<dien_nuoc>&L)
 {
     ifstream inputFile;
     inputFile.open("dien_nuoc.txt");
     string str;
+    dien_nuoc dn;
     while (getline(inputFile, str))
-    {   
-        dien_nuoc dn = Split(str);
-        cout << dn << endl;
+    {      
+        if (str.size()) {
+
+            dn = Split(str);
+            L.push_back(dn);
+        }
+
+        
     }
 }
 bool dien_nuoc::find_room(string room_id) 
@@ -368,55 +374,73 @@ dien_nuoc dien_nuoc::find_dien_nuoc_id(string dien_nuoc_id)
     }
     return obj;
 }
-void dien_nuoc::find_dien_nuoc()
+bool dien_nuoc::find_dien_nuoc(List<dien_nuoc>&L)
 {
+    string room_id,dien_nuoc_id,date;
+    Datetime time;
+    cin.ignore();
+    cout << "Enter Room ID: ";
+    getline(cin, room_id);
+    cout << "Enter Electric Water ID: ";
+    getline(cin, dien_nuoc_id);
+    cout << "Enter Payment Date(yy-mm-dd): ";
+    getline(cin, date);
     ifstream inputFile;
     inputFile.open("dien_nuoc.txt");
-    string str, dien_nuoc_id, room_id, date;
-    dien_nuoc obj;
-    bool ok = false;
-    cin.ignore();
-    cout << "Enter dien_nuoc_id: ";
-    getline(cin, dien_nuoc_id);
-    cout << "Enter room_id: ";
-    getline(cin, room_id);
-    if ((dien_nuoc_id.size() > 0) && (room_id.size() == 0))
+    string str, s, subs;
+    int cnt = 0;
+    while (getline(inputFile, str))
     {
-        while (getline(inputFile, str))
+        if (str.size())
         {
-            obj = Split(str);
-            if (dien_nuoc_id == obj.dien_nuoc_id)
+            dien_nuoc obj = dien_nuoc::Split(str);
+            if (dien_nuoc_id.size() != 0)
             {
-                cout << obj << endl;
-                ok = true;
+                auto found = obj.get_dien_nuoc_id().find(dien_nuoc_id);
+                if (found == std::string::npos)
+                {
+                    continue;
+                }
             }
+            if (room_id.size() != 0)
+            {
+                s = Convert::Tolower(obj.get_room_id());
+                subs = Convert::Tolower(room_id);
+                auto found = s.find(subs);
+                if (found == std::string::npos)
+                {
+                    continue;
+                }
+            }
+            if (date.size() != 0)
+            {
+                time = Datetime::Split(date);
+                if (time.get_years() != 0) {
+                    if (time.get_years() != obj.get_date().get_years())
+                    {
+                        continue;
+                    }
+                }
+                if (time.get_months() != 0) {
+                    if (time.get_months() != obj.get_date().get_months())
+                    {
+                        continue;
+                    }
+                }
+                if (time.get_days() != 0) {
+                    if (time.get_days() != obj.get_date().get_days())
+                    {
+                        continue;
+                    }
+                }
+            }
+            ++cnt;
+            L.push_back(obj);
         }
     }
-    else if ((dien_nuoc_id.size() == 0) && (room_id.size() > 0))
-    {
-        while (getline(inputFile, str))
-        {
-            obj = Split(str);
-            if (room_id == obj.room_id)
-            {
-                cout << obj << endl;
-                ok = true;
-            }
-        }
-    }
-    else if ((dien_nuoc_id.size() > 0) && (room_id.size() > 0))
-    {
-        while (getline(inputFile, str))
-        {
-            obj = Split(str);
-            if (dien_nuoc_id == obj.dien_nuoc_id && room_id == obj.room_id)
-            {
-                cout << obj << endl;
-                ok = true;
-            }
-        }
-    }
-    if(!ok) cout << "NOt Found!!" << endl;
+    if (cnt == 0)
+        return false;
+    return true;
 }
 void dien_nuoc::update_dien_nuoc(dien_nuoc& obj1)
 {
@@ -546,7 +570,7 @@ void dien_nuoc::delete_dien_nuoc(string dien_nuoc_id)
     }
     write_File(L);
 }
-void dien_nuoc::view_Paid_room()
+void dien_nuoc::view_Paid_room(List<dien_nuoc>&L)
 {
     ifstream inputFile;
     inputFile.open("dien_nuoc.txt");
@@ -557,12 +581,12 @@ void dien_nuoc::view_Paid_room()
         dien_nuoc obj = dien_nuoc::Split(str);
         if (obj.get_status())
         {
-            cout << obj << endl;
+            L.push_back(obj);
         }
         }
     }
 }
-void dien_nuoc::view_unpaid_room()
+void dien_nuoc::view_unpaid_room(List<dien_nuoc>&L)
 {
     ifstream inputFile;
     inputFile.open("dien_nuoc.txt");
@@ -573,7 +597,7 @@ void dien_nuoc::view_unpaid_room()
         dien_nuoc obj = dien_nuoc::Split(str);
         if (!obj.get_status())
         {
-            cout << obj << endl;
+            L.push_back(obj);
         }
         }
     }

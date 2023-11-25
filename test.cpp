@@ -1,16 +1,17 @@
 #include "admin.h"
 #include "customer.h"
 #include "DoanhThu.h"
-void TextColor(int textColor) {
+void TextColor(int textColor)
+{
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(hConsole, textColor & 0x0F);
 }
-void gotoXY (int column, int line)
+void gotoXY(int column, int line)
 {
-	COORD coord;
-	coord.X = column;
-	coord.Y = line;
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),coord);
+    COORD coord;
+    coord.X = column;
+    coord.Y = line;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
 void box(int x, int y, int w, int h, const string content)
 {
@@ -67,8 +68,8 @@ void box_customer(int x, int y, List<customer> &L)
         }
         else if (j == 2)
         {
-            box(xx, yy, w+4, h, "Name");
-            xx += w+4;
+            box(xx, yy, w + 4, h, "Name");
+            xx += w + 4;
         }
         else if (j == 3)
         {
@@ -125,13 +126,13 @@ void box_customer(int x, int y, List<customer> &L)
             }
             else if (j == 1)
             {
-                box(xx, yy, w / 2, h,L[i].get_room_id());
+                box(xx, yy, w / 2, h, L[i].get_room_id());
                 xx += w / 2;
             }
             else if (j == 2)
             {
-                box(xx, yy, w+4, h,L[i].get_customer_name());
-                xx += w+4;
+                box(xx, yy, w + 4, h, L[i].get_customer_name());
+                xx += w + 4;
             }
             else if (j == 3)
             {
@@ -145,35 +146,219 @@ void box_customer(int x, int y, List<customer> &L)
             }
             else if (j == 5)
             {
-                box(xx, yy, w / 2, h,L[i].get_customer_gender());
+                box(xx, yy, w / 2, h, L[i].get_customer_gender());
                 xx += w / 2;
             }
             else if (j == 6)
             {
-                box(xx, yy, w, h,L[i].get_customer_email());
+                box(xx, yy, w, h, L[i].get_customer_email());
                 xx += w;
             }
             else if (j == 7)
             {
-                box(xx, yy, w / 2 + 4, h,L[i].get_customer_address());
+                box(xx, yy, w / 2 + 4, h, L[i].get_customer_address());
                 xx += w / 2 + 4;
             }
             else if (j == 8)
             {
-                box(xx, yy, w - 2, h,L[i].get_customer_phone());
+                box(xx, yy, w - 2, h, L[i].get_customer_phone());
                 xx += w - 2;
             }
             else if (j == 9)
-            {   
-                
-                box(xx, yy, w, h,L[i].get_user_name());
+            {
+
+                box(xx, yy, w, h, L[i].get_user_name());
                 xx += w;
             }
             else if (j == 10)
-            {   
-                
+            {
+
                 box(xx, yy, w / 2 + 4, h, L[i].get_password());
                 xx += w / 2 + 4;
+            }
+        }
+        yy += h;
+    }
+}
+
+void box_room(int x, int y, List<Room> &L)
+{
+    int n = L.getSize();
+    int m = 4;
+    int w = 17;
+    int h = 2;
+    int xx = x, yy = y;
+    for (int j = 0; j < m; j++)
+    {
+        if (j == 0)
+        {
+            box(xx, yy, w / 2 + 4, h, "RoomID");
+            xx += w / 2 + 4;
+        }
+        else if (j == 1)
+        {
+            box(xx, yy, w / 2 + 4, h, "KindOf");
+            xx += w / 2 + 4;
+        }
+        else if (j == 2)
+        {
+            box(xx, yy, w + 4, h, "Cost");
+            xx += w + 4;
+        }
+        else if (j == 3)
+        {
+            box(xx, yy, w, h, "IsOccupied");
+            xx += w;
+        }
+    }
+    yy += h;
+    for (int i = 0; i < n; i++)
+    {
+        xx = x;
+        for (int j = 0; j < m; j++)
+        {
+
+            if (j == 0)
+            {
+                box(xx, yy, w / 2 + 4, h, L[i].getRoomID());
+                xx += w / 2 + 4;
+            }
+            else if (j == 1)
+            {
+                box(xx, yy, w / 2 + 4, h, L[i].getKindOf());
+                xx += w / 2 + 4;
+            }
+            else if (j == 2)
+            {
+                box(xx, yy, w + 4, h, Convert::int_to_str(L[i].getCost()));
+                xx += w + 4;
+            }
+            else if (j == 3)
+            {
+                box(xx, yy, w, h, Convert::bool_to_str(L[i].isOccupied()));
+                xx += w;
+            }
+        }
+        yy += h;
+    }
+}
+
+void box_diennuoc(int x, int y, List<dien_nuoc> &L)
+{
+    int n = L.getSize();
+    int m = 10;
+    int w = 17;
+    int h = 2;
+    int xx = x, yy = y;
+    for (int j = 0; j < m; j++)
+    {
+        if (j == 0)
+        {
+            box(xx, yy, w / 2 + 4, h, "DienNuocID");
+            xx += w / 2 + 4;
+        }
+        else if (j == 1)
+        {
+            box(xx, yy, w / 2, h, "RoomID");
+            xx += w / 2;
+        }
+        else if (j == 2)
+        {
+            box(xx, yy, w + 3, h, "NumElecticBefore");
+            xx += w + 3;
+        }
+        else if (j == 3)
+        {
+            box(xx, yy, w + 3, h, "NumElecticAfter");
+            xx += w + 3;
+        }
+        else if (j == 4)
+        {
+            box(xx, yy, w, h, "NumWaterBefore");
+            xx += w;
+        }
+        else if (j == 5)
+        {
+            box(xx, yy, w, h, "NumWaterAfter");
+            xx += w;
+        }
+        else if (j == 6)
+        {
+            box(xx, yy, w - 2, h, "CostWater");
+            xx += w - 2;
+        }
+        else if (j == 7)
+        {
+            box(xx, yy, w - 1, h, "CostElectric");
+            xx += w - 1;
+        }
+        else if (j == 8)
+        {
+            box(xx, yy, w - 2, h, "PaymentDate");
+            xx += w - 2;
+        }
+        else if (j == 9)
+        {
+            box(xx, yy, w / 2, h, "Status");
+            xx += w / 2;
+        }
+    }
+    yy += h;
+    for (int i = 0; i < n; i++)
+    {
+        xx = x;
+        for (int j = 0; j < m; j++)
+        {
+
+            if (j == 0)
+            {
+                box(xx, yy, w / 2 + 4, h, L[i].get_dien_nuoc_id());
+                xx += w / 2 + 4;
+            }
+            else if (j == 1)
+            {
+                box(xx, yy, w / 2, h, L[i].get_room_id());
+                xx += w / 2;
+            }
+            else if (j == 2)
+            {
+                box(xx, yy, w + 3, h, Convert::int_to_str(L[i].get_num_electric_before()));
+                xx += w + 3;
+            }
+            else if (j == 3)
+            {
+                box(xx, yy, w + 3, h, Convert::int_to_str(L[i].get_num_electric_after()));
+                xx += w + 3;
+            }
+            else if (j == 4)
+            {
+                box(xx, yy, w, h, Convert::int_to_str(L[i].get_num_water_before()));
+                xx += w;
+            }
+            else if (j == 5)
+            {
+                box(xx, yy, w, h, Convert::int_to_str(L[i].get_num_water_after()));
+                xx += w;
+            }
+            else if (j == 6)
+            {
+                box(xx, yy, w - 2, h, Convert::int_to_str(L[i].get_cost_water()));
+                xx += w - 2;
+            }
+            else if (j == 7)
+            {
+                box(xx, yy, w - 1, h, Convert::int_to_str(L[i].get_cost_electric()));
+                xx += w - 1;
+            }
+            else if (j == 8)
+            {
+                box(xx, yy, w - 2, h, Datetime::Union(L[i].get_date()));
+                xx += w - 2;
+            }
+            else if (j == 9)
+            {
+                box(xx, yy, w / 2, h, Convert::bool_to_str(L[i].get_status()));
+                xx += w / 2;
             }
         }
         yy += h;
@@ -183,7 +368,6 @@ void warn()
 {
     cout << "Chua Co Gi" << endl;
 }
-
 
 void menu_user(customer &object2)
 {
@@ -253,7 +437,7 @@ void menu_user(customer &object2)
 }
 
 void menu_Manager_Customer()
-{   
+{
     List<customer> L;
     customer object2;
     string ID;
@@ -299,8 +483,8 @@ void menu_Manager_Customer()
         {
         case 1:
             customer::display(L);
-            box_customer(3,3,L);
-            gotoXY(0,0);
+            box_customer(3, 3, L);
+            gotoXY(0, 0);
             break;
         case 2:
             // add
@@ -314,9 +498,11 @@ void menu_Manager_Customer()
             {
                 cout << "Not Found!" << endl;
                 continue;
-            } else {
-                box_customer(3,10,L);
-                gotoXY(0,0);
+            }
+            else
+            {
+                box_customer(3, 10, L);
+                gotoXY(0, 0);
             }
             break;
         case 4:
@@ -325,9 +511,11 @@ void menu_Manager_Customer()
             {
                 cout << "Not Found!" << endl;
                 continue;
-            } else {
-                box_customer(3,10,L);
-                gotoXY(0,2*L.getSize() + 13);
+            }
+            else
+            {
+                box_customer(3, 10, L);
+                gotoXY(0, 2 * L.getSize() + 13);
             }
             cout << "Enter Customer ID: ";
             cin >> ID;
@@ -340,16 +528,16 @@ void menu_Manager_Customer()
                 cout << "Not Found!" << endl;
                 continue;
             }
-            box_customer(3,10,L);
-            gotoXY(0,2*L.getSize()+13);
+            box_customer(3, 10, L);
+            gotoXY(0, 2 * L.getSize() + 13);
             L.clear();
             cout << "Enter Customer ID:";
             cin >> ID;
-            customer::find_idcustomer(ID,L);
+            customer::find_idcustomer(ID, L);
             system("cls");
             cout << "Informatin Current Customer: " << endl;
-            box_customer(3,3,L);
-            gotoXY(0,2*L.getSize()+6);
+            box_customer(3, 3, L);
+            gotoXY(0, 2 * L.getSize() + 6);
             cout << "Enter New Information: " << endl;
             customer::update_customer(L[0]);
             break;
@@ -371,6 +559,10 @@ void menu_Manager_Customer()
 void menu_Manager_Phong_Tro()
 {
     int choice;
+    Room room;
+    string ID;
+    int month;
+    List<Room> L;
     do
     {
         system("cls");
@@ -406,9 +598,6 @@ void menu_Manager_Phong_Tro()
              << endl;
         cout << "Enter Your Choice : ";
         cin >> choice;
-        Room room;
-        string ID;
-        int month;
         while (choice < 0 || choice > 9)
         {
             cout << "Enter Right Choice : ";
@@ -419,13 +608,19 @@ void menu_Manager_Phong_Tro()
         switch (choice)
         {
         case 1:
-            Room::display();
+            Room::display(L);
+            box_room(3, 3, L);
+            gotoXY(0, 0);
             break;
         case 2:
-            Room::view_empty_room();
+            Room::view_empty_room(L);
+            box_room(3, 3, L);
+            gotoXY(0, 0);
             break;
         case 3:
-            Room::view_rented_room();
+            Room::view_rented_room(L);
+            box_room(3, 3, L);
+            gotoXY(0, 0);
             break;
         case 4:
         {
@@ -465,14 +660,14 @@ void menu_Manager_Phong_Tro()
             Room::delete_room(ID);
             break;
         case 7:
-            Room::display();
+            // Room::display();
             Room::edit_room();
             break;
         case 8:
         {
             // hủy phòng : đặt trạng thái của phòng về false
-            cout <<"nhap id phong muon huy " << endl;
-            string room_id ;
+            cout << "Enter Room ID To Want Cancel: " << endl;
+            string room_id;
             cin >> room_id;
             Room::cancel_room(room_id);
             break;
@@ -483,6 +678,7 @@ void menu_Manager_Phong_Tro()
         default:
             break;
         }
+        L.clear();
         if (choice == 0)
             break;
         system("pause");
@@ -551,13 +747,13 @@ void menu_Manager_Payment()
             break;
         case 6:
             hoa_don::view_unpayment_room();
-            cout << "Enter ID OF BILL want to pay: ";
+            cout << "Enter ID Of Bill Want To Pay: ";
             cin >> ID;
             object2 = hoa_don::find_bill_id(ID);
             hoa_don::Pay_bill(object2);
             break;
         case 7:
-            cout << "Enter ID OF ROOM:";
+            cout << "Enter ID Of Room:";
             cin.ignore();
             getline(cin, ID);
             if (!hoa_don::find_room(ID))
@@ -584,6 +780,7 @@ void menu_Manager_Payment()
 void menu_Manager_Dien_Nuoc()
 {
     dien_nuoc object2;
+    List<dien_nuoc> L;
     int choice;
     string ID;
     do
@@ -627,20 +824,33 @@ void menu_Manager_Dien_Nuoc()
         switch (choice)
         {
         case 1:
-            dien_nuoc::display();
+            dien_nuoc::display(L);
+            box_diennuoc(3, 3, L);
+            gotoXY(0,0);
             break;
         case 2:
-            dien_nuoc::view_unpaid_room();
+            dien_nuoc::view_unpaid_room(L);
+            box_diennuoc(3, 3, L);
+            gotoXY(0,0);
             break;
         case 3:
-            dien_nuoc::view_Paid_room();
+            dien_nuoc::view_Paid_room(L);
+            box_diennuoc(3, 3, L);
+            gotoXY(0,0);
             break;
         case 4:
-            dien_nuoc::find_dien_nuoc();
+            if (dien_nuoc::find_dien_nuoc(L)) {
+                box_diennuoc(3,2 * L.getSize() + 5, L);
+                gotoXY(0,0);
+            } else {
+                cout << "Not Found!" << endl;
+                continue;
+            }
+            
             break;
         case 5:
-            dien_nuoc::view_unpaid_room();
-            cout << "Enter ID OF ELECTRIC_WATER want to pay: ";
+            // dien_nuoc::view_unpaid_room();
+            cout << "Enter ID Of Electric Water Want To Pay: ";
             cin >> ID;
             object2 = dien_nuoc::find_dien_nuoc_id(ID);
             dien_nuoc::Pay_dien_nuoc(object2);
@@ -649,7 +859,7 @@ void menu_Manager_Dien_Nuoc()
             // add đien nước
             break;
         case 7:
-            cout << "Enter ID OF ROOM:";
+            cout << "Enter ID Of Room:";
             cin.ignore();
             getline(cin, ID);
             if (!dien_nuoc::find_room(ID))
@@ -667,17 +877,20 @@ void menu_Manager_Dien_Nuoc()
         default:
             break;
         }
+        L.clear();
         if (choice == 0)
             break;
         system("pause");
     } while (choice != 0);
 }
 
-void menu_Calculate_Revenue() {
+void menu_Calculate_Revenue()
+{
     int choice, month, year, revenue;
-    DoanhThu doanhThu;  // Create an object of the DoanhThu class
+    DoanhThu doanhThu; // Create an object of the DoanhThu class
 
-    do {
+    do
+    {
         system("cls");
         cout << "\t\t\t*****************************************************************" << endl;
         cout << "\t\t\t*\t                                                        *" << endl;
@@ -700,7 +913,8 @@ void menu_Calculate_Revenue() {
         cout << "Enter Your Choice : ";
         cin >> choice;
 
-        while (choice < 0 || choice > 3) {
+        while (choice < 0 || choice > 3)
+        {
             cout << "Enter Right Choice : ";
             cin >> choice;
         }
@@ -708,92 +922,100 @@ void menu_Calculate_Revenue() {
         cout << "\n***********************" << endl;
         system("cls");
 
-        switch (choice) {
-            case 1:
-                cout << "Enter Month:";
-                cin >> month;
-                while (month < 1 || month > 12) {
-                    cout << "Enter Right Month:";
-                    cin >> month;
-                }
-                revenue = doanhThu.tongDoanhThutheothang(month);
-                cout << "Total Revenue for Month " << month << ": " << revenue << endl;
-                break;
-
-            case 2:
-                cout << "Enter Year:";
-                cin >> year;
-                revenue = doanhThu.tongDoanhThutheonam(year);
-                cout << "Total Revenue for Year " << year << ": " << revenue << endl;
-                break;
-
-            case 3:
+        switch (choice)
+        {
+        case 1:
+            cout << "Enter Month:";
+            cin >> month;
+            while (month < 1 || month > 12)
             {
-                int startYear, startMonth, startDay, endYear, endMonth, endDay;
-                cout << "Enter Start Year:";
-                cin >> startYear;
-
-                cout << "Enter Start Month:";
-                cin >> startMonth;
-                while (startMonth < 1 || startMonth > 12) {
-                    cout << "Enter Right Start Month:";
-                    cin >> startMonth;
-                }
-
-                cout << "Enter Start Day:";
-                cin >> startDay;
-                while (startDay < 1 || startDay > 31) {
-                    cout << "Enter Right Start Day:";
-                    cin >> startDay;
-                }
-
-                cout << "Enter End Year:";
-                cin >> endYear;
-
-                cout << "Enter End Month:";
-                cin >> endMonth;
-                while (endMonth < 1 || endMonth > 12) {
-                    cout << "Enter Right End Month:";
-                    cin >> endMonth;
-                }
-
-                cout << "Enter End Day:";
-                cin >> endDay;
-                while (endDay < 1 || endDay > 31) {
-                    cout << "Enter Right End Day:";
-                    cin >> endDay;
-                }
-
-                Datetime startDate(startYear, startMonth, startDay);
-                Datetime endDate(endYear, endMonth, endDay);
-                int totalRevenue = 0;
-                Datetime currentDate = startDate;
-
-                while (currentDate <= endDate) {
-                    // Calculate revenue for the current month
-                    int revenue = doanhThu.tongDoanhThutheothang(currentDate.get_months());
-
-                    // Accumulate the revenue
-                    totalRevenue += revenue;
-
-                    // Move to the next month
-                    int nextMonth = currentDate.get_months() + 1;
-                    int nextYear = currentDate.get_years();
-
-                    if (nextMonth > 12) {
-                        nextMonth = 1;
-                        nextYear++;
-                    }
-
-                    // Update currentDate
-                    currentDate = Datetime(nextYear, nextMonth, currentDate.get_days());
-                }
-
-                cout << "Total Revenue for the specified time period: " << totalRevenue << endl;
-                break;
+                cout << "Enter Right Month:";
+                cin >> month;
             }
-            default:
-                break;
+            revenue = doanhThu.tongDoanhThutheothang(month);
+            cout << "Total Revenue for Month " << month << ": " << revenue << endl;
+            break;
+
+        case 2:
+            cout << "Enter Year:";
+            cin >> year;
+            revenue = doanhThu.tongDoanhThutheonam(year);
+            cout << "Total Revenue for Year " << year << ": " << revenue << endl;
+            break;
+
+        case 3:
+        {
+            int startYear, startMonth, startDay, endYear, endMonth, endDay;
+            cout << "Enter Start Year:";
+            cin >> startYear;
+
+            cout << "Enter Start Month:";
+            cin >> startMonth;
+            while (startMonth < 1 || startMonth > 12)
+            {
+                cout << "Enter Right Start Month:";
+                cin >> startMonth;
+            }
+
+            cout << "Enter Start Day:";
+            cin >> startDay;
+            while (startDay < 1 || startDay > 31)
+            {
+                cout << "Enter Right Start Day:";
+                cin >> startDay;
+            }
+
+            cout << "Enter End Year:";
+            cin >> endYear;
+
+            cout << "Enter End Month:";
+            cin >> endMonth;
+            while (endMonth < 1 || endMonth > 12)
+            {
+                cout << "Enter Right End Month:";
+                cin >> endMonth;
+            }
+
+            cout << "Enter End Day:";
+            cin >> endDay;
+            while (endDay < 1 || endDay > 31)
+            {
+                cout << "Enter Right End Day:";
+                cin >> endDay;
+            }
+
+            Datetime startDate(startYear, startMonth, startDay);
+            Datetime endDate(endYear, endMonth, endDay);
+            int totalRevenue = 0;
+            Datetime currentDate = startDate;
+
+            while (currentDate <= endDate)
+            {
+                // Calculate revenue for the current month
+                int revenue = doanhThu.tongDoanhThutheothang(currentDate.get_months());
+
+                // Accumulate the revenue
+                totalRevenue += revenue;
+
+                // Move to the next month
+                int nextMonth = currentDate.get_months() + 1;
+                int nextYear = currentDate.get_years();
+
+                if (nextMonth > 12)
+                {
+                    nextMonth = 1;
+                    nextYear++;
+                }
+
+                // Update currentDate
+                currentDate = Datetime(nextYear, nextMonth, currentDate.get_days());
+            }
+
+            cout << "Total Revenue for the specified time period: " << totalRevenue << endl;
+            break;
+        }
+        default:
+            break;
         }
 
         if (choice == 0)
@@ -942,8 +1164,9 @@ void menu_login()
     } while (choice != 0);
 }
 
-void menu1()
+void menu()
 {
+    List<Room> L;
     int choice;
     do
     {
@@ -980,11 +1203,14 @@ void menu1()
             menu_login();
             break;
         case 2:
-            Room::view_empty_room();
+            Room::view_empty_room(L);
+            box_room(3, 3, L);
+            gotoXY(0, 0);
             break;
         default:
             break;
         }
+        L.clear();
         if (choice == 0)
             break;
         system("pause");
@@ -993,6 +1219,6 @@ void menu1()
 
 int main()
 {
-    menu1();
+    menu();
     return 0;
 }

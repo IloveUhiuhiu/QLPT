@@ -1,5 +1,3 @@
-// basic console functions, collected by Nguyen Trung Thanh
-// abcxyz tcIT
 #include <stdio.h>
 #include <conio.h>
 #include <windows.h>
@@ -47,4 +45,4 @@ int whereY();
 
 void TextColor(int);
 //end----------------------Screen----------------------end
-void BackgroundColor(int);
+

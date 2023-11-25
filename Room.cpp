@@ -216,7 +216,7 @@ Room Room::find_room(string search_term)
     return Room();
 }
 
-void Room::view_empty_room()
+void Room::view_empty_room(List<Room>& L)
 {
     ifstream inputFile;
     inputFile.open("room.txt");
@@ -224,15 +224,15 @@ void Room::view_empty_room()
     while (getline(inputFile, str))
     {   
         if (str.size()) {
-        Room obj = Room::Split(str);
-        if (!obj.isOccupied())
-        {
-            cout << obj << endl;
-        }
+            Room obj = Room::Split(str);
+            if (!obj.isOccupied())
+            {
+                L.push_back(obj);
+            }
         }
     }
 }
-void Room::view_rented_room()
+void Room::view_rented_room(List<Room>& L)
 {
     ifstream inputFile;
     inputFile.open("room.txt");
@@ -240,16 +240,16 @@ void Room::view_rented_room()
     while (getline(inputFile, str))
     {   
         if (str.size()) {
-        Room obj = Room::Split(str);
-        if (obj.isOccupied())
-        {
-            cout << obj << endl;
-        }
+            Room obj = Room::Split(str);
+            if (obj.isOccupied())
+            {
+                L.push_back(obj);
+            }
         }
     }
 }
 
-void Room::display()
+void Room::display(List<Room> &L)
 {
     ifstream inputFile;
     inputFile.open("room.txt");
@@ -258,8 +258,8 @@ void Room::display()
     while (getline(inputFile, str))
     {   
         if (str.size()) {
-        room = Room::Split(str);
-        cout << room << endl;
+            room = Room::Split(str);
+            L.push_back(room);
         }
     }
 }

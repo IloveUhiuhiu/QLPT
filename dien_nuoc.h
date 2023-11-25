@@ -53,7 +53,7 @@ public:
     // bool str_to_bool(string);
     static void write_File(List<string> &);
     static string Union(dien_nuoc &);
-    static void display();
+    static void display(List<dien_nuoc>&);
 
     static int getNewCostWater();
     static int getNewCostElectric();
@@ -62,15 +62,15 @@ public:
     void add_dien_nuoc();
     
     static bool find_room(string);
-    static void find_dien_nuoc();
+    static bool find_dien_nuoc(List<dien_nuoc>&);
     static dien_nuoc find_dien_nuoc_id(string);
     static dien_nuoc find_nearest_dien_nuoc(string);
     string find_max_dien_nuoc_id();
     static void update_dien_nuoc(dien_nuoc&);
     static void Pay_dien_nuoc(dien_nuoc&);
     static void delete_dien_nuoc(string);
-    static void view_Paid_room();
-    static void view_unpaid_room();
+    static void view_Paid_room(List<dien_nuoc>&);
+    static void view_unpaid_room(List<dien_nuoc>&);
 
     // static int Electric_bill(string);
     // static int Water_bill(string);

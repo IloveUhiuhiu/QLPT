@@ -27,9 +27,9 @@ public:
 
     static Room Split(string);
     static string Union (Room&);
-    static void display();
-    static void view_empty_room();
-    static void view_rented_room();
+    static void display(List<Room>&);
+    static void view_empty_room(List<Room>&);
+    static void view_rented_room(List<Room>&);
     // static List<string> load_File(const string);
     static void write_File(List<string>&); 
     static void delete_room(string room_id);

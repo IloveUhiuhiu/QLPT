@@ -71,11 +71,6 @@ int whereY()
 }
 
 
-void BackgroundColor(int backgroundColor) {
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleTextAttribute(hConsole, (backgroundColor & 0x0F) << 4);
-}
-
 void TextColor(int textColor) {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(hConsole, textColor & 0x0F);
