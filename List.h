@@ -26,6 +26,7 @@ private:
 public:
     List(); // hàm dựng constructor
     ~List();// hàm hủy destructor
+    List(const List<T> &);// hàm sử dụng đáp xế
     void push_back(T);// hàm thêm một node vào cuối danh sách
     void add(int, T);// hàm thêm một node vào vị trí bất kì
     void erase(int);// xóa một node bất kì

@@ -37,15 +37,17 @@ public:
     void add_room(int);
     friend istream& operator>>(istream&, Room&);
     friend ostream& operator<<(ostream&, const Room&);
-
+   
     static Room find_room(string searchTerm);
     static bool find_room_with_status_true(string);
     // Display room information method
     // void display() const;
       // Function to load room data from file
     // static void loadRoomListFromFile(List<Room>& roomList);
+    static void edit_room();
+     
+    static void cancel_room(string room_id);
 
-     static void edit_room();
 private:
     string room_id;
     string kind_of;

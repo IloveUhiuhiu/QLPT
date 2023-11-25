@@ -79,7 +79,7 @@ Datetime Datetime::Split(string str) // hàm tách chuổi
     }
     return Datetime(years, months, days);
 }
-string Datetime::Union(Datetime &obj)
+string Datetime::Union(Datetime obj)
 {
     string res = Convert::int_to_str(obj.get_years()) +"-"+ Convert::int_to_str(obj.get_months()) + "-" + Convert::int_to_str(obj.get_days());
     return res;

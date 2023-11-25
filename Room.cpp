@@ -1,6 +1,6 @@
 // Room.cpp
 #include "Room.h"
-
+#include "customer.h"
 
 // Constructor with initialization
 Room::Room(string room_id, string kind_of, int cost, bool occupied)
@@ -160,7 +160,6 @@ void Room::add_room(int k)
         dien_nuoc dn;
         dn.set_room_id(this->room_id);
         dn.set_dien_nuoc_id(Convert::CreateID("dien_nuoc.txt"));
-        cout << dn.get_dien_nuoc_id() << endl;
         dn.set_cost_water(dien_nuoc::getNewCostWater());
         dn.set_cost_electric(dien_nuoc::getNewCostElectric());
         dn.add_dien_nuoc();
@@ -183,15 +182,7 @@ istream& operator>> (istream& i, Room& room)
     cout << "Cost: ";
     i >> room.cost;
 
-    cout << "Occupied (Yes or No): ";
-    string ok;
-    i >> ok;
-    while (ok != "Yes" && ok != "No")
-    {
-        cout << "Occupied (Yes or No): ";
-        i >> ok;
-    }
-    room.occupied = Convert::str_to_bool(ok);
+    room.occupied = false;
     return i;
 }
 
@@ -224,7 +215,6 @@ Room Room::find_room(string search_term)
     // Return an empty Room object if no match is found
     return Room();
 }
-
 
 void Room::view_empty_room()
 {
@@ -289,7 +279,43 @@ void Room::edit_room() {
 
         // Allow the user to edit the room information
         cout << "Enter new information:" << endl;
-        cin >> roomToEdit; // Use the overloaded operator>> to input new values
+
+        // Check and update RoomID
+        string newRoomID;
+        cin.ignore(); 
+        cout << "New RoomID (press Enter to keep current value): ";
+        getline(cin, newRoomID);
+        if (!newRoomID.empty()) {
+            roomToEdit.setRoomID(newRoomID);
+        }
+
+        // Check and update KindOf
+        string newKindOf;
+        cout << "New KindOf (A, B, or C) (press Enter to keep current value): ";
+        getline(cin, newKindOf);
+        if (!newKindOf.empty() && (newKindOf == "A" || newKindOf == "B" || newKindOf == "C")) {
+            roomToEdit.setKindOf(newKindOf);
+        } else {
+            cout << "Invalid KindOf. Keeping the current value." << endl;
+        }
+
+        // Check and update Cost
+        string newCostStr;
+        cout << "New Cost (press Enter to keep current value): ";
+        getline(cin, newCostStr);
+        if (!newCostStr.empty()) {
+            int newCost = stoi(newCostStr);
+            roomToEdit.setCost(newCost);
+        }
+
+        // Check and update Occupied
+        string newOccupiedStr;
+        cout << "New Occupied (press Enter to keep current value): ";
+        getline(cin, newOccupiedStr);
+        if (!newOccupiedStr.empty()) {
+            bool newOccupied = Convert::str_to_bool(newOccupiedStr);
+            roomToEdit.setOccupied(newOccupied);
+        }
 
         // Delete the existing room entry
         delete_room(search_term);
@@ -300,6 +326,55 @@ void Room::edit_room() {
         cout << "Room information updated successfully." << endl;
     }
 }
+
+
+void Room::cancel_room(string room_id)
+{
+    List<string> L;
+    ifstream inputFile;
+    inputFile.open("room.txt");
+    string str;
+    while (getline(inputFile, str))
+    {
+        Room obj = Split(str);
+
+        // Nếu phòng có trạng thái true và trùng với room_id, xóa thông tin người dùng và đặt trạng thái phòng về false
+        if (obj.getRoomID() == room_id && obj.isOccupied())
+        {
+            obj.setOccupied(false);
+        }
+
+        L.push_back(Union(obj));
+    }
+
+    inputFile.close();
+
+    // Ghi danh sách đã được cập nhật trở lại vào "room.txt"
+    write_File(L);
+
+      // Mở file "customer.txt" để xóa thông tin của người dùng
+    List<string> customerList;
+    ifstream customerFile;
+    customerFile.open("customer.txt");
+    string customerStr;
+    while (getline(customerFile, customerStr))
+    {
+        customer obj = customer::Split(customerStr);
+
+        // Nếu người dùng có room_id tương ứng, không thêm thông tin người dùng này vào danh sách (để xóa nó)
+        if (obj.get_room_id() != room_id)
+        {
+            customerList.push_back(customer::Union(obj));
+        }
+    }
+
+    customerFile.close();
+
+    // Ghi danh sách đã được cập nhật trở lại vào "customer.txt"
+    customer::write_File(customerList);
+
+}
+
 
 // Display room information method
 // Function to load room data from file

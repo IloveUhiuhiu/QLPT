@@ -22,6 +22,19 @@ List<T>::~List()
 }
 
 template <class T>
+List<T>::List(const List<T> &other) {
+    // Khởi tạo các con trỏ head, tail và kích thước danh sách mới
+    head = nullptr;
+    tail = nullptr;
+    _size = 0;
+    // Duyệt qua danh sách other và sao chép từng phần tử
+    node<T> *temp = other.head;
+    while (temp != nullptr) {
+        push_back(temp->data); // Thêm phần tử từ other vào danh sách mới
+        temp = temp->next;
+    }
+}
+template <class T>
 // hàm thêm một node vào cuối danh sách
 void List<T>::push_back(T data)
 {

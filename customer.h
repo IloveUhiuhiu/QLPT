@@ -11,13 +11,14 @@ private:
     string room_id;
     string customer_name;
     Datetime customer_dateofbirth;
+    Datetime check_in;
     string customer_gender;
     string customer_email;
     string customer_address;
     string customer_phone;
 
 public:
-    customer(string = "",string = " ",string = "", Datetime = Datetime(0,0,0), string = "", string = "", string = "", string = "", string = "", string = "");
+    customer(string = "",string = " ",string = "", Datetime = Datetime(0,0,0),Datetime = Datetime(0,0,0), string = "", string = "", string = "", string = "", string = "", string = "");
     ~customer();
 
     string get_customer_id() const;
@@ -32,6 +33,9 @@ public:
     Datetime get_customer_dateofbirth() const;
     void set_customer_dateofbirth(Datetime);
 
+    Datetime get_check_in() const;
+    void set_check_in( Datetime);
+
     string get_customer_gender() const;
     void set_customer_gender(string);
 
@@ -43,16 +47,17 @@ public:
 
     string get_customer_phone() const;
     void set_customer_phone(string);
-    static bool find_user_name(string);
     friend istream &operator>>(istream &, customer &);
     friend ostream &operator<<(ostream &, const customer &);
 
     static customer Split(string);
     static string Union (customer&);
-    static bool find_customer();
-    static customer find_idcustomer(string);
+    static bool find_customer(List<customer>&);
+    static void find_idcustomer(string, List<customer>&);
+    static bool find_user_name(string);
     static void update_customer(customer&);
-
+    static List<customer> find_idroom(string);
+    static void change_user_name(string);
     // static void change_room(string , string );
    
     bool login();
@@ -61,6 +66,6 @@ public:
     void add_customer();
     // void update_customer(string);
     static void delete_customer(string);
-    static void display();
+    static void display(List<customer>&);
 };
 #endif

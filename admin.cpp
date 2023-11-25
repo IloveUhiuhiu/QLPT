@@ -85,7 +85,7 @@ bool admin::login()
 
                 for (int j = 0; j <= 100; j = j + 25)
                 {
-                    cout << "Checking Information... " << j << "%" << endl;
+                    cout << "Checking Information"<<string(j%3+1,'.') << " " << j << "%" << endl;
                     sleep(1);
                     system("cls");
                 }

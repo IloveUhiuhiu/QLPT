@@ -1,116 +1,190 @@
-#include "user.h"
 #include "admin.h"
 #include "customer.h"
 #include "DoanhThu.h"
-///////////////////////////////////
+void TextColor(int textColor) {
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hConsole, textColor & 0x0F);
+}
+void gotoXY (int column, int line)
+{
+	COORD coord;
+	coord.X = column;
+	coord.Y = line;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),coord);
+}
+void box(int x, int y, int w, int h, const string content)
+{
 
+    int ym = (2 * y + h) / 2;
+    int xm = (2 * x + w - content.size()) / 2;
+    TextColor(7);
+    gotoXY(xm, ym);
+    cout << content;
+    if (h <= 1 || w <= 1)
+        return;
+
+    for (int ix = x; ix <= x + w; ix++)
+    {
+        gotoXY(ix, y);
+        cout << char(196);
+        gotoXY(ix, y + h);
+        cout << char(196);
+    }
+    for (int iy = y; iy <= y + h; iy++)
+    {
+        gotoXY(x, iy);
+        cout << char(179);
+        gotoXY(x + w, iy);
+        cout << char(179);
+    }
+    gotoXY(x, y);
+    cout << char(218);
+    gotoXY(x + w, y);
+    cout << char(191);
+    gotoXY(x, y + h);
+    cout << char(192);
+    gotoXY(x + w, y + h);
+    cout << char(217);
+}
+void box_customer(int x, int y, List<customer> &L)
+{
+    int n = L.getSize();
+    int m = 11;
+    int w = 17;
+    int h = 2;
+    int xx = x, yy = y;
+    for (int j = 0; j < m; j++)
+    {
+        if (j == 0)
+        {
+            box(xx, yy, w / 2 + 4, h, "CustomerID");
+            xx += w / 2 + 4;
+        }
+        else if (j == 1)
+        {
+            box(xx, yy, w / 2, h, "RoomID");
+            xx += w / 2;
+        }
+        else if (j == 2)
+        {
+            box(xx, yy, w+4, h, "Name");
+            xx += w+4;
+        }
+        else if (j == 3)
+        {
+            box(xx, yy, w - 3, h, "DateofBirth");
+            xx += w - 3;
+        }
+        else if (j == 4)
+        {
+            box(xx, yy, w - 3, h, "DateCheckIn");
+            xx += w - 3;
+        }
+        else if (j == 5)
+        {
+            box(xx, yy, w / 2, h, "Gender");
+            xx += w / 2;
+        }
+        else if (j == 6)
+        {
+            box(xx, yy, w, h, "Email");
+            xx += w;
+        }
+        else if (j == 7)
+        {
+            box(xx, yy, w / 2 + 4, h, "Address");
+            xx += w / 2 + 4;
+        }
+        else if (j == 8)
+        {
+            box(xx, yy, w - 2, h, "Phone");
+            xx += w - 2;
+        }
+        else if (j == 9)
+        {
+            box(xx, yy, w, h, "UserName");
+            xx += w;
+        }
+        else if (j == 10)
+        {
+            box(xx, yy, w / 2 + 4, h, "Password");
+            xx += w / 2 + 4;
+        }
+    }
+    yy += h;
+    for (int i = 0; i < n; i++)
+    {
+        xx = x;
+        for (int j = 0; j < m; j++)
+        {
+
+            if (j == 0)
+            {
+                box(xx, yy, w / 2 + 4, h, L[i].get_customer_id());
+                xx += w / 2 + 4;
+            }
+            else if (j == 1)
+            {
+                box(xx, yy, w / 2, h,L[i].get_room_id());
+                xx += w / 2;
+            }
+            else if (j == 2)
+            {
+                box(xx, yy, w+4, h,L[i].get_customer_name());
+                xx += w+4;
+            }
+            else if (j == 3)
+            {
+                box(xx, yy, w - 3, h, Datetime::Union(L[i].get_customer_dateofbirth()));
+                xx += w - 3;
+            }
+            else if (j == 4)
+            {
+                box(xx, yy, w - 3, h, Datetime::Union(L[i].get_check_in()));
+                xx += w - 3;
+            }
+            else if (j == 5)
+            {
+                box(xx, yy, w / 2, h,L[i].get_customer_gender());
+                xx += w / 2;
+            }
+            else if (j == 6)
+            {
+                box(xx, yy, w, h,L[i].get_customer_email());
+                xx += w;
+            }
+            else if (j == 7)
+            {
+                box(xx, yy, w / 2 + 4, h,L[i].get_customer_address());
+                xx += w / 2 + 4;
+            }
+            else if (j == 8)
+            {
+                box(xx, yy, w - 2, h,L[i].get_customer_phone());
+                xx += w - 2;
+            }
+            else if (j == 9)
+            {   
+                
+                box(xx, yy, w, h,L[i].get_user_name());
+                xx += w;
+            }
+            else if (j == 10)
+            {   
+                
+                box(xx, yy, w / 2 + 4, h, L[i].get_password());
+                xx += w / 2 + 4;
+            }
+        }
+        yy += h;
+    }
+}
 void warn()
 {
     cout << "Chua Co Gi" << endl;
 }
 
-// void update_dien_nuoc(dien_nuoc& dn)
-// {
-//     int choice;
-//     do
-//     {
-//         system("cls");
-//         cout << "\t\t\t*****************************************************************" << endl;
-//         cout << "\t\t\t*\t                                                        *" << endl;
-//         cout << "\t\t\t*\t **** Welcome To Update dien nuoc ****                     *" << endl;
-//         cout << "\t\t\t*\t                                                        *" << endl;
-//         cout << "			*    	                                                        *" << endl;
-//         cout << "\t\t\t*\t|  1) Number Electric Before |                              *" << endl;
-//         cout << "			*    	                                                        *" << endl;
-//         cout << "\t\t\t*\t|  2) Number Electric Before |                              *" << endl;
-//         cout << "			*    	                                                        *" << endl;
-//         cout << "\t\t\t*\t|  3) Number Electric After  |                              *" << endl;
-//         cout << "			*    	                                                        *" << endl;
-//         cout << "\t\t\t*\t|  4) Number Electric After  |                              *" << endl;
-//         cout << "			*    	                                                        *" << endl;
-//         cout << "\t\t\t*\t|  5) Status                 |                              *" << endl;
-//         cout << "			*    	                                                        *" << endl;
-//         cout << "\t\t\t*\t|  0) Exit                   |                              *" << endl;
-//         cout << "			*    	                                                        *" << endl;
-//         cout << "\t\t\t*****************************************************************" << endl;
-//         cout << endl;
 
-//         cout << "***********************" << endl
-//              << endl;
-//         cout << "Enter Your Choice : ";
-//         cin >> choice;
-//         while (choice < 0 || choice > 5)
-//         {
-//             cout << "Enter Right Choice : ";
-//             cin >> choice;
-//         }
-//         cout << "\n***********************" << endl;
-//         system("cls");
-//         int number;
-//         string status;
-//         switch (choice)
-//         {
-//         case 1:
-//             cout << "Enter Number Electric Before : "; cin >> number;
-//             dn.set_num_electric_before(number);
-//             dien_nuoc::delete_dien_nuoc(dn.get_dien_nuoc_id());
-//             dn.add_dien_nuoc();
-//             break;
-//         case 2:
-//             cout << "Enter Number Water Before : "; cin >> number;
-//             dn.set_num_water_before(number);
-//             dien_nuoc::delete_dien_nuoc(dn.get_dien_nuoc_id());
-//             dn.add_dien_nuoc();
-//             break;
-//         case 3:
-//             cout << "Enter Number Electric After : "; cin >> number;
-//             dn.set_num_electric_after();
-//             dien_nuoc::delete_dien_nuoc(dn.get_dien_nuoc_id());
-//             dn.add_dien_nuoc();
-//             break;
-//         case 4:
-//             cout << "Enter Number Water After : "; cin >> number;
-//             dn.set_num_water_after(number);
-//             dien_nuoc::delete_dien_nuoc(dn.get_dien_nuoc_id());
-//             dn.add_dien_nuoc();
-//             break;
-//         case 5:
-//             cout << "Enter Status (Yes or No) : "; cin >> status;
-//             dn.set_status(Convert::str_to_bool(status));
-//             dien_nuoc::delete_dien_nuoc(dn.get_dien_nuoc_id());
-//             dn.add_dien_nuoc();
-//             break;
-//         default:
-//             break;
-//         }
-//         if (choice == 0) break;
-//         system("pause");
-//     } while (choice != 0);
-// }
-void menu_display_customer()
-{
-    cout << setw(5) << "Customer_ID";
-    cout << " | ";
-    cout << setw(5) << "Room_ID";
-    cout << " | ";
-    cout << setw(10) << "Name";
-    cout << " | ";
-    cout << setw(10) << "Date Of Birth";
-    cout << " | ";
-    cout << setw(10) << "Gender";
-    cout << " | ";
-    cout << setw(15) << "Email";
-    cout << " | ";
-    cout << setw(10) << "Address";
-    cout << " | ";
-    cout << setw(10) << "Phone";
-    cout << " | ";
-    cout << setw(10) << "user_name";
-    cout << " | ";
-    cout << setw(10) << "password";
-    cout << " | ";
-    cout << endl;
-}
 void menu_user(customer &object2)
 {
     int choice;
@@ -122,7 +196,7 @@ void menu_user(customer &object2)
         system("cls");
         cout << "\t\t\t*****************************************************************" << endl;
         cout << "\t\t\t*\t                                                        *" << endl;
-        cout << "\t\t\t*\t **** Wellcome Customer" << setw(15) << object2.get_customer_name() << " ****             *" << endl;
+        cout << "\t\t\t*\t **** Wellcome Customer" << setw(15) << object2.get_user_name() << " ****             *" << endl;
         cout << "\t\t\t*\t                                                        *" << endl;
         cout << "			*    	                                                        *" << endl;
         cout << "\t\t\t*\t|  1) View Info Customer       |                             *" << endl;
@@ -139,7 +213,7 @@ void menu_user(customer &object2)
         cout << endl;
 
         cout << "***********************" << endl;
-        cout  << endl;
+        cout << endl;
         cout << "Enter Your Choice : ";
         cin >> choice;
         while (choice < 0 || choice > 4)
@@ -152,7 +226,7 @@ void menu_user(customer &object2)
         switch (choice)
         {
         case 1:
-            menu_display_customer();
+            // menu_display_customer();
             cout << object2;
             cout << endl;
             break;
@@ -179,7 +253,8 @@ void menu_user(customer &object2)
 }
 
 void menu_Manager_Customer()
-{
+{   
+    List<customer> L;
     customer object2;
     string ID;
     Room room;
@@ -192,17 +267,19 @@ void menu_Manager_Customer()
         cout << "\t\t\t*\t **** Welcome To Customer Manager ****                  *" << endl;
         cout << "\t\t\t*\t                                                        *" << endl;
         cout << "			*    	                                                        *" << endl;
-        cout << "\t\t\t*\t|  1) View List Customer |                              *" << endl;
+        cout << "\t\t\t*\t|  1) View List Customer  |                             *" << endl;
         cout << "			*    	                                                        *" << endl;
-        cout << "\t\t\t*\t|  2) Add Customer       |                              *" << endl;
+        cout << "\t\t\t*\t|  2) Add Customer        |                             *" << endl;
         cout << "			*    	                                                        *" << endl;
-        cout << "\t\t\t*\t|  3) Find Customer       |                              *" << endl;
+        cout << "\t\t\t*\t|  3) Find Customer       |                             *" << endl;
         cout << "			*    	                                                        *" << endl;
-        cout << "\t\t\t*\t|  4) Delete Customer    |                              *" << endl;
+        cout << "\t\t\t*\t|  4) Delete Customer     |                             *" << endl;
         cout << "			*    	                                                        *" << endl;
-        cout << "\t\t\t*\t|  5) Edit Customer      |                              *" << endl;
+        cout << "\t\t\t*\t|  5) Edit Customer       |                             *" << endl;
         cout << "			*    	                                                        *" << endl;
-        cout << "\t\t\t*\t|  0) Exit               |                              *" << endl;
+        cout << "\t\t\t*\t|  6) Change User_Password|                             *" << endl;
+        cout << "			*    	                                                        *" << endl;
+        cout << "\t\t\t*\t|  0) Exit                |                             *" << endl;
         cout << "			*    	                                                        *" << endl;
         cout << "\t\t\t*****************************************************************" << endl;
         cout << endl;
@@ -211,7 +288,7 @@ void menu_Manager_Customer()
              << endl;
         cout << "Enter Your Choice : ";
         cin >> choice;
-        while (choice < 0 || choice > 5)
+        while (choice < 0 || choice > 6)
         {
             cout << "Enter Right Choice : ";
             cin >> choice;
@@ -221,9 +298,9 @@ void menu_Manager_Customer()
         switch (choice)
         {
         case 1:
-            // display
-            // menu_display_customer();
-            customer::display();
+            customer::display(L);
+            box_customer(3,3,L);
+            gotoXY(0,0);
             break;
         case 2:
             // add
@@ -233,36 +310,58 @@ void menu_Manager_Customer()
             break;
         case 3:
             cout << "Find Information Customer: " << endl;
-            if (!customer::find_customer())
+            if (!customer::find_customer(L))
             {
                 cout << "Not Found!" << endl;
+                continue;
+            } else {
+                box_customer(3,10,L);
+                gotoXY(0,0);
             }
             break;
         case 4:
             cout << "Find Information Customer: " << endl;
-            if (!customer::find_customer())
+            if (!customer::find_customer(L))
             {
                 cout << "Not Found!" << endl;
                 continue;
+            } else {
+                box_customer(3,10,L);
+                gotoXY(0,2*L.getSize() + 13);
             }
-            cout << "Enter ID: "; cin >> ID;
-            object2 = customer::find_idcustomer(ID);
+            cout << "Enter Customer ID: ";
+            cin >> ID;
             customer::delete_customer(ID);
             break;
         case 5:
             cout << "Find Information Customer: " << endl;
-            if (!customer::find_customer())
+            if (!customer::find_customer(L))
             {
                 cout << "Not Found!" << endl;
                 continue;
             }
-            cout << "Enter ID:"; cin >> ID;
-            object2 = customer::find_idcustomer(ID);
-            customer::update_customer(object2);
+            box_customer(3,10,L);
+            gotoXY(0,2*L.getSize()+13);
+            L.clear();
+            cout << "Enter Customer ID:";
+            cin >> ID;
+            customer::find_idcustomer(ID,L);
+            system("cls");
+            cout << "Informatin Current Customer: " << endl;
+            box_customer(3,3,L);
+            gotoXY(0,2*L.getSize()+6);
+            cout << "Enter New Information: " << endl;
+            customer::update_customer(L[0]);
+            break;
+        case 6:
+            cout << "Enter Room ID: ";
+            cin >> ID;
+            customer::change_user_name(ID);
             break;
         default:
             break;
         }
+        L.clear();
         if (choice == 0)
             break;
         system("pause");
@@ -329,29 +428,32 @@ void menu_Manager_Phong_Tro()
             Room::view_rented_room();
             break;
         case 4:
+        {
+            cout << "Choose search type:" << endl;
+            cout << "1. By Room ID" << endl;
+            cout << "2. By Kind of Room(A , B , C)" << endl;
+
+            int searchType;
+            cin >> searchType;
+
+            cout << "Enter search term: ";
+            string searchTerm;
+            cin >> searchTerm;
+
+            Room foundRoom = Room::find_room(searchTerm);
+
+            if (!foundRoom.getRoomID().empty())
             {
-                cout << "Choose search type:" << endl;
-                cout << "1. By Room ID" << endl;
-                cout << "2. By Kind of Room(A , B , C)" << endl;
-
-                int searchType;
-                cin >> searchType;
-
-                cout << "Enter search term: ";
-                string searchTerm;
-                cin >> searchTerm;
-
-                Room foundRoom = Room::find_room(searchTerm);
-
-                if (!foundRoom.getRoomID().empty()) {
-                    cout << "Room found:" << endl;
-                    cout << foundRoom << endl;
-                } else {
-                    cout << "Room not found." << endl;
-                }
-
-                break;
+                cout << "Room found:" << endl;
+                cout << foundRoom << endl;
             }
+            else
+            {
+                cout << "Room not found." << endl;
+            }
+
+            break;
+        }
 
         case 5:
             cin >> room;
@@ -367,8 +469,14 @@ void menu_Manager_Phong_Tro()
             Room::edit_room();
             break;
         case 8:
-            // hủy phòng
+        {
+            // hủy phòng : đặt trạng thái của phòng về false
+            cout <<"nhap id phong muon huy " << endl;
+            string room_id ;
+            cin >> room_id;
+            Room::cancel_room(room_id);
             break;
+        }
         case 9:
             // chuyển phòng
             break;
@@ -484,7 +592,6 @@ void menu_Manager_Payment()
         system("pause");
 
     } while (choice != 0);
-    
 }
 void menu_Manager_Dien_Nuoc()
 {
@@ -590,11 +697,11 @@ void menu_Manager_Dien_Nuoc()
     } while (choice != 0);
 }
 
-void menu_Calculte_Revenue()
-{
+void menu_Calculate_Revenue() {
     int choice, month, year, revenue;
-    do
-    {
+    DoanhThu doanhThu;  // Create an object of the DoanhThu class
+
+    do {
         system("cls");
         cout << "\t\t\t*****************************************************************" << endl;
         cout << "\t\t\t*\t                                                        *" << endl;
@@ -616,38 +723,110 @@ void menu_Calculte_Revenue()
              << endl;
         cout << "Enter Your Choice : ";
         cin >> choice;
-        while (choice < 0 || choice > 3)
-        {
+
+        while (choice < 0 || choice > 3) {
             cout << "Enter Right Choice : ";
             cin >> choice;
         }
+
         cout << "\n***********************" << endl;
         system("cls");
-        switch (choice)
-        {
-        case 1:
-            cout << "Enter Month:";
-            cin >> month;
-            while (month < 1 || month > 12)
-            {
-                cout << "Enter Right Month:";
+
+        switch (choice) {
+            case 1:
+                cout << "Enter Month:";
                 cin >> month;
+                while (month < 1 || month > 12) {
+                    cout << "Enter Right Month:";
+                    cin >> month;
+                }
+                revenue = doanhThu.tongDoanhThutheothang(month);
+                cout << "Total Revenue for Month " << month << ": " << revenue << endl;
+                break;
+
+            case 2:
+                cout << "Enter Year:";
+                cin >> year;
+                revenue = doanhThu.tongDoanhThutheonam(year);
+                cout << "Total Revenue for Year " << year << ": " << revenue << endl;
+                break;
+
+            case 3:
+            {
+                int startYear, startMonth, startDay, endYear, endMonth, endDay;
+                cout << "Enter Start Year:";
+                cin >> startYear;
+
+                cout << "Enter Start Month:";
+                cin >> startMonth;
+                while (startMonth < 1 || startMonth > 12) {
+                    cout << "Enter Right Start Month:";
+                    cin >> startMonth;
+                }
+
+                cout << "Enter Start Day:";
+                cin >> startDay;
+                while (startDay < 1 || startDay > 31) {
+                    cout << "Enter Right Start Day:";
+                    cin >> startDay;
+                }
+
+                cout << "Enter End Year:";
+                cin >> endYear;
+
+                cout << "Enter End Month:";
+                cin >> endMonth;
+                while (endMonth < 1 || endMonth > 12) {
+                    cout << "Enter Right End Month:";
+                    cin >> endMonth;
+                }
+
+                cout << "Enter End Day:";
+                cin >> endDay;
+                while (endDay < 1 || endDay > 31) {
+                    cout << "Enter Right End Day:";
+                    cin >> endDay;
+                }
+
+                Datetime startDate(startYear, startMonth, startDay);
+                Datetime endDate(endYear, endMonth, endDay);
+                int totalRevenue = 0;
+                Datetime currentDate = startDate;
+
+                while (currentDate <= endDate) {
+                    // Calculate revenue for the current month
+                    int revenue = doanhThu.tongDoanhThutheothang(currentDate.get_months());
+
+                    // Accumulate the revenue
+                    totalRevenue += revenue;
+
+                    // Move to the next month
+                    int nextMonth = currentDate.get_months() + 1;
+                    int nextYear = currentDate.get_years();
+
+                    if (nextMonth > 12) {
+                        nextMonth = 1;
+                        nextYear++;
+                    }
+
+                    // Update currentDate
+                    currentDate = Datetime(nextYear, nextMonth, currentDate.get_days());
+                }
+
+                cout << "Total Revenue for the specified time period: " << totalRevenue << endl;
+                break;
             }
-            break;
-        case 2:
-            cout << "Enter Year:";
-            cin >> year;
-            break;
-        case 3:
-            break;
-        default:
-            break;
+            default:
+                break;
         }
+
         if (choice == 0)
             break;
+
         system("pause");
     } while (choice != 0);
 }
+
 void menu_admin(admin &object1)
 {
     int choice;
@@ -701,7 +880,7 @@ void menu_admin(admin &object1)
             menu_Manager_Payment();
             break;
         case 5:
-            menu_Calculte_Revenue();
+            menu_Calculate_Revenue();
             break;
         default:
             break;
