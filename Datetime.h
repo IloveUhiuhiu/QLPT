@@ -34,5 +34,6 @@ public:
     bool operator<=(const Datetime& other) const;
     bool operator>(const Datetime& other) const;
     bool operator>=(const Datetime& other) const;
+    static bool isValidDate(int=0,int=0,int=0);
 };
 #endif

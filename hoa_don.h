@@ -2,6 +2,7 @@
 #define HOA_DON_H
 #include "Datetime.h"
 #include "Room.h"
+#include "DoanhThu.h"
 class hoa_don
 {
 private:
@@ -34,12 +35,12 @@ public:
     static string Union(hoa_don &);
     void add_hoa_don();
 
-    static void display();
-    static void view_payment_room();
-    static void view_unpayment_room();
-    static bool find_hoa_don();
+    static void display(List<hoa_don>&);
+    static void view_payment_room(List<hoa_don>&);
+    static void view_unpayment_room(List<hoa_don>&);
+    static bool find_hoa_don(List<hoa_don>&);
     static bool find_room(string);
-    static hoa_don find_bill_id(string);
+    static void find_bill_id(string,List<hoa_don>&);
     static bool find_bill_id_check(string);
     string find_max_bill_id();
     static void update_hoa_don(hoa_don&);

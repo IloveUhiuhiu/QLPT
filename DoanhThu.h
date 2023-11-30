@@ -13,9 +13,7 @@ public:
 
     // Getter và Setter date
     Datetime get_date() const;
-        
-
-    void set_date(int,int,int );
+    void set_date(Datetime);
     
 
     int getThuNhap() const;
@@ -31,8 +29,7 @@ public:
     friend ostream& operator<< (ostream&, const DoanhThu&);
 
     // Phương thức tính tổng doanh thu
-    static int tongDoanhThutheothang(int);
-    static int tongDoanhThutheonam(int);
+    static int tongDoanhThutheothoigian(int= 0, int= 0, int = 0, int = 0, int = 0, int = 0);
 
     // Phương thức hiển thị thông tin doanh thu
     // void display() const;

@@ -26,9 +26,9 @@ Datetime DoanhThu::get_date() const
     return this->date;
 
 }
-void DoanhThu::set_date(int years,int months,int days)
+void DoanhThu::set_date(Datetime time)
 {
-    this->date = Datetime(years,months,days);
+    this->date = time;
 }
 // int DoanhThu::getThang() const {
 //     return thang;
@@ -120,54 +120,33 @@ void DoanhThu::addDoanhThu() {
     
 }
 
-// Phương thức tính tổng doanh thu
-int DoanhThu::tongDoanhThutheothang(int months) 
-{       
-    int res = 0;
-    List<string> L;
-    ifstream inputFile;
-    inputFile.open("doanhthu.txt");
-    string str;
-    while (getline(inputFile, str))
-    {
-        L.push_back(str);
-    }
-    int size = L.getSize();
-    for (int i=0; i<size; i++)
-    {
-        DoanhThu obj = Split(L[i]);
-        if (obj.date.get_months() == months)
-        {   
-            cout << obj << endl;
-            res += obj.thuNhap;
-        }
-    }
-    return res;
-}
+int DoanhThu::tongDoanhThutheothoigian(int startYear, int startMonth, int startDay, int endYear, int endMonth, int endDay) {
+    Datetime startDate(startYear, startMonth, startDay);
+    Datetime endDate(endYear, endMonth, endDay);
 
-// viết hàm tongDoanhThutheonam
-// Phương thức tính tổng doanh thu theo năm
-int DoanhThu::tongDoanhThutheonam(int years) 
-{       
     int res = 0;
     List<string> L;
-    ifstream inputFile;
-    inputFile.open("doanhthu.txt");
+    ifstream inputFile("doanhthu.txt");
+    
+    if (!inputFile.is_open()) {
+        cout << "Error Opening File doanhthu.txt" << endl;
+        return -1; // Trả về giá trị đặc biệt để chỉ ra rằng không có doanh thu
+    }
+
     string str;
-    while (getline(inputFile, str))
-    {
+    while (getline(inputFile, str)) {
         L.push_back(str);
     }
+    inputFile.close();
+
     int size = L.getSize();
-    for (int i=0; i<size; i++)
-    {
+    for (int i = 0; i < size; i++) {
         DoanhThu obj = Split(L[i]);
-        if (obj.date.get_years() == years)
-        {   
-            cout << obj << endl;
+        if (obj.date >= startDate && obj.date <= endDate) {
             res += obj.thuNhap;
         }
     }
+
     return res;
 }
 // viết đa năng hóa toán tử <<

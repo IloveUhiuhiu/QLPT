@@ -26,6 +26,7 @@ public:
 
     string get_password() const;
     void set_password(string);
+
 };
 
 #endif

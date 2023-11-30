@@ -238,10 +238,11 @@ void Room::view_empty_room(List<Room>& L)
     ifstream inputFile;
     inputFile.open("room.txt");
     string str;
+    Room obj;
     while (getline(inputFile, str))
     {   
         if (str.size()) {
-            Room obj = Room::Split(str);
+            obj = Room::Split(str);
             if (!obj.isOccupied())
             {
                 L.push_back(obj);
@@ -254,10 +255,11 @@ void Room::view_rented_room(List<Room>& L)
     ifstream inputFile;
     inputFile.open("room.txt");
     string str;
+    Room obj;
     while (getline(inputFile, str))
     {   
         if (str.size()) {
-            Room obj = Room::Split(str);
+            obj = Room::Split(str);
             if (obj.isOccupied())
             {
                 L.push_back(obj);
