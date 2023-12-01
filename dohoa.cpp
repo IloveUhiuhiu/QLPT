@@ -132,10 +132,15 @@
 //     return 0;
 // }
 #include<iostream>
-#include "List.cpp"
+#include "problem.h"
 using namespace std;
 int main()
-{
-    List<int> t;
+{   
 
+    problem a;
+    cin >> a;
+    Datetime dt;
+    a.set_problem_id(Convert::CreateID("problem.txt"));
+    a.set_registeddate(dt);
+    a.add_problem();
 }

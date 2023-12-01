@@ -49,18 +49,18 @@ void hoa_don::set_status(bool status)
 istream &operator>>(istream &i, hoa_don &obj)
 {
     string date;
-    Room room;
+    List<Room> room;
     cin.ignore();
     do
     {
         cout << "Enter RoomID: ";
         getline(i, obj.room_id);
-        room = Room::find_room(obj.room_id);
-        if (room.getRoomID() != obj.room_id)
+        Room::find_idroom(obj.room_id,room);
+        if (room[0].getRoomID() != obj.room_id)
         {
             cout << "Room Not Found.Try Again!" << endl;
         }
-    } while (room.getRoomID() != obj.room_id || obj.room_id.size() == 0);
+    } while (room[0].getRoomID() != obj.room_id || obj.room_id.size() == 0);
     cout << "Date: ";
     getline(cin, date);
     obj.date = Datetime::Split(date);
@@ -493,7 +493,6 @@ void hoa_don::update_hoa_don(hoa_don &obj1)
         obj = Split(L[i]);
         if (obj.get_bill_id() == obj1.get_bill_id())
         {
-            cin.ignore();
             cout << "Date(Year-Month-Day): ";
             getline(cin, date);
             if (date.size())
@@ -502,11 +501,6 @@ void hoa_don::update_hoa_don(hoa_don &obj1)
             getline(cin, total_cost);
             if (total_cost.size())
                 obj1.set_total_cost(Convert::str_to_int(total_cost));
-
-            cout << "Status: ";
-            getline(cin, status);
-            if (status.size())
-                obj1.set_status(Convert::str_to_bool(status));
             str = Union(obj1);
             L[i] = str;
         }

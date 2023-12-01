@@ -91,22 +91,22 @@ void dien_nuoc::set_status(bool status)
 istream &operator>>(istream &i, dien_nuoc &obj)
 {
     string date;
+    List<Room> room;
     // cout << "Dien_Nuoc_ID: ";
     // getline(i, obj.dien_nuoc_id);
     // cout << "Room_ID: ";
     // getline(i, obj.room_id);
-    Room room;
     cin.ignore();
     do
     {
         cout << "Enter RoomID: ";
         getline(i, obj.room_id);
-        room = Room::find_room(obj.room_id);
-        if (room.getRoomID() != obj.room_id)
+        Room::find_idroom(obj.room_id,room);
+        if (room[0].getRoomID() != obj.room_id)
         {
             cout << "Room Not Found.Try Again!" << endl;
         }
-    } while (room.getRoomID() != obj.room_id || obj.room_id.size() == 0);
+    } while (room[0].getRoomID() != obj.room_id || obj.room_id.size() == 0);
     cout << "Num Of Electric Before: ";
     i >> obj.num_electric_before;
     cout << "Num Of Electric After: ";
@@ -474,8 +474,7 @@ bool dien_nuoc::find_dien_nuoc(List<dien_nuoc> &L)
     return true;
 }
 void dien_nuoc::update_dien_nuoc(dien_nuoc &obj1)
-{
-    bool ok = false;
+{   
     List<string> L;
     ifstream inputFile;
     inputFile.open("dien_nuoc.txt");
@@ -491,9 +490,8 @@ void dien_nuoc::update_dien_nuoc(dien_nuoc &obj1)
     {
         obj = Split(L[i]);
         if (obj.get_dien_nuoc_id() == obj1.get_dien_nuoc_id())
-        {
+        {   
             cout << "Num Electric Before: ";
-            cin.ignore();
             getline(cin, num_electric_before);
             if (num_electric_before.size())
                 obj1.set_num_electric_before(Convert::str_to_int(num_electric_before));
@@ -509,22 +507,10 @@ void dien_nuoc::update_dien_nuoc(dien_nuoc &obj1)
             getline(cin, num_water_after);
             if (num_water_after.size())
                 obj1.set_num_water_after(Convert::str_to_int(num_water_after));
-            cout << "Cost Water: ";
-            getline(cin, cost_water);
-            if (cost_water.size())
-                obj1.set_cost_water(Convert::str_to_int(cost_water));
-            cout << "Cost Electric: ";
-            getline(cin, cost_electric);
-            if (cost_electric.size())
-                obj1.set_cost_electric(Convert::str_to_int(cost_electric));
             cout << "Payment Date(yy-mm-dd): ";
             getline(cin, date);
             if (date.size())
                 obj1.set_date(Datetime::Split(date));
-            cout << "Status: ";
-            getline(cin, status);
-            if (status.size())
-                obj1.set_status(Convert::str_to_bool(status));
             str = Union(obj1);
             L[i] = str;
         }
