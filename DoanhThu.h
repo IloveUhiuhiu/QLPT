@@ -29,7 +29,8 @@ public:
     friend ostream& operator<< (ostream&, const DoanhThu&);
 
     // Phương thức tính tổng doanh thu
-        static int tongDoanhThutheothoigian(int startYear,int startMonth, int startDay, int endYear, int endMonth,int endDay);
+    static int tongDoanhThutheothoigian(int= 0, int= 0, int = 0, int = 0, int = 0, int = 0);
+
     // Phương thức hiển thị thông tin doanh thu
     // void display() const;
 

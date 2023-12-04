@@ -120,24 +120,6 @@ void DoanhThu::addDoanhThu() {
     
 }
 
-
-// viết hàm tongDoanhThutheonam
-// Phương thức tính tổng doanh thu theo năm
-// viết đa năng hóa toán tử <<
-ostream& operator<< (ostream& o, const DoanhThu& obj) {
-    cout << "Date: ";
-    o << obj.date << endl;
-    cout << "Revenue: ";
-    o << obj.thuNhap << endl;
-    return o;
-}
-// Phương thức hiển thị thông tin doanh thu
-// void DoanhThu::display() const {
-//     cout << "Ngay: " << ngay << "/" << thang << "/" << nam << endl;
-//     cout << "Thu nhap: " << thuNhap << endl;
-// }
-
-
 int DoanhThu::tongDoanhThutheothoigian(int startYear, int startMonth, int startDay, int endYear, int endMonth, int endDay) {
     Datetime startDate(startYear, startMonth, startDay);
     Datetime endDate(endYear, endMonth, endDay);
@@ -167,3 +149,16 @@ int DoanhThu::tongDoanhThutheothoigian(int startYear, int startMonth, int startD
 
     return res;
 }
+// viết đa năng hóa toán tử <<
+ostream& operator<< (ostream& o, const DoanhThu& obj) {
+    cout << "Date: ";
+    o << obj.date << endl;
+    cout << "Revenue: ";
+    o << obj.thuNhap << endl;
+    return o;
+}
+// Phương thức hiển thị thông tin doanh thu
+// void DoanhThu::display() const {
+//     cout << "Ngay: " << ngay << "/" << thang << "/" << nam << endl;
+//     cout << "Thu nhap: " << thuNhap << endl;
+// }

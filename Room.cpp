@@ -166,11 +166,37 @@ void Room::add_room(int k)
     }
 
 }
+void Room::find_idroom(string room_id,List<Room>&L)
+{
+    ifstream inputFile;
+    inputFile.open("room.txt");
+    string str;
+    Room obj;
+    while (getline(inputFile, str))
+    {   
+        if (str.size()) {
+            obj = Room::Split(str);
+            if (Convert::Tolower(obj.getRoomID()) == Convert::Tolower(room_id))
+            {
+                L.push_back(obj);
+            }
+        }
+    }
+}
 istream& operator>> (istream& i, Room& room)
 {   
-    cout << "RoomID: ";
-    i >> room.room_id;
-
+    List<Room> L;
+    cin.ignore();
+    do
+    {
+        cout << "Enter Room ID: ";
+        getline(i, room.room_id);
+        Room::find_idroom(room.room_id,L);
+        if (L.getSize())
+        {
+            cout << "ID Already Exists.Try Again!" << endl;
+        }
+    } while (L.getSize());
     cout << "Kind of (A, B, or C): ";
     i >> room.kind_of;
     while (room.kind_of != "A" && room.kind_of != "B" && room.kind_of != "C")
@@ -194,173 +220,74 @@ ostream& operator << (ostream& o,const Room& room)
     o << "Occupied: " << (room.occupied ? "Yes" : "No")  << endl;
     return o;
 }
-void Room::find_idroom(string room_id,List<Room>&L)
+
+void Room::find_room(List<Room>&roomList)
 {
-    ifstream inputFile;
-    inputFile.open("room.txt");
-    string str;
-    Room obj;
-    while (getline(inputFile, str))
-    {   
-        if (str.size()) {
-            obj = Room::Split(str);
-            if (obj.getRoomID() == room_id)
-            {
-                L.push_back(obj);
-            }
-        }
-    }
-}
-Room Room::find_room(string search_term)
-{
-    ifstream inputFile;
-    inputFile.open("room.txt");
-    string str;
-    Room obj;
-    
-    while (getline(inputFile, str))
-    {
-        obj = Room::Split(str);
-
-        // Check if either room_id or kind_of matches the search term
-        if (obj.getRoomID() == search_term || obj.getKindOf() == search_term)
-        {
-            return obj;
-        }
-    }
-
-    // Return an empty Room object if no match is found
-    return Room();
-}
-
-void Room::view_empty_room(List<Room>& L)
-{
-    ifstream inputFile;
-    inputFile.open("room.txt");
-    string str;
-    Room obj;
-    while (getline(inputFile, str))
-    {   
-        if (str.size()) {
-            obj = Room::Split(str);
-            if (obj.getRoomID() == room_id)
-            {
-                L.push_back(obj);
-            }
-        }
-    }
-}
-
-List<Room> Room::find_room() {
-    List<Room> roomList;
-    
-    string searchRoomID, searchKindOf;
-    int searchCost;
-    bool searchOccupied;
-    getline(cin, searchRoomID);
-    cout << "Enter RoomID (press Enter to skip): ";
+    string searchRoomID, searchKindOf,costInput;
+    cout << "Enter RoomID : ";
     getline(cin, searchRoomID);
 
-    cout << "Enter KindOf (A, B, or C) (press Enter to skip): ";
+    cout << "Enter KindOf (A, B, or C) : ";
     getline(cin, searchKindOf);
 
-    cout << "Enter Cost (press Enter to skip): ";
-    string costInput;
+    cout << "Enter Cost: ";
     getline(cin, costInput);
-    if (!costInput.empty()) {
-        searchCost = stoi(costInput);
-    }
 
-    cout << "Enter Status (true/false) (press Enter to skip): ";
-    string occupiedInput;
-    getline(cin, occupiedInput);
-    if (!occupiedInput.empty()) {
-        searchOccupied = Convert::str_to_bool(occupiedInput);
-    }
+    string s, subs;
+    int cnt = 0;
 
     ifstream inputFile;
     inputFile.open("room.txt");
     string str;
-
+    Room obj;
     while (getline(inputFile, str)) {
         if (str.size()) {
-            Room obj = Room::Split(str);
-
-            // Kiểm tra xem các thuộc tính đã nhập có phù hợp không (nếu đã nhập)
-            if ((searchRoomID.empty() || obj.getRoomID() == searchRoomID) &&
-                (searchKindOf.empty() || obj.getKindOf() == searchKindOf) &&
-                (costInput.empty() || obj.getCost() == searchCost) &&
-                (occupiedInput.empty() || obj.isOccupied() == searchOccupied)) {
-                roomList.push_back(obj);
+            obj = Room::Split(str);
+            if (searchRoomID.size()) {
+                subs = Convert::Tolower(obj.getRoomID());
+                s = Convert::Tolower(searchRoomID);
+                auto found = s.find(subs);
+                if (found == std::string::npos)
+                {
+                    continue;
+                }
             }
+            if (searchKindOf.size()) {
+                subs = Convert::Tolower(obj.getKindOf());
+                s = Convert::Tolower(searchKindOf);
+                auto found = s.find(subs);
+                if (found == std::string::npos)
+                {
+                    continue;
+                }
+            }
+            if (costInput.size()) {
+                subs = Convert::Tolower(obj.getRoomID());
+                s = Convert::Tolower(costInput);
+                auto found = s.find(subs);
+                if (found == std::string::npos)
+                {
+                    continue;
+                }
+            }
+            roomList.push_back(obj);
         }
     }
 
     inputFile.close();
-    return roomList;
+
 }
-
-
-Room Room::find_room(string search_term)
-{
-    ifstream inputFile;
-    inputFile.open("room.txt");
-    string str;
-    Room obj;
-    
-    while (getline(inputFile, str))
-    {
-        obj = Room::Split(str);
-
-        // Check if either room_id or kind_of matches the search term
-        if (obj.getRoomID() == search_term || obj.getKindOf() == search_term)
-        {
-            return obj;
-        }
-    }
-
-    // Return an empty Room object if no match is found
-    return Room();
-}
-
-// bool find_room(List<T> &L)
-// {
-//     string room_id, kind_of;
-//     cin.ignore();
-//     cout << "Enter Room ID or Kind Of: ";
-//     getline(cin, room_id);
-//     kind_of = room_id; // Assuming the search term can match either room_id or kind_of
-
-//     int cnt = 0;
-
-//     for (auto it = L.begin(); it != L.end(); ++it)
-//     {
-//         const T &room = *it;
-
-//         // Assuming T has getRoomID() and getKindOf() member functions
-//         if ((room_id.size() != 0 && room.getRoomID() == room_id) || (kind_of.size() != 0 && room.getKindOf() == kind_of))
-//         {
-//             cnt++;
-//             // Process or store the matching room as needed
-//             // For example: L.push_back(room);
-//         }
-//     }
-
-//     if (cnt == 0)
-//         return false;
-
-//     return true;
-// }
 
 void Room::view_empty_room(List<Room>& L)
 {
     ifstream inputFile;
     inputFile.open("room.txt");
     string str;
+    Room obj;
     while (getline(inputFile, str))
     {   
         if (str.size()) {
-            Room obj = Room::Split(str);
+            obj = Room::Split(str);
             if (!obj.isOccupied())
             {
                 L.push_back(obj);
@@ -406,13 +333,13 @@ void Room::edit_room() {
     string search_term;
     cout << "Enter the RoomID you want to edit: ";
     cin >> search_term;
+    List<Room> roomToEdit;
+    find_idroom(search_term,roomToEdit);
 
-    Room roomToEdit = find_room(search_term);
-
-    if (roomToEdit.getRoomID().empty()) {
+    if (roomToEdit[0].getRoomID().empty()) {
         cout << "Room not found." << endl;
     } else {
-        cout << "Current Room Information:\n" << roomToEdit << endl;
+        cout << "Current Room Information:\n" << roomToEdit[0] << endl;
 
         // Allow the user to edit the room information
         cout << "Enter new information:" << endl;
@@ -423,7 +350,7 @@ void Room::edit_room() {
         cout << "New RoomID (press Enter to keep current value): ";
         getline(cin, newRoomID);
         if (!newRoomID.empty()) {
-            roomToEdit.setRoomID(newRoomID);
+            roomToEdit[0].setRoomID(newRoomID);
         }
 
         // Check and update KindOf
@@ -431,7 +358,7 @@ void Room::edit_room() {
         cout << "New KindOf (A, B, or C) (press Enter to keep current value): ";
         getline(cin, newKindOf);
         if (!newKindOf.empty() && (newKindOf == "A" || newKindOf == "B" || newKindOf == "C")) {
-            roomToEdit.setKindOf(newKindOf);
+            roomToEdit[0].setKindOf(newKindOf);
         } else {
             cout << "Invalid KindOf. Keeping the current value." << endl;
         }
@@ -442,7 +369,7 @@ void Room::edit_room() {
         getline(cin, newCostStr);
         if (!newCostStr.empty()) {
             int newCost = stoi(newCostStr);
-            roomToEdit.setCost(newCost);
+            roomToEdit[0].setCost(newCost);
         }
 
         // Check and update Occupied
@@ -451,14 +378,14 @@ void Room::edit_room() {
         getline(cin, newOccupiedStr);
         if (!newOccupiedStr.empty()) {
             bool newOccupied = Convert::str_to_bool(newOccupiedStr);
-            roomToEdit.setOccupied(newOccupied);
+            roomToEdit[0].setOccupied(newOccupied);
         }
 
         // Delete the existing room entry
         delete_room(search_term);
 
         // Add the updated room information
-        roomToEdit.add_room(0);
+        roomToEdit[0].add_room(0);
 
         cout << "Room information updated successfully." << endl;
     }
