@@ -22,3 +22,4 @@ void user::set_password(string password)
 {
     this->password = password;
 }
+

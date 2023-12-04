@@ -94,7 +94,7 @@ bool admin::login()
                 return true;
             }
         }
-        cout << "Username or password is incorrect. Please try again!!!" << endl;
+        
         return false;
     }
     else

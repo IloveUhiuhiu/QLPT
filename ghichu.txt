@@ -1,10 +1,8 @@
-
--cứng add dien nuoc vs add hoa đơn
--chỗ update date cần sữa lại
--cặc
--chưa tìm kiếm theo ngày
-
-// thêm thuộc tính ngày vào 
-// kiểm tra những thằng cùng phòn là set tên
-
-
+kiểm tra room đã cho chưa (add room,add custoemr(rỗng))
+phần delete, find room 
+xóa phòng (xóa điện nước???)
+thanh toán phòng-> add doanh thu
+update diennuoc, hoadon ko có status
+find nhập date sẽ lỗi
+add xóa mẹ đi
+edit hoa đone thiếu status

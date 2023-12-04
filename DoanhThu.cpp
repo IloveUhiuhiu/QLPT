@@ -26,9 +26,9 @@ Datetime DoanhThu::get_date() const
     return this->date;
 
 }
-void DoanhThu::set_date(int years,int months,int days)
+void DoanhThu::set_date(Datetime time)
 {
-    this->date = Datetime(years,months,days);
+    this->date = time;
 }
 // int DoanhThu::getThang() const {
 //     return thang;
@@ -120,9 +120,41 @@ void DoanhThu::addDoanhThu() {
     
 }
 
+<<<<<<< HEAD
 
 // viết hàm tongDoanhThutheonam
 // Phương thức tính tổng doanh thu theo năm
+=======
+int DoanhThu::tongDoanhThutheothoigian(int startYear, int startMonth, int startDay, int endYear, int endMonth, int endDay) {
+    Datetime startDate(startYear, startMonth, startDay);
+    Datetime endDate(endYear, endMonth, endDay);
+
+    int res = 0;
+    List<string> L;
+    ifstream inputFile("doanhthu.txt");
+    
+    if (!inputFile.is_open()) {
+        cout << "Error Opening File doanhthu.txt" << endl;
+        return -1; // Trả về giá trị đặc biệt để chỉ ra rằng không có doanh thu
+    }
+
+    string str;
+    while (getline(inputFile, str)) {
+        L.push_back(str);
+    }
+    inputFile.close();
+
+    int size = L.getSize();
+    for (int i = 0; i < size; i++) {
+        DoanhThu obj = Split(L[i]);
+        if (obj.date >= startDate && obj.date <= endDate) {
+            res += obj.thuNhap;
+        }
+    }
+
+    return res;
+}
+>>>>>>> 827293509722f40bf4c92222d84c6a5983d4e025
 // viết đa năng hóa toán tử <<
 ostream& operator<< (ostream& o, const DoanhThu& obj) {
     cout << "Date: ";
