@@ -1,11 +1,11 @@
 #include "problem.h"
 
-int problem::cnt= 0;
-problem::problem(string problem_id, string room_id, Datetime registeddate, Datetime finishdate, string content, bool status)
-: problem_id(problem_id), room_id(room_id), registeddate(registeddate), finishdate(finishdate), content(content), status(status)
+int problem::cnt 0;
+problem::problem(string problem_id, string room_id, Datetime registeddate, Datetime finishdate, string content) : problem_id(problem_id), room_id(room_id),
+                                                                                                                  registeddate(registeddate), finishdate(finishdate), content(content)
 {
 }
-problem::~problem()
+~problem()
 {
 }
 string problem::get_problem_id() const
@@ -50,28 +50,21 @@ void problem::set_content(string content)
 {
     this->content = content;
 }
-bool problem::get_status() const
-{
-    return this->status;
-}
-void problem::set_status(bool status)
-{
-    this->status = status;
-}
-istream &operator>>(istream &i, problem &obj)
+
+friend istream &operator>>(istream &i, problem &obj)
 {
     cin.ignore();
-    List<Room> room;
+    Room room;
     do
     {
         cout << "Enter RoomID: ";
         getline(i, obj.room_id);
-        Room::find_idroom(obj.room_id,room);
-        if (room[0].getRoomID() != obj.room_id)
+        room = Room::find_room(obj.room_id);
+        if (room.getRoomID() != obj.room_id)
         {
             cout << "Room Not Found.Try Again!" << endl;
         }
-    } while (room[0].getRoomID() != obj.room_id);
+    } while (room.getRoomID() != obj.room_id);
     Datetime date;
     obj.registeddate = date;
     cout << "Content: ";
@@ -102,7 +95,6 @@ void problem::write_File(List<string> &L)
 problem problem::Split(string str)
 {
     string problem_id, room_id, registeddate, finishdate, content;
-    bool status;
     Datetime time1,time2;
     str += ',';
     int id = 1;
@@ -128,33 +120,30 @@ problem problem::Split(string str)
                 finishdate = str.substr(begin,end -begin);
                 time2 = Datetime::Split(finishdate);
             }
-            else if(id == 5)
+            else
             {
                 content = str.substr(begin, end - begin);
-            } else {
-                status = Convert::str_to_bool(str.substr(begin, end - begin));
             }
             ++id;
             begin = end + 1;
         }
         end++;
     }
-    return problem(problem_id, room_id,time1,time2,content,status);
+    return customer(problem_id, room_id,time1,time2,content);
 }
 string problem::Union(problem &obj)
 {
-    string str = obj.problem_id + "," + obj.room_id + "," + Datetime::Union(obj.registeddate) +"," + Datetime::Union(obj.finishdate) +"," + obj.content + "," + Convert::bool_to_str(obj.status);
+    string str = obj.problem_id + "," + obj.room_id + "," + Datetime::Union(obj.registeddate) +"," + Datetime::Union(obj.finishdate) +"," + obj.content;
     return str;
 }
 
 
-void problem::add_problem()
+void add_problem()
 {
-    ofstream inputFile("problem.txt", std::ios::app);
-    string str;
+    ofstream inputFile("problem.txt", std::ios::app)
+    string str, problem_id;
     if (inputFile.is_open()) { 
-        str = Union(*this);
-        inputFile << str << '\n';
+        inputFile <<  Union(*this);
         inputFile.close(); 
     } else {
         cout << "Error Opening File problem.txt" << endl;
@@ -177,67 +166,23 @@ void problem::display(List<problem>& L)
         }
     }
 }
-
-void problem::view_solved_problem(List<problem> &L)
+void problem::find_problem(List<customer>&L)
 {
     ifstream inputFile;
-    inputFile.open("problem.txt");
+    inputFile.open("customer.txt");
     string str;
-    problem obj;
+    customer obj;
     while (getline(inputFile, str))
     {
-        if (str.size())
+        obj = Split(str);
+        if (customer_id == obj.customer_id)
         {
-            obj = Split(str);
-            if (obj.status) L.push_back(obj);
+           L.push_back(obj);
         }
-    }
+    };
 }
-void problem::view_unsolved_problem(List<problem> &L)
-{
-    ifstream inputFile;
-    inputFile.open("problem.txt");
-    string str;
-    problem obj;
-    while (getline(inputFile, str))
-    {
-        if (str.size())
-        {
-            obj = Split(str);
-            if (!obj.status) L.push_back(obj);
-        }
-    }
-}
-void problem::find_idproblem(string id, List<problem > &L)
-{
-    ifstream inputFile;
-    inputFile.open("problem.txt");
-    string str;
-    problem obj;
-    while (getline(inputFile, str))
-    {
-        if (str.size())
-        {
-            obj = Split(str);
-            if (id == obj.problem_id) L.push_back(obj);
-        }
-    }
-}
-void problem::solve(problem &obj1)
-{   
-    ifstream inputFile;
-    inputFile.open("problem.txt");
-    string str;
-    problem obj;
-    List<string> L;
-    while (getline(inputFile, str))
-    {
-        if (str.size())
-        {
-            obj = Split(str);
-            if (obj1.problem_id != obj.problem_id) L.push_back(str);
-        }
-    } 
-    L.push_back(Union(obj1));
-    write_File(L);
-}
+static void view_solved_problem(List<problem> &);
+static void view_unsolved_problem(List<problem> &);
+static bool find_problem(List<problem> &);
+static bool find_idproblem(string, List, problem > &);
+static void solve(problem &);
