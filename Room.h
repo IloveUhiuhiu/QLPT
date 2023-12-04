@@ -32,7 +32,7 @@ public:
     static void view_rented_room(List<Room>&);
     // static List<string> load_File(const string);
     static void write_File(List<string>&); 
-    static void delete_room(string room_id);
+    static void delete_room(string room_id,int k = 0);
 
     void add_room(int);
     friend istream& operator>>(istream&, Room&);
@@ -45,9 +45,10 @@ public:
     // void display() const;
       // Function to load room data from file
     // static void loadRoomListFromFile(List<Room>& roomList);
-    static void edit_room();
+    static void update_room(Room&,int);
      
     static void cancel_room(string room_id);
+    static void change_room();
 
 private:
     string room_id;

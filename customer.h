@@ -56,7 +56,7 @@ public:
     static void find_idcustomer(string, List<customer>&);
     static void find_idroom(string, List<customer>&);
     static bool find_user_name(string);
-    static void update_customer(customer&);
+    static void update_customer(customer&,int );
     static List<customer> find_idroom(string);
     static void change_user_name(string);
     // static void change_room(string , string );

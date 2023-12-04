@@ -43,7 +43,8 @@ public:
     static void find_bill_id(string,List<hoa_don>&);
     static bool find_bill_id_check(string);
     string find_max_bill_id();
-    static void update_hoa_don(hoa_don&);
-    static void Pay_bill(hoa_don&);
+    static void update_hoa_don(hoa_don&,int);
+    static void Pay_bill(hoa_don&,int);
+    static void delete_by_room(string );
 };
 #endif

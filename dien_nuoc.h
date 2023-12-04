@@ -67,11 +67,12 @@ public:
     static void find_dien_nuoc_id(string,List<dien_nuoc>&);
     static dien_nuoc find_nearest_dien_nuoc(string);
     string find_max_dien_nuoc_id();
-    static void update_dien_nuoc(dien_nuoc&);
-    static void Pay_dien_nuoc(dien_nuoc&);
+    static void update_dien_nuoc(dien_nuoc&,int);
+    static void Pay_dien_nuoc(dien_nuoc&,int);
     static void delete_dien_nuoc(string);
     static void view_Paid_room(List<dien_nuoc>&);
     static void view_unpaid_room(List<dien_nuoc>&);
+    static void delete_by_room(string);
 
     // static int Electric_bill(string);
     // static int Water_bill(string);

@@ -61,20 +61,23 @@ void problem::set_status(bool status)
 istream &operator>>(istream &i, problem &obj)
 {
     cin.ignore();
+    obj.set_problem_id(Convert::CreateID("problem.txt"));
     List<Room> room;
     do
-    {
-        cout << "Enter RoomID: ";
+    {   
+        xoa(4,5,40);
+        xoa(4,6,40);
+        gotoXY(4,5);cout << "Enter RoomID: ";
         getline(i, obj.room_id);
         Room::find_idroom(obj.room_id,room);
         if (room[0].getRoomID() != obj.room_id)
         {
-            cout << "Room Not Found.Try Again!" << endl;
+            gotoXY(4,6);cout << "Room Not Found.Try Again!" << endl;
         }
     } while (room[0].getRoomID() != obj.room_id);
     Datetime date;
     obj.registeddate = date;
-    cout << "Content: ";
+    gotoXY(4,6);cout << "Content: ";
     getline(i, obj.content);
     return i;
 }

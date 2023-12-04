@@ -1,6 +1,7 @@
-#include <stdio.h>
+#include <iostream>
 #include <conio.h>
 #include <windows.h>
+using namespace std;
 
 #define ColorCode_Back			0
 #define ColorCode_DarkBlue		1
@@ -30,19 +31,9 @@
 
 
 int inputKey();
-
-//-------------------------Screen-------------------------
+void xoa(int x, int y, int dodai);
+void setColor(int maunen, int mauchu);
+void textcolor(WORD color);
+void SetBGColor(WORD color);
+void gotoXY(int column, int line);
 void clrscr();
-
-//screen: goto [x,y]
-void gotoXY (int column, int line);
-
-//screen: get [x]
-int whereX();
-
-//screen: get [y]
-int whereY();
-
-void TextColor(int);
-//end----------------------Screen----------------------end
-

@@ -396,13 +396,13 @@ bool dien_nuoc::find_dien_nuoc(List<dien_nuoc> &L)
     string room_id, dien_nuoc_id, date, status;
     Datetime time;
     cin.ignore();
-    cout << "Enter Electric Water ID: ";
+    gotoXY(4,5);cout << "Enter Electric Water ID: ";
     getline(cin, dien_nuoc_id);
-    cout << "Enter Room ID: ";
+    gotoXY(4,6);cout << "Enter Room ID: ";
     getline(cin, room_id);
-    cout << "Enter Payment Date(yy-mm-dd): ";
+    gotoXY(4,7);cout << "Enter Payment Date(yy-mm-dd): ";
     getline(cin, date);
-    cout << "Enter Status: ";
+    gotoXY(4,8);cout << "Enter Status: ";
     getline(cin,status);
     ifstream inputFile;
     inputFile.open("dien_nuoc.txt");
@@ -473,7 +473,7 @@ bool dien_nuoc::find_dien_nuoc(List<dien_nuoc> &L)
         return false;
     return true;
 }
-void dien_nuoc::update_dien_nuoc(dien_nuoc &obj1)
+void dien_nuoc::update_dien_nuoc(dien_nuoc &obj1,int vt)
 {   
     List<string> L;
     ifstream inputFile;
@@ -491,23 +491,23 @@ void dien_nuoc::update_dien_nuoc(dien_nuoc &obj1)
         obj = Split(L[i]);
         if (obj.get_dien_nuoc_id() == obj1.get_dien_nuoc_id())
         {   
-            cout << "Num Electric Before: ";
+            gotoXY(4,vt+1);cout << "Num Electric Before: ";
             getline(cin, num_electric_before);
             if (num_electric_before.size())
                 obj1.set_num_electric_before(Convert::str_to_int(num_electric_before));
-            cout << "Num Electric After: ";
+            gotoXY(4,vt+2);cout << "Num Electric After: ";
             getline(cin, num_electric_after);
             if (num_electric_after.size())
                 obj1.set_num_electric_after(Convert::str_to_int(num_electric_after));
-            cout << "Num Water Before: ";
+            gotoXY(4,vt+3);cout << "Num Water Before: ";
             getline(cin, num_water_before);
             if (num_water_before.size())
                 obj1.set_num_water_before(Convert::str_to_int(num_water_before));
-            cout << "Num Water After: ";
+            gotoXY(4,vt+4);cout << "Num Water After: ";
             getline(cin, num_water_after);
             if (num_water_after.size())
                 obj1.set_num_water_after(Convert::str_to_int(num_water_after));
-            cout << "Payment Date(yy-mm-dd): ";
+            gotoXY(4,vt+5);cout << "Payment Date(yy-mm-dd): ";
             getline(cin, date);
             if (date.size())
                 obj1.set_date(Datetime::Split(date));
@@ -517,7 +517,7 @@ void dien_nuoc::update_dien_nuoc(dien_nuoc &obj1)
     }
     write_File(L);
 }
-void dien_nuoc::Pay_dien_nuoc(dien_nuoc &obj1)
+void dien_nuoc::Pay_dien_nuoc(dien_nuoc &obj1,int vt)
 {
     bool ok = false;
     List<string> L;
@@ -541,13 +541,13 @@ void dien_nuoc::Pay_dien_nuoc(dien_nuoc &obj1)
             {   
                 do
                 {
-                    cout << "Num Electric After: ";
+                    gotoXY(4,vt+1);cout << "Num Electric After: ";
                     getline(cin, num_electric_after);
                 } while (Convert::str_to_int(num_electric_after) <= obj1.get_num_electric_before());
                 obj1.set_num_electric_after(Convert::str_to_int(num_electric_after));
                 do
                 {
-                    cout << "Num Water After: ";
+                    gotoXY(4,vt+2);cout << "Num Water After: ";
                     getline(cin, num_water_after);
                 } while (Convert::str_to_int(num_water_after) <= obj1.get_num_water_before());
                 obj1.set_num_water_after(Convert::str_to_int(num_water_after));
@@ -555,9 +555,9 @@ void dien_nuoc::Pay_dien_nuoc(dien_nuoc &obj1)
                 L[i] = str;
                 write_File(L);
             start:
-                cout << "Electric Bill: " << (obj1.get_num_electric_after() - obj1.get_num_electric_before()) * obj1.get_cost_electric() << endl;
-                cout << "Water Bill: " << (obj1.get_num_water_after() - obj1.get_num_water_before()) * obj1.get_cost_water() << endl;
-                cout << "Do you want to pay?(Yes/No): ";
+                gotoXY(4,vt+3);cout << "Electric Bill: " << (obj1.get_num_electric_after() - obj1.get_num_electric_before()) * obj1.get_cost_electric() << endl;
+                gotoXY(4,vt+4);cout << "Water Bill: " << (obj1.get_num_water_after() - obj1.get_num_water_before()) * obj1.get_cost_water() << endl;
+                gotoXY(4,vt+5);cout << "Do you want to pay?(Yes/No): ";
                 getline(cin, status);
                 obj1.set_status(Convert::str_to_bool(status));
                 if (obj1.get_status())
@@ -575,7 +575,8 @@ void dien_nuoc::Pay_dien_nuoc(dien_nuoc &obj1)
                     dn.set_num_water_after(0);
                     dn.set_status(false);
                     dn.add_dien_nuoc();
-                    cout << "Payment success!!!" << endl;
+                    gotoXY(4,vt+6);cout << "Payment success!!!" << endl;
+                    getch();
                     break;
                 }
             }
@@ -601,9 +602,9 @@ void dien_nuoc::delete_dien_nuoc(string dien_nuoc_id)
         dien_nuoc obj = Split(L[i]);
         if (obj.get_dien_nuoc_id() == dien_nuoc_id)
         {
-            L.erase(i);
-            i--;
+            continue;
         }
+        L.push_back(str);
     }
     write_File(L);
 }
@@ -649,4 +650,24 @@ void dien_nuoc::view_unpaid_room(List<dien_nuoc> &L)
             }
         }
     }
+}
+
+void dien_nuoc::delete_by_room(string room_id)
+{
+    ifstream inputFile;
+    inputFile.open("dien_nuoc.txt");
+    string str;
+    List<string>L;
+    while (getline(inputFile, str))
+    {
+        if (str.size())
+        {
+            dien_nuoc obj = dien_nuoc::Split(str);
+            if (Convert::Tolower(obj.get_room_id()) != Convert::Tolower(room_id) )
+            {
+                L.push_back(str);
+            }
+        }
+    }
+    write_File(L);
 }
