@@ -41,7 +41,10 @@ public:
     static void find_idroom(string,List<Room>&);
     static Room find_room(string searchTerm);
 <<<<<<< HEAD
+<<<<<<< HEAD
     static List<Room> find_room();
+=======
+>>>>>>> parent of 8272935 (okok)
 =======
 >>>>>>> parent of 8272935 (okok)
     static bool find_room_with_status_true(string);

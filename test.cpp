@@ -2,8 +2,11 @@
 #include "customer.h"
 #include "DoanhThu.h"
 <<<<<<< HEAD
+<<<<<<< HEAD
 #include <list>  // Include the appropriate header for your List class
 
+=======
+>>>>>>> parent of 8272935 (okok)
 =======
 >>>>>>> parent of 8272935 (okok)
 void TextColor(int textColor)
@@ -686,6 +689,7 @@ void menu_Manager_Phong_Tro()
         case 4:
         {
 <<<<<<< HEAD
+<<<<<<< HEAD
             Room room;
 
             List<Room> foundRooms = room.find_room();
@@ -698,6 +702,8 @@ void menu_Manager_Phong_Tro()
             } else {
                 cout << "No rooms found matching the criteria.\n";
 =======
+=======
+>>>>>>> parent of 8272935 (okok)
             cout << "Choose search type:" << endl;
             cout << "1. By Room ID" << endl;
             cout << "2. By Kind of Room(A , B , C)" << endl;
@@ -719,6 +725,9 @@ void menu_Manager_Phong_Tro()
             else
             {
                 cout << "Room not found." << endl;
+<<<<<<< HEAD
+>>>>>>> parent of 8272935 (okok)
+=======
 >>>>>>> parent of 8272935 (okok)
             }
 
@@ -1097,11 +1106,14 @@ void menu_Calculate_Revenue()
         case 3:
             do
 <<<<<<< HEAD
+<<<<<<< HEAD
             {
                 cout << "Enter Start Date (YYYY MM DD): ";
                 cin >> startYear >> startMonth >> startDay;
 
 =======
+=======
+>>>>>>> parent of 8272935 (okok)
             {   
                 cin.ignore();
                 cout << "Enter Start Date (yy-mm-dd): ";
@@ -1158,7 +1170,10 @@ void menu_Calculate_Revenue()
         system("pause");
     } while (choice != 0);
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> parent of 8272935 (okok)
 
 void menu_admin(admin &object1)
 {

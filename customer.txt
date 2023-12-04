@@ -7,9 +7,12 @@
 000003,R002,Thai Thi C,2000-10-12,2023-11-30,Nu,C@gmail.com,Ha Noi,0377789087,c111,1111
 000004,R005,Tran Thi D,2001-4-2,2023-11-30,Nu,D@gmail.com,Lao Cai,0344423432,d222,2222
 <<<<<<< HEAD
+<<<<<<< HEAD
 000005,R001,Le Van C,2004-9-2,2023-11-30,Nam,Ccgmail.com,Quang Nam,0399989999,a000,0000
 000006,R003,Dang Van L,2004-12-3,2023-11-30,Nam,L@gmail.com,Hue,0377789012,l333,3333
 000007,R001,,2004-9-8,2023-12-1,Nam,R@gmail.com,Hai Phong,0344454343,a000,0000
 >>>>>>> 827293509722f40bf4c92222d84c6a5983d4e025
+=======
+>>>>>>> parent of 8272935 (okok)
 =======
 >>>>>>> parent of 8272935 (okok)
