@@ -1,6 +1,8 @@
 #include "admin.h"
 #include "customer.h"
 #include "DoanhThu.h"
+#include <list>  // Include the appropriate header for your List class
+
 void TextColor(int textColor)
 {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -632,27 +634,17 @@ void menu_Manager_Phong_Tro()
             break;
         case 4:
         {
-            cout << "Choose search type:" << endl;
-            cout << "1. By Room ID" << endl;
-            cout << "2. By Kind of Room(A , B , C)" << endl;
+            Room room;
 
-            int searchType;
-            cin >> searchType;
+            List<Room> foundRooms = room.find_room();
 
-            cout << "Enter search term: ";
-            string searchTerm;
-            cin >> searchTerm;
-
-            Room foundRoom = Room::find_room(searchTerm);
-
-            if (!foundRoom.getRoomID().empty())
-            {
-                cout << "Room found:" << endl;
-                cout << foundRoom << endl;
-            }
-            else
-            {
-                cout << "Room not found." << endl;
+            if (foundRooms.getSize() > 0) {
+                cout << "Found rooms matching the criteria:\n";
+                for (int i = 0; i < foundRooms.getSize(); ++i) {
+                    cout << foundRooms[i] << endl;
+                }
+            } else {
+                cout << "No rooms found matching the criteria.\n";
             }
 
             break;
@@ -904,6 +896,8 @@ void menu_Manager_Dien_Nuoc()
 void menu_Calculate_Revenue()
 {
     int choice, month, year, revenue;
+    int startYear, startMonth, startDay, endYear, endMonth, endDay; // Declare variables
+
     DoanhThu doanhThu; // Create an object of the DoanhThu class
 
     do
@@ -942,95 +936,75 @@ void menu_Calculate_Revenue()
         switch (choice)
         {
         case 1:
-            cout << "Enter Month:";
-            cin >> month;
-            while (month < 1 || month > 12)
+            do
             {
-                cout << "Enter Right Month:";
+                cout << "Enter Month: ";
                 cin >> month;
-            }
-            revenue = doanhThu.tongDoanhThutheothang(month);
-            cout << "Total Revenue for Month " << month << ": " << revenue << endl;
+
+                // Kiểm tra giá trị hợp lệ cho tháng (1-12)
+                if (month < 1 || month > 12)
+                {
+                    cout << "Invalid Month. Please enter a value between 1 and 12." << endl;
+                }
+            } while (month < 1 || month > 12);
+
+            cout << "Enter Year: ";
+            cin >> year;
+
+            // Gọi hàm tính tổng doanh thu theo tháng
+            revenue = doanhThu.tongDoanhThutheothoigian(year, month, 1, year, month, 31);
+
+            // Hiển thị kết quả
+            cout << "Total Revenue for " << month << "/" << year << ": " << revenue << endl;
+
             break;
 
         case 2:
-            cout << "Enter Year:";
+            cout << "Enter Year: ";
             cin >> year;
-            revenue = doanhThu.tongDoanhThutheonam(year);
+
+            // Gọi hàm tính tổng doanh thu theo năm
+            revenue = doanhThu.tongDoanhThutheothoigian(year, 1, 1, year, 12, 31);
+
+            // Hiển thị kết quả
             cout << "Total Revenue for Year " << year << ": " << revenue << endl;
+
             break;
 
         case 3:
-        {
-            int startYear, startMonth, startDay, endYear, endMonth, endDay;
-            cout << "Enter Start Year:";
-            cin >> startYear;
-
-            cout << "Enter Start Month:";
-            cin >> startMonth;
-            while (startMonth < 1 || startMonth > 12)
+            do
             {
-                cout << "Enter Right Start Month:";
-                cin >> startMonth;
-            }
+                cout << "Enter Start Date (YYYY MM DD): ";
+                cin >> startYear >> startMonth >> startDay;
 
-            cout << "Enter Start Day:";
-            cin >> startDay;
-            while (startDay < 1 || startDay > 31)
-            {
-                cout << "Enter Right Start Day:";
-                cin >> startDay;
-            }
-
-            cout << "Enter End Year:";
-            cin >> endYear;
-
-            cout << "Enter End Month:";
-            cin >> endMonth;
-            while (endMonth < 1 || endMonth > 12)
-            {
-                cout << "Enter Right End Month:";
-                cin >> endMonth;
-            }
-
-            cout << "Enter End Day:";
-            cin >> endDay;
-            while (endDay < 1 || endDay > 31)
-            {
-                cout << "Enter Right End Day:";
-                cin >> endDay;
-            }
-
-            Datetime startDate(startYear, startMonth, startDay);
-            Datetime endDate(endYear, endMonth, endDay);
-            int totalRevenue = 0;
-            Datetime currentDate = startDate;
-
-            while (currentDate <= endDate)
-            {
-                // Calculate revenue for the current month
-                int revenue = doanhThu.tongDoanhThutheothang(currentDate.get_months());
-
-                // Accumulate the revenue
-                totalRevenue += revenue;
-
-                // Move to the next month
-                int nextMonth = currentDate.get_months() + 1;
-                int nextYear = currentDate.get_years();
-
-                if (nextMonth > 12)
+                // Kiểm tra giá trị hợp lệ cho ngày và tháng
+                if (!Datetime::isValidDate(startYear, startMonth, startDay))
                 {
-                    nextMonth = 1;
-                    nextYear++;
+                    cout << "Invalid Date. Please enter a valid date." << endl;
                 }
+            } while (!Datetime::isValidDate(startYear, startMonth, startDay));
 
-                // Update currentDate
-                currentDate = Datetime(nextYear, nextMonth, currentDate.get_days());
-            }
+            do
+            {
+                cout << "Enter End Date (YYYY MM DD): ";
+                cin >> endYear >> endMonth >> endDay;
 
-            cout << "Total Revenue for the specified time period: " << totalRevenue << endl;
+                // Kiểm tra giá trị hợp lệ cho ngày và tháng
+                if (!Datetime::isValidDate(endYear, endMonth, endDay))
+                {
+                    cout << "Invalid Date. Please enter a valid date." << endl;
+                }
+            } while (!Datetime::isValidDate(endYear, endMonth, endDay));
+
+            // Gọi hàm tính tổng doanh thu theo khoảng thời gian
+            revenue = doanhThu.tongDoanhThutheothoigian(startYear, startMonth, startDay, endYear, endMonth, endDay);
+
+            // Hiển thị kết quả
+            cout << "Total Revenue from " << startDay << "/" << startMonth << "/" << startYear
+                 << " to " << endDay << "/" << endMonth << "/" << endYear << ": " << revenue << endl;
+
             break;
-        }
+
         default:
             break;
         }
@@ -1041,6 +1015,7 @@ void menu_Calculate_Revenue()
         system("pause");
     } while (choice != 0);
 }
+
 
 void menu_admin(admin &object1)
 {

@@ -211,6 +211,57 @@ void Room::find_idroom(string room_id,List<Room>&L)
         }
     }
 }
+
+List<Room> Room::find_room() {
+    List<Room> roomList;
+    
+    string searchRoomID, searchKindOf;
+    int searchCost;
+    bool searchOccupied;
+    getline(cin, searchRoomID);
+    cout << "Enter RoomID (press Enter to skip): ";
+    getline(cin, searchRoomID);
+
+    cout << "Enter KindOf (A, B, or C) (press Enter to skip): ";
+    getline(cin, searchKindOf);
+
+    cout << "Enter Cost (press Enter to skip): ";
+    string costInput;
+    getline(cin, costInput);
+    if (!costInput.empty()) {
+        searchCost = stoi(costInput);
+    }
+
+    cout << "Enter Status (true/false) (press Enter to skip): ";
+    string occupiedInput;
+    getline(cin, occupiedInput);
+    if (!occupiedInput.empty()) {
+        searchOccupied = Convert::str_to_bool(occupiedInput);
+    }
+
+    ifstream inputFile;
+    inputFile.open("room.txt");
+    string str;
+
+    while (getline(inputFile, str)) {
+        if (str.size()) {
+            Room obj = Room::Split(str);
+
+            // Kiểm tra xem các thuộc tính đã nhập có phù hợp không (nếu đã nhập)
+            if ((searchRoomID.empty() || obj.getRoomID() == searchRoomID) &&
+                (searchKindOf.empty() || obj.getKindOf() == searchKindOf) &&
+                (costInput.empty() || obj.getCost() == searchCost) &&
+                (occupiedInput.empty() || obj.isOccupied() == searchOccupied)) {
+                roomList.push_back(obj);
+            }
+        }
+    }
+
+    inputFile.close();
+    return roomList;
+}
+
+
 Room Room::find_room(string search_term)
 {
     ifstream inputFile;
@@ -232,6 +283,35 @@ Room Room::find_room(string search_term)
     // Return an empty Room object if no match is found
     return Room();
 }
+
+// bool find_room(List<T> &L)
+// {
+//     string room_id, kind_of;
+//     cin.ignore();
+//     cout << "Enter Room ID or Kind Of: ";
+//     getline(cin, room_id);
+//     kind_of = room_id; // Assuming the search term can match either room_id or kind_of
+
+//     int cnt = 0;
+
+//     for (auto it = L.begin(); it != L.end(); ++it)
+//     {
+//         const T &room = *it;
+
+//         // Assuming T has getRoomID() and getKindOf() member functions
+//         if ((room_id.size() != 0 && room.getRoomID() == room_id) || (kind_of.size() != 0 && room.getKindOf() == kind_of))
+//         {
+//             cnt++;
+//             // Process or store the matching room as needed
+//             // For example: L.push_back(room);
+//         }
+//     }
+
+//     if (cnt == 0)
+//         return false;
+
+//     return true;
+// }
 
 void Room::view_empty_room(List<Room>& L)
 {
