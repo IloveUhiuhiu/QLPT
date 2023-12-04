@@ -39,12 +39,8 @@ public:
     friend ostream& operator<<(ostream&, const Room&);
 
     static void find_idroom(string,List<Room>&);
-<<<<<<< HEAD
     static Room find_room(string searchTerm);
     static List<Room> find_room();
-=======
-    static void find_room(List<Room>&);
->>>>>>> 827293509722f40bf4c92222d84c6a5983d4e025
     static bool find_room_with_status_true(string);
     // Display room information method
     // void display() const;

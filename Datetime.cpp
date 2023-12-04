@@ -128,12 +128,6 @@ bool Datetime::operator>(const Datetime& other) const {
 bool Datetime::operator>=(const Datetime& other) const {
     return !(*this < other);
 }
-<<<<<<< HEAD
-
-
-// Hàm kiểm tra ngày tháng hợp lệ
-=======
->>>>>>> 827293509722f40bf4c92222d84c6a5983d4e025
 bool Datetime::isValidDate(int year, int month, int day)
 {
     if (year < 1 || month < 1 || month > 12 || day < 1 || day > 31)
@@ -163,7 +157,3 @@ bool Datetime::isValidDate(int year, int month, int day)
 
     return true;
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> 827293509722f40bf4c92222d84c6a5983d4e025

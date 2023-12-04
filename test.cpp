@@ -1,14 +1,9 @@
 #include "admin.h"
 #include "customer.h"
 #include "DoanhThu.h"
-<<<<<<< HEAD
 #include <list>  // Include the appropriate header for your List class
 
 void TextColor(int textColor)
-=======
-#include "problem.h"
-void clrscr()
->>>>>>> 827293509722f40bf4c92222d84c6a5983d4e025
 {
     CONSOLE_SCREEN_BUFFER_INFO csbiInfo;
     HANDLE hConsoleOut;
@@ -997,7 +992,6 @@ void menu_Manager_Phong_Tro()
             break;
         case 4:
         {
-<<<<<<< HEAD
             Room room;
 
             List<Room> foundRooms = room.find_room();
@@ -1009,18 +1003,6 @@ void menu_Manager_Phong_Tro()
                 }
             } else {
                 cout << "No rooms found matching the criteria.\n";
-=======
-            cout << "Find Information Room: " << endl;
-            cin.ignore();
-            Room::find_room(L);
-            if (L.getSize() > 0)
-            {
-                box_room(3, 4, L);
-            }
-            else
-            {
-                cout << "Not Found" << endl;
->>>>>>> 827293509722f40bf4c92222d84c6a5983d4e025
             }
             getch();
             break;
@@ -1396,14 +1378,8 @@ void menu_Manager_Dien_Nuoc()
 void menu_Calculate_Revenue()
 {
     int choice, month, year, revenue;
-<<<<<<< HEAD
     int startYear, startMonth, startDay, endYear, endMonth, endDay; // Declare variables
 
-=======
-    int startYear, startMonth, startDay, endYear, endMonth, endDay;
-    string startDate, endDate; // Declare variables
-    Datetime time;
->>>>>>> 827293509722f40bf4c92222d84c6a5983d4e025
     DoanhThu doanhThu; // Create an object of the DoanhThu class
 
     do
@@ -1494,7 +1470,6 @@ void menu_Calculate_Revenue()
         case 3:
             do
             {
-<<<<<<< HEAD
                 cout << "Enter Start Date (YYYY MM DD): ";
                 cin >> startYear >> startMonth >> startDay;
 
@@ -1502,25 +1477,11 @@ void menu_Calculate_Revenue()
                 if (!Datetime::isValidDate(startYear, startMonth, startDay))
                 {
                     cout << "Invalid Date. Please enter a valid date." << endl;
-=======
-                cin.ignore();
-                cout << "Enter Start Date (yy-mm-dd): ";
-                getline(cin, startDate);
-                time = Datetime::Split(startDate);
-                startYear = time.get_years();
-                startMonth = time.get_months();
-                startDay = time.get_days();
-                // Kiểm tra giá trị hợp lệ cho ngày và tháng
-                if (!Datetime::isValidDate(startYear, startMonth, startDay))
-                {
-                    cout << "Invalid Date. Please Enter a Valid Date." << endl;
->>>>>>> 827293509722f40bf4c92222d84c6a5983d4e025
                 }
             } while (!Datetime::isValidDate(startYear, startMonth, startDay));
 
             do
             {
-<<<<<<< HEAD
                 cout << "Enter End Date (YYYY MM DD): ";
                 cin >> endYear >> endMonth >> endDay;
 
@@ -1528,18 +1489,6 @@ void menu_Calculate_Revenue()
                 if (!Datetime::isValidDate(endYear, endMonth, endDay))
                 {
                     cout << "Invalid Date. Please enter a valid date." << endl;
-=======
-                cout << "Enter End Date (yy-mm-dd): ";
-                getline(cin, endDate);
-                time = Datetime::Split(endDate);
-                endYear = time.get_years();
-                endMonth = time.get_months();
-                endDay = time.get_days();
-                // Kiểm tra giá trị hợp lệ cho ngày và tháng
-                if (!Datetime::isValidDate(endYear, endMonth, endDay))
-                {
-                    cout << "Invalid Date. Please Enter a Valid Date." << endl;
->>>>>>> 827293509722f40bf4c92222d84c6a5983d4e025
                 }
             } while (!Datetime::isValidDate(endYear, endMonth, endDay));
 
@@ -1547,13 +1496,8 @@ void menu_Calculate_Revenue()
             revenue = doanhThu.tongDoanhThutheothoigian(startYear, startMonth, startDay, endYear, endMonth, endDay);
 
             // Hiển thị kết quả
-<<<<<<< HEAD
             cout << "Total Revenue from " << startDay << "/" << startMonth << "/" << startYear
                  << " to " << endDay << "/" << endMonth << "/" << endYear << ": " << revenue << endl;
-=======
-            cout << "Total Revenue from " << startYear << "-" << startMonth << "-" << startDate
-                 << " to " << endYear << "-" << endMonth << "-" << endDate << ": " << revenue << endl;
->>>>>>> 827293509722f40bf4c92222d84c6a5983d4e025
 
             break;
 

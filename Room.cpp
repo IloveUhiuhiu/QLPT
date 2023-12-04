@@ -288,7 +288,6 @@ void Room::view_empty_room(List<Room>& L)
     {   
         if (str.size()) {
             obj = Room::Split(str);
-<<<<<<< HEAD
             if (obj.getRoomID() == room_id)
             {
                 L.push_back(obj);
@@ -407,8 +406,6 @@ void Room::view_empty_room(List<Room>& L)
     {   
         if (str.size()) {
             Room obj = Room::Split(str);
-=======
->>>>>>> 827293509722f40bf4c92222d84c6a5983d4e025
             if (!obj.isOccupied())
             {
                 L.push_back(obj);
