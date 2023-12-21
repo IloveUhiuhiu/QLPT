@@ -2,6 +2,7 @@
 #include "customer.h"
 #include "DoanhThu.h"
 #include "problem.h"
+
 void ThanhNgang(int x, int y, int dodai, int maunen, int mauchu, int makitu)
 {
     setColor(maunen, mauchu);
@@ -43,13 +44,13 @@ void khung(int a, int b, int c, int d, const string content)
     ThanhTru(40, 8, 29, mau, 9, 177);  // tru giưa
     setColor(0, 14);
     gotoXY(4, 11);
-    cout << "Number Of Rooms: " << a;
+    cout << " Number Of Rooms: " << Room::NumOfRoom();
     gotoXY(4, 18);
-    cout << "Number Of Customers: " << b;
+    cout << " Number Of Customers: " << customer::NumOfCustomer();
     gotoXY(4, 25);
-    cout << "Number Of Empty Rooms: " << c;
+    cout << " Number Of Empty Rooms: " << Room::NumOfEmptyRoom();
     gotoXY(4, 32);
-    cout << "Number Of Problem: " << d;
+    cout << " Number Of Problem: " << problem::NumOfProblem();
     gotoXY(2 + (154 - content.size()) / 2, 4);
     cout << content;
 }
@@ -163,23 +164,19 @@ void box_customer(int x, int y, List<customer> &L)
     content.push_back("RoomID");
     w.push_back(12);
     content.push_back("Name");
-    w.push_back(17);
+    w.push_back(22);
     content.push_back("DateofBirth");
-    w.push_back(14);
+    w.push_back(16);
     content.push_back("DateCheckIn");
-    w.push_back(14);
+    w.push_back(16);
     content.push_back("Gender");
     w.push_back(10);
     content.push_back("Email");
-    w.push_back(20);
+    w.push_back(23);
     content.push_back("Address");
     w.push_back(14);
     content.push_back("Phone");
     w.push_back(14);
-    content.push_back("UserName");
-    w.push_back(12);
-    content.push_back("Password");
-    w.push_back(10);
     for (int i = 0; i < n; i++)
     {
         content.push_back(L[i].get_customer_id());
@@ -191,10 +188,8 @@ void box_customer(int x, int y, List<customer> &L)
         content.push_back(L[i].get_customer_email());
         content.push_back(L[i].get_customer_address());
         content.push_back(L[i].get_customer_phone());
-        content.push_back(L[i].get_user_name());
-        content.push_back(L[i].get_password());
     }
-    box(x, y, w, n + 1, 11, content);
+    box(x, y, w, n + 1, 9 , content);
 }
 
 void box_room(int x, int y, List<Room> &L)
@@ -590,27 +585,27 @@ void menu_user(customer &object2)
         gotoXY(42, 11);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 12);
-        cout << "\t\t\t*\t|  1) View Information Customer       |                 *" << endl;
+        cout << "\t\t\t*\t  1) View Information Customer                          *" << endl;
         gotoXY(42, 13);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 14);
-        cout << "\t\t\t*\t|  2) View Information Room           |                 *" << endl;
+        cout << "\t\t\t*\t  2) View Information Room                              *" << endl;
         gotoXY(42, 15);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 16);
-        cout << "\t\t\t*\t|  3) View Information Electric-Water |                 *" << endl;
+        cout << "\t\t\t*\t  3) View Information Electric-Water                    *" << endl;
         gotoXY(42, 17);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 18);
-        cout << "\t\t\t*\t|  4) View Information Payment        |                 *" << endl;
+        cout << "\t\t\t*\t  4) View Information Payment                           *" << endl;
         gotoXY(42, 19);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 20);
-        cout << "\t\t\t*\t|  5) Add Problem                     |                 *" << endl;
+        cout << "\t\t\t*\t  5) Add Problem                                        *" << endl;
         gotoXY(42, 21);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 22);
-        cout << "\t\t\t*\t|  0) Logout                          |                 *" << endl;
+        cout << "\t\t\t*\t  0) Logout                                             *" << endl;
         gotoXY(42, 23);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 24);
@@ -638,7 +633,7 @@ void menu_user(customer &object2)
         case 1:
             gotoXY(61,4);cout << "***Information Of Customer***" << endl;
             customer::find_idroom(object2.get_room_id(), L);
-            box_customer(4, 6, L);
+            box_customer(9, 6, L);
             getch();
             break;
         case 2:
@@ -699,31 +694,31 @@ void menu_Manager_Customer()
         gotoXY(42, 12);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 13);
-        cout << "\t\t\t*\t|  1) View List Customer  |                             *" << endl;
+        cout << "\t\t\t*\t  1) View List Customer                                 *" << endl;
         gotoXY(42, 14);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 15);
-        cout << "\t\t\t*\t|  2) Add Customer        |                             *" << endl;
+        cout << "\t\t\t*\t  2) Add Customer                                       *" << endl;
         gotoXY(42, 16);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 17);
-        cout << "\t\t\t*\t|  3) Find Customer       |                             *" << endl;
+        cout << "\t\t\t*\t  3) Find Customer                                      *" << endl;
         gotoXY(42, 18);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 19);
-        cout << "\t\t\t*\t|  4) Delete Customer     |                             *" << endl;
+        cout << "\t\t\t*\t  4) Delete Customer                                    *" << endl;
         gotoXY(42, 20);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 21);
-        cout << "\t\t\t*\t|  5) Edit Customer       |                             *" << endl;
+        cout << "\t\t\t*\t  5) Edit Customer                                      *" << endl;
         gotoXY(42, 22);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 23);
-        cout << "\t\t\t*\t|  6) Change User_Password|                             *" << endl;
+        cout << "\t\t\t*\t  6) Change User_Password                               *" << endl;
         gotoXY(42, 24);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 25);
-        cout << "\t\t\t*\t|  0) Exit                |                             *" << endl;
+        cout << "\t\t\t*\t  0) Exit                                               *" << endl;
         gotoXY(42, 26);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 27);
@@ -751,7 +746,7 @@ void menu_Manager_Customer()
             gotoXY(63,4);cout << "***Information Of All Customer***" << endl;
             cout << endl;
             customer::display(L);
-            box_customer(4, 6, L);
+            box_customer(9, 6, L);
             getch();
             break;
         case 2:
@@ -771,7 +766,7 @@ void menu_Manager_Customer()
             }
             else
             {
-                box_customer(4, 13, L);
+                box_customer(9, 13, L);
                 gotoXY(0, 0);
             }
             getch();
@@ -786,7 +781,7 @@ void menu_Manager_Customer()
             }
             else
             {
-                box_customer(4, 13, L);
+                box_customer(9, 13, L);
                 
             }
             do
@@ -812,7 +807,7 @@ void menu_Manager_Customer()
                 cout << "Not Found!" << endl;
                 continue;
             }
-            box_customer(3, 13, L);
+            box_customer(9, 13, L);
             
             L.clear();
             do
@@ -832,7 +827,7 @@ void menu_Manager_Customer()
             system("cls");
             khungbang();
             gotoXY(4,58);cout << "***Information Current Customer***" << endl;
-            box_customer(4, 6, L);
+            box_customer(9, 6, L);
             gotoXY(4, 2 * L.getSize() + 9);cout << "Enter New Information: " << endl;
             customer::update_customer(L[0],2*L.getSize()+9);
             break;
@@ -883,43 +878,43 @@ void menu_Manager_Phong_Tro()
         gotoXY(42, 12);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 13);
-        cout << "\t\t\t*\t|  1) View List Room           |                        *" << endl;
+        cout << "\t\t\t*\t  1) View List Room                                     *" << endl;
         gotoXY(42, 14);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 15);
-        cout << "\t\t\t*\t|  2) View List Empty Room     |                        *" << endl;
+        cout << "\t\t\t*\t  2) View List Empty Room                               *" << endl;
         gotoXY(42, 16);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 17);
-        cout << "\t\t\t*\t|  3) View List Rented Room    |                        *" << endl;
+        cout << "\t\t\t*\t  3) View List Rented Room                              *" << endl;
         gotoXY(42, 18);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 19);
-        cout << "\t\t\t*\t|  4) Find Room                |                        *" << endl;
+        cout << "\t\t\t*\t  4) Find Room                                          *" << endl;
         gotoXY(42, 20);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 21);
-        cout << "\t\t\t*\t|  5) Add Room                 |                        *" << endl;
+        cout << "\t\t\t*\t  5) Add Room                                           *" << endl;
         gotoXY(42, 22);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 23);
-        cout << "\t\t\t*\t|  6) Delete Room              |                        *" << endl;
+        cout << "\t\t\t*\t  6) Delete Room                                        *" << endl;
         gotoXY(42, 24);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 25);
-        cout << "\t\t\t*\t|  7) Edit Room                |                        *" << endl;
+        cout << "\t\t\t*\t  7) Edit Room                                          *" << endl;
         gotoXY(42, 26);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 27);
-        cout << "\t\t\t*\t|  8) Cancel Room              |                        *" << endl;
+        cout << "\t\t\t*\t  8) Cancel Room                                        *" << endl;
         gotoXY(42, 28);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 29);
-        cout << "\t\t\t*\t|  9) Change Room              |                        *" << endl;
+        cout << "\t\t\t*\t  9) Change Room                                        *" << endl;
         gotoXY(42, 30);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 31);
-        cout << "\t\t\t*\t|  0) Exit                     |                        *" << endl;
+        cout << "\t\t\t*\t  0) Exit                                               *" << endl;
         gotoXY(42, 32);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 33);
@@ -1073,31 +1068,31 @@ void menu_Manager_Payment()
         gotoXY(42, 12);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 13);
-        cout << "\t\t\t*\t|  1) View List Bill          |                        *" << endl;
+        cout << "\t\t\t*\t  1) View List Bill                                     *" << endl;
         gotoXY(42, 14);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 15);
-        cout << "\t\t\t*\t|  2) View Paid Bill          |                        *" << endl;
+        cout << "\t\t\t*\t  2) View Paid Bill                                     *" << endl;
         gotoXY(42, 16);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 17);
-        cout << "\t\t\t*\t|  3) View UnPaid Bill        |                        *" << endl;
+        cout << "\t\t\t*\t  3) View UnPaid Bill                                   *" << endl;
         gotoXY(42, 18);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 19);
-        cout << "\t\t\t*\t|  4) Find Bill               |                        *" << endl;
+        cout << "\t\t\t*\t  4) Find Bill                                          *" << endl;
         gotoXY(42, 20);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 21);
-        cout << "\t\t\t*\t|  5) Paid Bill               |                        *" << endl;
+        cout << "\t\t\t*\t  5) Paid Bill                                          *" << endl;
         gotoXY(42, 22);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 23);
-        cout << "\t\t\t*\t|  6) Edit Bill               |                        *" << endl;
+        cout << "\t\t\t*\t  6) Edit Bill                                          *" << endl;
         gotoXY(42, 24);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 25);
-        cout << "\t\t\t*\t|  0) Exit                    |                        *" << endl;
+        cout << "\t\t\t*\t  0) Exit                                               *" << endl;
         gotoXY(42, 26);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 27);
@@ -1241,39 +1236,39 @@ void menu_Manager_Dien_Nuoc()
         gotoXY(42, 12);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 13);
-        cout << "\t\t\t*\t|  1) View list Electric-Water        |                 *" << endl;
+        cout << "\t\t\t*\t  1) View list Electric-Water                           *" << endl;
         gotoXY(42, 14);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 15);
-        cout << "\t\t\t*\t|  2) View List Unpaid Electric_Water |                 *" << endl;
+        cout << "\t\t\t*\t  2) View List Unpaid Electric_Water                    *" << endl;
         gotoXY(42, 16);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 17);
-        cout << "\t\t\t*\t|  3) View List Paid Electric_Water   |                 *" << endl;
+        cout << "\t\t\t*\t  3) View List Paid Electric_Water                      *" << endl;
         gotoXY(42, 18);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 19);
-        cout << "\t\t\t*\t|  4) Find Electric_Water             |                 *" << endl;
+        cout << "\t\t\t*\t  4) Find Electric_Water                                *" << endl;
         gotoXY(42, 20);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 21);
-        cout << "\t\t\t*\t|  5) Paid Electric_Water             |                 *" << endl;
+        cout << "\t\t\t*\t  5) Paid Electric_Water                                *" << endl;
         gotoXY(42, 22);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 23);
-        cout << "\t\t\t*\t|  6) Edit Cost Electric              |                 *" << endl;
+        cout << "\t\t\t*\t  6) Edit Cost Electric                                 *" << endl;
         gotoXY(42, 24);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 25);
-        cout << "\t\t\t*\t|  7) Edit Cost Water                 |                 *" << endl;
+        cout << "\t\t\t*\t  7) Edit Cost Water                                    *" << endl;
         gotoXY(42, 26);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 27);
-        cout << "\t\t\t*\t|  8) Edit Electric-Water             |                 *" << endl;
+        cout << "\t\t\t*\t  8) Edit Electric-Water                                *" << endl;
         gotoXY(42, 28);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 29);
-        cout << "\t\t\t*\t|  0) Exit                            |                 *" << endl;
+        cout << "\t\t\t*\t  0) Exit                                               *" << endl;
         gotoXY(42, 30);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 31);
@@ -1339,7 +1334,7 @@ void menu_Manager_Dien_Nuoc()
             gotoXY(0, 2 * len + 9);
             cin.ignore();
             do
-            {   
+            {   L.clear();
                 xoa(4,2 * len + 10,40);
                 xoa(4,2 * len + 11,40);
                 gotoXY(4, 2 * len + 10);cout << "Enter ID Of Electric Water Want To Pay: ";
@@ -1443,19 +1438,19 @@ void menu_Calculate_Revenue()
         gotoXY(42, 12);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 13);
-        cout << "\t\t\t*\t|  1) Calculate Revenue By Month      |                 *" << endl;
+        cout << "\t\t\t*\t  1) Calculate Revenue By Month                         *" << endl;
         gotoXY(42, 14);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 15);
-        cout << "\t\t\t*\t|  2) Calculate Revenue By Year       |                 *" << endl;
+        cout << "\t\t\t*\t  2) Calculate Revenue By Year                          *" << endl;
         gotoXY(42, 16);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 17);
-        cout << "\t\t\t*\t|  3) Calculate revenue by time period|                 *" << endl;
+        cout << "\t\t\t*\t  3) Calculate revenue by time period                   *" << endl;
         gotoXY(42, 18);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 19);
-        cout << "\t\t\t*\t|  0) Exit                            |                 *" << endl;
+        cout << "\t\t\t*\t  0) Exit                                               *" << endl;
         gotoXY(42, 20);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 21);
@@ -1595,23 +1590,23 @@ void menu_problem()
         gotoXY(42, 12);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 13);
-        cout << "\t\t\t*\t|  1) View List Problem          |                      *" << endl;
+        cout << "\t\t\t*\t  1) View List Problem                                  *" << endl;
         gotoXY(42, 14);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 15);
-        cout << "\t\t\t*\t|  2) View List Solved Problem   |                      *" << endl;
+        cout << "\t\t\t*\t  2) View List Solved Problem                           *" << endl;
         gotoXY(42, 16);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 17);
-        cout << "\t\t\t*\t|  3) View List UnSolved Problem |                      *" << endl;
+        cout << "\t\t\t*\t  3) View List UnSolved Problem                         *" << endl;
         gotoXY(42, 18);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 19);
-        cout << "\t\t\t*\t|  4) Confirm Solve Problem      |                      *" << endl;
+        cout << "\t\t\t*\t  4) Confirm Solve Problem                              *" << endl;
         gotoXY(42, 20);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 21);
-        cout << "\t\t\t*\t|  0) Exit                       |                      *" << endl;
+        cout << "\t\t\t*\t  0) Exit                                               *" << endl;
         gotoXY(42, 22);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 23);
@@ -1692,8 +1687,7 @@ void menu_problem()
             break;
         }
         L.clear();
-        // if (choice)
-        //     getch();
+       
     } while (choice != 0);
 }
 
@@ -1704,7 +1698,7 @@ void menu_admin(admin &object1)
     {
         system("cls");
 
-        string content = "**** Welcome To Admin iloveuhiuhiu ***";
+        string content = "**** Welcome To Admin ***";
         khung(0, 0, 0, 0, content);
         gotoXY(42, 10);
         cout << "\t\t\t*****************************************************************" << endl;
@@ -1713,31 +1707,31 @@ void menu_admin(admin &object1)
         gotoXY(42, 12);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 13);
-        cout << "\t\t\t*\t|  1) Manager Customer             |                    *" << endl;
+        cout << "\t\t\t*\t  1) Manager Customer                                   *" << endl;
         gotoXY(42, 14);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 15);
-        cout << "\t\t\t*\t|  2) Manager Room                 |                    *" << endl;
+        cout << "\t\t\t*\t  2) Manager Room                                       *" << endl;
         gotoXY(42, 16);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 17);
-        cout << "\t\t\t*\t|  3) Manager Electric-Water       |                    *" << endl;
+        cout << "\t\t\t*\t  3) Manager Electric-Water                             *" << endl;
         gotoXY(42, 18);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 19);
-        cout << "\t\t\t*\t|  4) Manager Payment              |                    *" << endl;
+        cout << "\t\t\t*\t  4) Manager Payment                                    *" << endl;
         gotoXY(42, 20);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 21);
-        cout << "\t\t\t*\t|  5) Calculate Revenue            |                    *" << endl;
+        cout << "\t\t\t*\t  5) Calculate Revenue                                  *" << endl;
         gotoXY(42, 22);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 23);
-        cout << "\t\t\t*\t|  6) Manager Problem              |                    *" << endl;
+        cout << "\t\t\t*\t  6) Manager Problem                                    *" << endl;
         gotoXY(42, 24);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 25);
-        cout << "\t\t\t*\t|  0) Logout                       |                    *" << endl;
+        cout << "\t\t\t*\t  0) Logout                                             *" << endl;
         gotoXY(42, 26);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 27);
@@ -1781,8 +1775,6 @@ void menu_admin(admin &object1)
         default:
             break;
         }
-        // if (choice)
-        //     getch();
     } while (choice != 0);
 }
 void menu_login()
@@ -1877,15 +1869,15 @@ void menu()
         gotoXY(42, 12);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 13);
-        cout << "\t\t\t*\t|  1) Login                     |                       *" << endl;
+        cout << "\t\t\t*\t  1) Login                                              *" << endl;
         gotoXY(42, 14);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 15);
-        cout << "\t\t\t*\t|  2) View Empty Room           |                       *" << endl;
+        cout << "\t\t\t*\t  2) View Empty Room                                    *" << endl;
         gotoXY(42, 16);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 17);
-        cout << "\t\t\t*\t|  0) Exit                      |                       *" << endl;
+        cout << "\t\t\t*\t  0) Exit                                               *" << endl;
         gotoXY(42, 18);
         cout << "			*    	                                                        *" << endl;
         gotoXY(42, 19);
@@ -1922,8 +1914,6 @@ void menu()
             break;
         }
         L.clear();
-        // if (choice)
-        //     getch();
     } while (choice != 0);
 }
 

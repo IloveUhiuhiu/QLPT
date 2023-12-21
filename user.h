@@ -2,7 +2,6 @@
 #ifndef USER_H
 #define USER_H
 #include <iostream>
-// #include "List.h"
 #include "List.cpp"
 #include <fstream>
 #include <unistd.h>

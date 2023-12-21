@@ -32,13 +32,13 @@ void admin::set_admin_email(string admin_email)
 }
 ostream &operator<<(ostream &o, const admin &obj)
 {
-    cout << "admin_name: ";
+    cout << "Admin Name: ";
     o << obj.admin_name << endl;
-    cout << "admin_email: ";
+    cout << "Admin Email: ";
     o << obj.admin_email << endl;
-    cout << "user_name: ";
+    cout << "User Name: ";
     o << obj.user_name << endl;
-    cout << "password: ";
+    cout << "Password: ";
     o << obj.password << endl;
     return o;
 }
@@ -82,14 +82,6 @@ bool admin::login()
         {
             if (L[i].user_name == this->user_name && L[i].password == this->password)
             {
-
-                // for (int j = 0; j <= 100; j = j + 25)
-                // {
-                //     cout << "Checking Information"<<string(j%3+1,'.') << " " << j << "%" << endl;
-                //     sleep(1);
-                //     system("cls");
-                // }
-                // cout << "Login successfully!" << endl;
                 *(this) = L[i];
                 return true;
             }
@@ -99,7 +91,7 @@ bool admin::login()
     }
     else
     {
-        cout << "Error Open File" << endl;
+        cout << "Error Open File admin.txt" << endl;
         return false;
     }
 }

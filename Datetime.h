@@ -12,6 +12,7 @@ private:
     int years;
     int months;
     int days;
+
 public:
     Datetime();
     Datetime(int, int, int);
@@ -22,18 +23,18 @@ public:
     int get_days();
 
     bool is_mid_month();
-    
+
     static string Union(Datetime);
     static Datetime Split(string);
 
-    friend ostream& operator << (ostream&,const Datetime&);
-    friend istream& operator >> (istream&, Datetime&);
-    bool operator==(const Datetime& other) const;
-    bool operator!=(const Datetime& other) const;
-    bool operator<(const Datetime& other) const;
-    bool operator<=(const Datetime& other) const;
-    bool operator>(const Datetime& other) const;
-    bool operator>=(const Datetime& other) const;
-    static bool isValidDate(int=0,int=0,int=0);
+    friend ostream &operator<<(ostream &, const Datetime &);
+    friend istream &operator>>(istream &, Datetime &);
+    bool operator==(const Datetime &other) const;
+    bool operator!=(const Datetime &other) const;
+    bool operator<(const Datetime &other) const;
+    bool operator<=(const Datetime &other) const;
+    bool operator>(const Datetime &other) const;
+    bool operator>=(const Datetime &other) const;
+    static bool isValidDate(int = 0, int = 0, int = 0);
 };
 #endif

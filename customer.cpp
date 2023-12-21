@@ -83,6 +83,25 @@ void customer::set_customer_phone(string customer_phone)
 {
     this->customer_phone = customer_phone;
 }
+
+int customer::NumOfCustomer() 
+{
+    int ans = 0;
+    string str;
+    ifstream inputFile;
+    inputFile.open("customer.txt");
+    if (inputFile.is_open())
+    {
+        while (getline(inputFile, str))
+        {   
+            if (str.size()) {
+                ans++;
+            }
+        }
+        inputFile.close(); 
+    }
+    return ans;
+}
 void customer::change_user_name(string room_id)
 {   
    
@@ -113,7 +132,7 @@ void customer::change_user_name(string room_id)
 
             }
         }
-        
+        inputFile.close(); 
     }
     write_File(L);
 }
@@ -135,39 +154,42 @@ bool customer::find_user_name(string user_name)
                 }
             }
         }
+        inputFile.close();
         
     }
     return false;
 }
-List<customer> customer::find_idroom(string room_id)
+void customer::find_idroom(string room_id, List<customer>&L)
 {
     ifstream inputFile;
     inputFile.open("customer.txt");
     string str;
-    List<customer> L;
-    customer obj;
     if (inputFile.is_open())
     {
         while (getline(inputFile, str))
-        {   
-            if (str.size()) {
-                obj = customer::Split(str);
-                if (obj.get_room_id() == room_id)
+        {
+            if (str.size())
+            {
+                customer obj = customer::Split(str);
+                if (Convert::Tolower(obj.get_room_id()) == Convert::Tolower(room_id))
                 {
                     L.push_back(obj);
                 }
             }
         }
-        
+        inputFile.close();
+    } else {
+        cout << "Error Opening File customer.txt" << endl;
     }
-    return L;
 }
+
 istream &operator>>(istream &i, customer &obj)
 {
     gotoXY(4,5);cout << "Enter Name: ";
     cin.ignore();
     getline(i, obj.customer_name);
     List<Room> room;
+    List<customer> L;
     do
     {   xoa(4,6,40);
         xoa(4,7,40);
@@ -176,7 +198,7 @@ istream &operator>>(istream &i, customer &obj)
         Room::find_idroom(obj.room_id,room);
         if (!room.getSize())
         {
-            gotoXY(4,7);cout << "Room Not Found.Try Again!" << endl;
+            gotoXY(4,7);cout << "Room Not Found. Try Again!" << endl;
             getch();
         }
     } while (!room.getSize());
@@ -184,8 +206,8 @@ istream &operator>>(istream &i, customer &obj)
     gotoXY(4,7);cout << "Enter Date Of Birth(yy-mm-dd): ";
     getline(cin,customer_dateofbirth);
     obj.customer_dateofbirth = Datetime::Split(customer_dateofbirth);
-    Datetime time;
-    obj.check_in = time;
+    Datetime check_in;
+    obj.check_in = check_in;
     gotoXY(4,8);cout << "Enter Gender: ";
     getline(i, obj.customer_gender);
     gotoXY(4,9);cout << "Enter Email: ";
@@ -208,37 +230,11 @@ istream &operator>>(istream &i, customer &obj)
         gotoXY(4,13);cout << "Enter Password: ";
         getline(i, obj.password);
     } else {
-        List<customer> L = customer::find_idroom(obj.room_id);
+        customer::find_idroom(obj.room_id,L);
         obj.user_name = L[0].get_user_name();
         obj.password = L[0].get_password();
     }
     return i;
-}
-ostream &operator<<(ostream &o, const customer &obj)
-{
-    // cout << "customer_id: ";
-    o << setw(5) << obj.customer_id;
-    cout << " | ";
-    // cout << "room_id: ";
-    o << setw(5) << obj.room_id << " | ";
-    // cout << "customer_name: ";
-    o << setw(10) << obj.customer_name << " | ";
-    // cout << "customer_dateofbirth: ";
-    o << setw(10); o << obj.customer_dateofbirth << " | ";
-    // cout << "customer_gender: ";
-    o << setw(10); o << obj.check_in << " | ";
-    o << setw(10) << obj.customer_gender << " | ";
-    // cout << "customer_email: ";
-    o << setw(10) << obj.customer_email << " | ";
-    // cout << "customer_address: ";
-    o << setw(10) << obj.customer_address << " | ";
-    // cout << "customer_phone: ";
-    o << setw(10) << obj.customer_phone << " | ";
-    // cout << "user_name: ";
-    o << setw(10) << obj.user_name << " | ";
-    // cout << "password: ";
-    o << setw(10) << obj.password << " | ";
-    return o;
 }
 
 customer customer::Split(string str)
@@ -331,13 +327,6 @@ bool customer::login()
             if (L[i].user_name == this->user_name && L[i].password == this->password)
             {
 
-                // for (int j = 0; j <= 100; j = j + 25)
-                // {
-                //     cout << "Checking Information" << string(j%3+1,'.') << " " << j << "%" << endl;
-                //     sleep(1);
-                //     system("cls");
-                // }
-                // cout << "Login successfully!" << endl;
                 *(this) = L[i];
                 return true;
             }
@@ -346,7 +335,7 @@ bool customer::login()
     }
     else
     {
-        cout << "Error Open File" << endl;
+        cout << "Error Open File customer.txt" << endl;
         return false;
     }
 }
@@ -404,11 +393,10 @@ void customer::add_customer()
     }
     write_File(L);
     Room::find_idroom(this->room_id,room);
-    Datetime dt;
+    Datetime now;
  
     if (room[0].isOccupied() == false)
     {   
-       
        
         Room::delete_room(room[0].getRoomID(),1);
         room[0].setOccupied(true);
@@ -426,7 +414,7 @@ void customer::add_customer()
             dn.set_num_electric_after(0);
             dn.set_cost_water(dien_nuoc::getNewCostWater());
             dn.set_cost_electric(dien_nuoc::getNewCostElectric());
-            dn.set_date(Datetime(dt.get_years(), dt.get_months(), 0));
+            dn.set_date(Datetime(now.get_years(), now.get_months(), 0));
             dn.set_status(false);
             dn.add_dien_nuoc();
         }
@@ -435,33 +423,12 @@ void customer::add_customer()
         hd.set_bill_id(Convert::CreateID("hoa_don.txt"));
         hd.set_room_id(this->room_id);
         hd.set_total_cost(room[0].getCost());
-        hd.set_date(Datetime(dt.get_years(), dt.get_months(), 0));
+        hd.set_date(Datetime(now.get_years(), now.get_months(), 0));
         hd.set_status(false);
         hd.add_hoa_don();
     }
 }
-void customer::find_idroom(string room_id, List<customer>&L)
-{
-    ifstream inputFile;
-    inputFile.open("customer.txt");
-    string str;
-    if (inputFile.is_open())
-    {
-        while (getline(inputFile, str))
-        {
-            if (str.size())
-            {
-                customer obj = customer::Split(str);
-                if (Convert::Tolower(obj.get_room_id()) == Convert::Tolower(room_id))
-                {
-                    L.push_back(obj);
-                }
-            }
-        }
-    } else {
-        cout << "Error Opening File customer.txt" << endl;
-    }
-}
+
 bool customer::find_customer(List<customer> &L)
 {
     string customer_id, room_id, customer_name, customer_dateofbirth, customer_gender, customer_email, customer_address,
@@ -523,24 +490,24 @@ bool customer::find_customer(List<customer> &L)
             }
             if (customer_dateofbirth.size() != 0)
             {   
-                // cout << obj.get_customer_id() << endl;
+               
                 time = Datetime::Split(customer_dateofbirth);
                 if (time.get_years() != 0) {
-                    // cout << time.get_years()  << " " <<  obj.get_customer_dateofbirth().get_years() << endl;
+                    
                     if (time.get_years() != obj.get_customer_dateofbirth().get_years())
                     {
                         continue;
                     }
                 }
                 if (time.get_months() != 0) {
-                    // cout << time.get_months() << " " <<  obj.get_customer_dateofbirth().get_months() << endl;
+                    
                     if (time.get_months() != obj.get_customer_dateofbirth().get_months())
                     {
                         continue;
                     }
                 }
                 if (time.get_days() != 0) {
-                    // cout << time.get_days() << " " << obj.get_customer_dateofbirth().get_days() << endl;
+                   
                     if (time.get_days() != obj.get_customer_dateofbirth().get_days())
                     {
                         continue;
@@ -595,6 +562,7 @@ bool customer::find_customer(List<customer> &L)
             L.push_back(obj);
         }
     }
+    inputFile.close();
     if (cnt == 0)
         return false;
     return true;
@@ -613,6 +581,7 @@ void customer::display(List<customer>& L)
             L.push_back(obj);
         }
     }
+    inputFile.close();
 }
 void customer::find_idcustomer(string customer_id,List<customer>&L)
 {
@@ -627,9 +596,10 @@ void customer::find_idcustomer(string customer_id,List<customer>&L)
         {
            L.push_back(obj);
         }
-    };
+    }
+    inputFile.close();
 }
-void customer::update_customer(customer &obj1,int vt)
+void customer::update_customer(customer &obj1,int pos)
 {
     List<string> L;
     ifstream inputFile;
@@ -648,28 +618,28 @@ void customer::update_customer(customer &obj1,int vt)
         obj = Split(L[i]);
         if (obj.get_customer_id() == obj1.get_customer_id())
         {
-            gotoXY(4,vt+1);cout << "Enter Customer Name: ";
+            gotoXY(4,pos+1);cout << "Enter Customer Name: ";
             getline(cin, customer_name);
             if (customer_name.size())
                 obj1.set_customer_name(customer_name);
-            gotoXY(4,vt+2);cout << "Enter Customer Date Of Birth (yy-mm-dd): ";
+            gotoXY(4,pos+2);cout << "Enter Customer Date Of Birth (yy-mm-dd): ";
             getline(cin, customer_dateofbirth);
             if (customer_dateofbirth.size()) {
                 obj1.set_customer_dateofbirth(Datetime::Split(customer_dateofbirth));
             }
-            gotoXY(4,vt+3);cout << "Enter Customer Gender: ";
+            gotoXY(4,pos+3);cout << "Enter Customer Gender: ";
             getline(cin, customer_gender);
             if (customer_gender.size())
                 obj1.set_customer_gender(customer_gender);
-            gotoXY(4,vt+4);cout << "Enter Customer Email: ";
+            gotoXY(4,pos+4);cout << "Enter Customer Email: ";
             getline(cin, customer_email);
             if (customer_email.size())
                 obj1.set_customer_email(customer_email);
-            gotoXY(4,vt+5);cout << "Enter Customer Address: ";
+            gotoXY(4,pos+5);cout << "Enter Customer Address: ";
             getline(cin, customer_address);
             if (customer_address.size())
                 obj1.set_customer_address(customer_address);
-            gotoXY(4,vt+6);cout << "Enter Customer Phone: ";
+            gotoXY(4,pos+6);cout << "Enter Customer Phone: ";
             getline(cin, customer_phone);
             if (customer_phone.size())
                 obj1.set_customer_phone(customer_phone);
@@ -677,6 +647,7 @@ void customer::update_customer(customer &obj1,int vt)
             L[i] = str;
         }
     }
+    inputFile.close();
     write_File(L);
 }
 void customer::delete_customer(string customer_id)
@@ -700,6 +671,7 @@ void customer::delete_customer(string customer_id)
             room_id = obj.get_room_id();
         }
     }
+    inputFile.close();
     write_File(L);
     int size = L.getSize();
     for (int i = 0; i < size; i++)
@@ -718,59 +690,3 @@ void customer::delete_customer(string customer_id)
         room[0].add_room(0);
     }
 }
-
-// void customer::change_room(string roomid1, string roomid2)
-// {
-//     // set lại customer
-//     ifstream inputFile;
-//     inputFile.open("customer.txt");
-//     string str, customer_id;
-//     List<string> L;
-//     while (getline(inputFile, str))
-//     {   
-//         if (str.size()) {
-//             customer obj = customer::Split(str);
-//             if (obj.get_room_id() == roomid1)
-//             {
-//                 obj.set_room_id(roomid2);
-//                 str = Union(obj);
-//             }
-//             L.push_back(str);
-//         }
-//     }
-//     write_File(L);
-//     // hủy phòng
-//     // sử lí điện nước
-//     // Hủy phòng
-//     Room obj1 = Room::find_room(roomid1);
-//     Roon obj2 = Room::find_room(roomid2);
-//     obj1.setOccupied(false);
-//     obj2.setOccupied(true);
-//     Room::delete_room(roomid1);
-//     Room::delete_room(roomid2);
-//     obj1.add_room(0);
-//     obj2.add_room(0);
-
-//     // Sử lí điện nước
-//     dien_nuoc dn1 = dien_nuoc::find_nearest_dien_nuoc(roomid1);
-//     dien_nuoc dn2 = dien_nuoc::find_nearest_dien_nuoc(roomid2);
-//     dien_nuoc dn3;
-//     dn3.set_dien_nuoc_id(Convert::CreateID("dien_nuoc.txt"));
-//     dn3.set_num_electric_before(dn1.get_num_electric_after() - );
-//     dn3.set_dien_nuoc_price(dn1.get_dien_nuoc_price());
-//     dn3.set_status(false);
-//     dn1.set_dien_nuoc_id(dn2.get_dien_nuoc_id());
-//     if (dn1.get_status()) {
-//         dn1.Pay_dien_nuoc(dn1);
-//     }
-
-//     if (dn2.get_status()) {
-//         dn2.Pay_dien_nuoc(dn2);
-//     }
-//     // TODO: Add code here to handle electricity and water processing
-//     // sử lí hóa đơn
-
-    
-//     write_File(L);
-
-// }

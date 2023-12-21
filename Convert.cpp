@@ -2,7 +2,8 @@
 string Convert::int_to_str(int x) // hàm chuyển từ kiểu int sang kiểu string
 {
     string obj1 = "";
-    if (x == 0) obj1 = "0";
+    if (x == 0)
+        obj1 = "0";
     while (x)
     {
         obj1 += (x % 10 + '0');
@@ -18,7 +19,7 @@ string Convert::int_to_str(int x) // hàm chuyển từ kiểu int sang kiểu s
 int Convert::str_to_int(string str) // hàm chuyển từ kiểu string sang kiểu int
 {
     int result = 0;
-    for (size_t i = 0; i < str.length(); i++)
+    for (int i = 0; i < str.size(); i++)
     {
         result = result * 10 + (str[i] - '0');
     }
@@ -42,7 +43,7 @@ string Convert::CreateID(const string filename)
 {
     ifstream inputFile;
     inputFile.open(filename);
-    string str,room_id;
+    string str, room_id;
     int ID = 0;
     while (getline(inputFile, str))
     {
@@ -51,10 +52,10 @@ string Convert::CreateID(const string filename)
             ID = max(ID, Convert::str_to_int(str.substr(0, 6)));
         }
     }
-    string id = Convert::int_to_str(ID+1);
+    string id = Convert::int_to_str(ID + 1);
     while (id.size() < 6)
     {
-        id = "0"+id;
+        id = "0" + id;
     }
     return id;
 }
@@ -62,7 +63,7 @@ string Convert::CreateID(const string filename)
 string Convert::Tolower(string str)
 {
     string ans = "";
-    for (auto x: str) ans += tolower(x);
+    for (auto x : str)
+        ans += tolower(x);
     return ans;
 }
-

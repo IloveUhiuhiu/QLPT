@@ -307,6 +307,27 @@ void Room::view_empty_room(List<Room>& L)
             }
         }
     }
+    inputFile.close();
+}
+int Room::NumOfEmptyRoom()
+{
+    ifstream inputFile;
+    inputFile.open("room.txt");
+    string str;
+    Room obj;
+    int ans = 0;
+    while (getline(inputFile, str))
+    {   
+        if (str.size()) {
+            obj = Room::Split(str);
+            if (!obj.isOccupied())
+            {
+                ans++;
+            }
+        }
+    }
+    inputFile.close();
+    return ans;
 }
 void Room::view_rented_room(List<Room>& L)
 {
@@ -324,6 +345,7 @@ void Room::view_rented_room(List<Room>& L)
             }
         }
     }
+    inputFile.close();
 }
 
 void Room::display(List<Room> &L)
@@ -339,8 +361,23 @@ void Room::display(List<Room> &L)
             L.push_back(room);
         }
     }
+    inputFile.close();
 }
-
+int Room::NumOfRoom()
+{
+    ifstream inputFile;
+    inputFile.open("room.txt");
+    string str;
+    int ans = 0;
+    while (getline(inputFile, str))
+    {   
+        if (str.size()) {
+            ans++;
+        }
+    }
+    inputFile.close();
+    return ans;
+}
 
 void Room::update_room(Room &obj1,int vt)
 {   
@@ -428,33 +465,6 @@ void Room::cancel_room(string room_id)
     customer::write_File(customerList);
 
 }
-
-
-// Display room information method
-// Function to load room data from file
-// void Room::loadRoomListFromFile(List<Room>& roomList) {
-//     std::ifstream inFile("room.txt");
-
-//     // Check if the file is open
-//     if (inFile.is_open()) {
-//         int roomID;
-//         std::string kindOf;
-//         int cost;
-//         bool occupied;
-
-//         // Read room details from file
-//         while (inFile >> roomID >> kindOf >> cost >> occupied) {
-//             // Create a new room and add it to the list
-//             Room newRoom(roomID, kindOf, cost, occupied);
-//             roomList.push_back(newRoom);
-//         }
-
-//         // Close the file
-//         inFile.close();
-//     } else {
-//         std::cerr << "Error opening file for reading: room.txt" << std::endl;
-//     }
-// }
 bool Room::find_room_with_status_true(string room_id)
 {
     ifstream inputFile;

@@ -180,7 +180,24 @@ void problem::display(List<problem>& L)
         }
     }
 }
-
+int problem::NumOfProblem()
+{
+    ifstream inputFile;
+    inputFile.open("problem.txt");
+    string str;
+    problem obj;
+    int ans = 0;
+    while (getline(inputFile, str))
+    {
+        if (str.size())
+        {
+            obj = Split(str);
+            if (!obj.status) ans++;
+        }
+    }
+    inputFile.close();
+    return ans;
+}
 void problem::view_solved_problem(List<problem> &L)
 {
     ifstream inputFile;

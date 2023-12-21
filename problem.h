@@ -40,9 +40,12 @@ class problem
     static string Union(problem &);
 
     void add_problem();
+
+    static int NumOfProblem();
     static void display(List<problem>&);
     static void view_solved_problem(List<problem>&);
     static void view_unsolved_problem(List<problem>&);
+
     static void find_idproblem(string,List<problem>&);
     static void solve(problem&);
 };
