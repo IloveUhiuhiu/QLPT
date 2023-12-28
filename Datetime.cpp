@@ -157,3 +157,29 @@ bool Datetime::isValidDate(int year, int month, int day)
 
     return true;
 }
+
+bool Datetime::isValidDate(string date)
+{
+    int cnt = 0;
+    bool ok = 1;
+    int vt1 = -1, vt2 = -1;
+    for (int i = 0; i < date.size(); i++) {
+        cnt+= (date[i] == '-');
+        if (date[i] != '-') {
+            if (date[i] < '0' || date[i] > '9') ok = false;
+        } else {
+            if (vt1 == -1) vt1 = i;
+            else vt2 = i;
+        }
+    }
+    if (cnt == 2 && ok) {
+        int year = 0, month = 0, day = 0;
+        year = Convert::str_to_int(date.substr(0,vt1));
+        month = Convert::str_to_int(date.substr(vt1+1,vt2-vt1-1));
+        day = Convert::str_to_int(date.substr(vt2+1,date.size()-vt2-1));
+        if (isValidDate(year,month,day)) return true;
+        else return false;
+    } else {
+        return false;
+    }
+}

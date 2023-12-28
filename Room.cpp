@@ -508,6 +508,7 @@ void Room::change_room()
     gotoXY(4,5);cout << "Enter ID Room After: ";
     getline(cin, ID_room_after);
     if (ID_room_after.size() == 0) return;
+    // dien nuoc
     for (int i = 0; i < size; i++)
     {
         obj = dien_nuoc::Split(L[i]);
@@ -518,25 +519,32 @@ void Room::change_room()
             {   
                 do
                 {   xoa(4,6,40);
+                    xoa(4,7,40);
                     gotoXY(4,6);cout << "Num Electric After: ";
                     getline(cin, num_electric_after);
+                    if (Convert::str_to_int(num_electric_after) <= obj.get_num_electric_before())
+                    {
+                        gotoXY(4,7);cout << "Electric After is inValid. Try Again." << endl;
+                    }
                 } while (Convert::str_to_int(num_electric_after) <= obj.get_num_electric_before());
                 obj.set_num_electric_after(Convert::str_to_int(num_electric_after));
                 do
                 {
                     xoa(4,7,40);
+                    xoa(4,8,40);
                     gotoXY(4,7);cout << "Num Water After: ";
                     getline(cin, num_water_after);
+                    if (Convert::str_to_int(num_water_after) <= obj.get_num_water_before())
+                    {
+                        gotoXY(4,8);cout << "Water After is inValid. Try Again." << endl;
+                    }
                 } while (Convert::str_to_int(num_water_after) <= obj.get_num_water_before());
                 obj.set_num_water_after(Convert::str_to_int(num_water_after));
                 obj.set_status(true);
                 obj.set_date(Datetime(dt.get_years(), dt.get_months(), dt.get_days()));
-                // cout << obj << endl;
                 dien_nuoc::delete_dien_nuoc(obj.get_dien_nuoc_id());
                 obj.add_dien_nuoc();
-                // L[i] = dien_nuoc::Union(obj);
-                // // L[i] = str;
-                // write_File(L);
+               
                 dn = dien_nuoc::Split(L[i]);
                 dn.set_dien_nuoc_id(Convert::CreateID("dien_nuoc.txt"));
                 (obj.get_date().get_months() == 12) ? (dn.set_date(Datetime(obj.get_date().get_years() + 1, (obj.get_date().get_months()) % 12 + 1, 0))) : (dn.set_date(Datetime(obj.get_date().get_years(), obj.get_date().get_months() + 1, 0)));

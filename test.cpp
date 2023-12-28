@@ -766,7 +766,7 @@ void menu_Manager_Customer()
             }
             else
             {
-                box_customer(9, 13, L);
+                box_customer(9, 14, L);
                 gotoXY(0, 0);
             }
             getch();
@@ -781,7 +781,7 @@ void menu_Manager_Customer()
             }
             else
             {
-                box_customer(9, 13, L);
+                box_customer(9, 14, L);
                 
             }
             do
@@ -807,7 +807,7 @@ void menu_Manager_Customer()
                 cout << "Not Found!" << endl;
                 continue;
             }
-            box_customer(9, 13, L);
+            box_customer(9, 14, L);
             
             L.clear();
             do

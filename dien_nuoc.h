@@ -44,17 +44,14 @@ public:
     void set_status(bool);
 
     friend ostream &operator<<(ostream &, const dien_nuoc &);
-    friend istream &operator>>(istream &, dien_nuoc &);
-    // int electric_bill(int , int , int);
-    // int water_bill(int , int, int );
+
     static dien_nuoc Split(string);
-    // string int_to_str(int);
-    // int str_to_int(string);
-    // string bool_to_str(bool);
-    // bool str_to_bool(string);
     static void write_File(List<string> &);
     static string Union(dien_nuoc &);
+
     static void display(List<dien_nuoc>&);
+    static void view_Paid_room(List<dien_nuoc>&);
+    static void view_unpaid_room(List<dien_nuoc>&);
 
     static int getNewCostWater();
     static int getNewCostElectric();
@@ -67,14 +64,11 @@ public:
     static void find_dien_nuoc_id(string,List<dien_nuoc>&);
     static dien_nuoc find_nearest_dien_nuoc(string);
     string find_max_dien_nuoc_id();
+
     static void update_dien_nuoc(dien_nuoc&,int);
     static void Pay_dien_nuoc(dien_nuoc&,int);
     static void delete_dien_nuoc(string);
-    static void view_Paid_room(List<dien_nuoc>&);
-    static void view_unpaid_room(List<dien_nuoc>&);
     static void delete_by_room(string);
 
-    // static int Electric_bill(string);
-    // static int Water_bill(string);
 };
 #endif

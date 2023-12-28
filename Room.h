@@ -34,7 +34,7 @@ public:
     static void view_rented_room(List<Room>&);
 
     static void write_File(List<string>&); 
-    static void delete_room(string room_id,int k = 0);
+    static void delete_room(string room_id,int k = 0);// xóa phòng k = 0 thì xóa cả điện nước và hóa đơn
 
     void add_room(int);
     friend istream& operator>>(istream&, Room&);

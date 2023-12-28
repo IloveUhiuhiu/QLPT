@@ -1,8 +1,7 @@
 #include "customer.h"
-customer::customer(string customer_id, string room_id, string customer_name, Datetime time1, Datetime time2, string customer_gender,
+customer::customer(string customer_id, string room_id, string customer_name, Datetime customer_dateofbirth, Datetime check_in, string customer_gender,
                    string customer_email, string customer_address, string customer_phone, string user_name, string password)
-    : customer_id(customer_id), room_id(room_id), customer_name(customer_name), customer_dateofbirth(time1),check_in(time2)
-      ,customer_gender(customer_gender), customer_email(customer_email), customer_address(customer_address), customer_phone(customer_phone), user(user_name, password)
+    : customer_id(customer_id), room_id(room_id), customer_name(customer_name), customer_dateofbirth(customer_dateofbirth), check_in(check_in), customer_gender(customer_gender), customer_email(customer_email), customer_address(customer_address), customer_phone(customer_phone), user(user_name, password)
 {
 }
 customer::~customer()
@@ -42,10 +41,12 @@ void customer::set_customer_dateofbirth(Datetime time)
     this->customer_dateofbirth = time;
 }
 
-Datetime customer::get_check_in() const{
+Datetime customer::get_check_in() const
+{
     return this->check_in;
 }
-void customer::set_check_in(Datetime time){
+void customer::set_check_in(Datetime time)
+{
     this->check_in = time;
 }
 string customer::get_customer_gender() const
@@ -84,7 +85,7 @@ void customer::set_customer_phone(string customer_phone)
     this->customer_phone = customer_phone;
 }
 
-int customer::NumOfCustomer() 
+int customer::NumOfCustomer()
 {
     int ans = 0;
     string str;
@@ -93,22 +94,25 @@ int customer::NumOfCustomer()
     if (inputFile.is_open())
     {
         while (getline(inputFile, str))
-        {   
-            if (str.size()) {
+        {
+            if (str.size())
+            {
                 ans++;
             }
         }
-        inputFile.close(); 
+        inputFile.close();
     }
     return ans;
 }
 void customer::change_user_name(string room_id)
-{   
-   
+{
+
     string user_name, password;
-    gotoXY(4,6);cout << "Enter user name: ";
-    getline(cin,user_name);
-    gotoXY(4,7);cout << "Enter password: ";
+    gotoXY(4, 6);
+    cout << "Enter user name: ";
+    getline(cin, user_name);
+    gotoXY(4, 7);
+    cout << "Enter password: ";
     getline(cin, password);
     ifstream inputFile;
     inputFile.open("customer.txt");
@@ -118,21 +122,23 @@ void customer::change_user_name(string room_id)
     if (inputFile.is_open())
     {
         while (getline(inputFile, str))
-        {   
-            if (str.size()) {
+        {
+            if (str.size())
+            {
                 obj = customer::Split(str);
                 if (obj.get_room_id() == room_id)
                 {
-                    if (user_name.size()) obj.set_user_name(user_name);
-                    if (password.size()) obj.set_password(password);
+                    if (user_name.size())
+                        obj.set_user_name(user_name);
+                    if (password.size())
+                        obj.set_password(password);
                     str = Union(obj);
                 }
-                
-                L.push_back(str);
 
+                L.push_back(str);
             }
         }
-        inputFile.close(); 
+        inputFile.close();
     }
     write_File(L);
 }
@@ -145,8 +151,9 @@ bool customer::find_user_name(string user_name)
     if (inputFile.is_open())
     {
         while (getline(inputFile, str))
-        {   
-            if (str.size()) {
+        {
+            if (str.size())
+            {
                 obj = customer::Split(str);
                 if (obj.get_user_name() == user_name)
                 {
@@ -155,11 +162,10 @@ bool customer::find_user_name(string user_name)
             }
         }
         inputFile.close();
-        
     }
     return false;
 }
-void customer::find_idroom(string room_id, List<customer>&L)
+void customer::find_idroom(string room_id, List<customer> &L)
 {
     ifstream inputFile;
     inputFile.open("customer.txt");
@@ -178,59 +184,89 @@ void customer::find_idroom(string room_id, List<customer>&L)
             }
         }
         inputFile.close();
-    } else {
+    }
+    else
+    {
         cout << "Error Opening File customer.txt" << endl;
     }
 }
 
 istream &operator>>(istream &i, customer &obj)
 {
-    gotoXY(4,5);cout << "Enter Name: ";
+    gotoXY(4, 5);
+    cout << "Enter Name: ";
     cin.ignore();
     getline(i, obj.customer_name);
     List<Room> room;
     List<customer> L;
     do
-    {   xoa(4,6,40);
-        xoa(4,7,40);
-        gotoXY(4,6);cout << "Enter Room ID: ";
+    {
+        xoa(4, 6, 40);
+        xoa(4, 7, 40);
+        gotoXY(4, 6);
+        cout << "Enter Room ID: ";
         getline(i, obj.room_id);
-        Room::find_idroom(obj.room_id,room);
+        Room::find_idroom(obj.room_id, room);
         if (!room.getSize())
         {
-            gotoXY(4,7);cout << "Room Not Found. Try Again!" << endl;
+            gotoXY(4, 7);
+            cout << "Room Not Found. Try Again!" << endl;
             getch();
         }
     } while (!room.getSize());
     string customer_dateofbirth;
-    gotoXY(4,7);cout << "Enter Date Of Birth(yy-mm-dd): ";
-    getline(cin,customer_dateofbirth);
+    do
+    {
+        xoa(4, 7, 40);
+        xoa(4, 8, 40);
+        gotoXY(4, 7);
+        cout << "Enter Date Of Birth(yy-mm-dd): ";
+        getline(cin, customer_dateofbirth);
+        if (!Datetime::isValidDate(customer_dateofbirth))
+        {
+            gotoXY(4, 8);
+            cout << "Date is inValid. Try Again!" << endl;
+            getch();
+        }
+    } while (!Datetime::isValidDate(customer_dateofbirth));
     obj.customer_dateofbirth = Datetime::Split(customer_dateofbirth);
     Datetime check_in;
     obj.check_in = check_in;
-    gotoXY(4,8);cout << "Enter Gender: ";
+    gotoXY(4, 8);
+    cout << "Enter Gender: ";
     getline(i, obj.customer_gender);
-    gotoXY(4,9);cout << "Enter Email: ";
+    gotoXY(4, 9);
+    cout << "Enter Email: ";
     getline(i, obj.customer_email);
-    gotoXY(4,10);cout << "Enter Address: ";
+    gotoXY(4, 10);
+    cout << "Enter Address: ";
     getline(i, obj.customer_address);
-    gotoXY(4,11);cout << "Enter Phone: ";
+    gotoXY(4, 11);
+    cout << "Enter Phone: ";
     getline(i, obj.customer_phone);
-    if (!room[0].isOccupied()) {
-        do {
-        xoa(4,12,40);
-        xoa(4,13,40);
-        gotoXY(4,12);cout << "Enter User Name: ";
-        getline(i, obj.user_name);
-            if (customer::find_user_name(obj.user_name)) {
-                gotoXY(4,13);cout << "Username already exists! Try again with another username!" << endl;
+    if (!room[0].isOccupied())
+    {
+        do
+        {
+            xoa(4, 12, 40);
+            xoa(4, 13, 40);
+            gotoXY(4, 12);
+            cout << "Enter User Name: ";
+            getline(i, obj.user_name);
+            if (customer::find_user_name(obj.user_name))
+            {
+                gotoXY(4, 13);
+                cout << "Username already exists! Try again with another username!" << endl;
                 getch();
             }
         } while (customer::find_user_name(obj.user_name));
-        gotoXY(4,13);cout << "Enter Password: ";
+        gotoXY(4, 13);
+        cout << "Enter Password: ";
         getline(i, obj.password);
-    } else {
-        customer::find_idroom(obj.room_id,L);
+    }
+    else
+    {
+        customer::find_idroom(obj.room_id, L);
         obj.user_name = L[0].get_user_name();
         obj.password = L[0].get_password();
     }
@@ -239,9 +275,9 @@ istream &operator>>(istream &i, customer &obj)
 
 customer customer::Split(string str)
 {
-    string customer_id, room_id, customer_name, customer_dateofbirth,check_in, customer_gender, customer_email, customer_address,
+    string customer_id, room_id, customer_name, customer_dateofbirth, check_in, customer_gender, customer_email, customer_address,
         customer_phone, customer_password, customer_user_name;
-    Datetime time1,time2;
+    Datetime time_customer_dateofbirth, time_check_in;
     str += ',';
     int id = 1;
     int begin = 0, end = 0;
@@ -262,13 +298,14 @@ customer customer::Split(string str)
                 customer_name = str.substr(begin, end - begin);
             }
             else if (id == 4)
-            {   
-                customer_dateofbirth = str.substr(begin, end - begin);
-                time1 = Datetime::Split(customer_dateofbirth);
-            } else if (id == 5)
             {
-                check_in = str.substr(begin,end -begin);
-                time2 = Datetime::Split(check_in);
+                customer_dateofbirth = str.substr(begin, end - begin);
+                time_customer_dateofbirth = Datetime::Split(customer_dateofbirth);
+            }
+            else if (id == 5)
+            {
+                check_in = str.substr(begin, end - begin);
+                time_check_in = Datetime::Split(check_in);
             }
             else if (id == 6)
             {
@@ -299,12 +336,12 @@ customer customer::Split(string str)
         }
         end++;
     }
-    return customer(customer_id, room_id, customer_name,time1,time2,customer_gender, customer_email, customer_address,
+    return customer(customer_id, room_id, customer_name, time_customer_dateofbirth, time_check_in, customer_gender, customer_email, customer_address,
                     customer_phone, customer_user_name, customer_password);
 }
 string customer::Union(customer &obj)
 {
-    string str = obj.customer_id + "," + obj.room_id + "," + obj.customer_name + "," + Datetime::Union(obj.customer_dateofbirth) +"," + Datetime::Union(obj.check_in) +"," + obj.customer_gender + "," + obj.customer_email + "," + obj.customer_address + "," + obj.customer_phone + "," + obj.user_name + "," + obj.password;
+    string str = obj.customer_id + "," + obj.room_id + "," + obj.customer_name + "," + Datetime::Union(obj.customer_dateofbirth) + "," + Datetime::Union(obj.check_in) + "," + obj.customer_gender + "," + obj.customer_email + "," + obj.customer_address + "," + obj.customer_phone + "," + obj.user_name + "," + obj.password;
     return str;
 }
 
@@ -392,21 +429,21 @@ void customer::add_customer()
         L.push_back(str);
     }
     write_File(L);
-    Room::find_idroom(this->room_id,room);
+    Room::find_idroom(this->room_id, room);
     Datetime now;
- 
+
     if (room[0].isOccupied() == false)
-    {   
-       
-        Room::delete_room(room[0].getRoomID(),1);
+    {
+
+        Room::delete_room(room[0].getRoomID(), 1);
         room[0].setOccupied(true);
         room[0].add_room(0);
-        dien_nuoc dn = dien_nuoc::find_nearest_dien_nuoc(room_id); // tìm thằng gần nhất cùng phòng - trả về dien nuoc
+        dien_nuoc dn = dien_nuoc::find_nearest_dien_nuoc(room_id); // tìm điện nước gần nhất cùng phòng - trả về điện nước
         // cout << room_id << endl;
         // cout << dn.get_dien_nuoc_id() << endl;
         // set lại thằng ni xong add
         if (dn.get_num_electric_after() > 0)
-        {   
+        {
             dn.set_dien_nuoc_id(Convert::CreateID("dien_nuoc.txt"));
             dn.set_num_electric_before(dn.get_num_electric_after());
             dn.set_num_water_before(dn.get_num_water_after());
@@ -431,25 +468,36 @@ void customer::add_customer()
 
 bool customer::find_customer(List<customer> &L)
 {
-    string customer_id, room_id, customer_name, customer_dateofbirth, customer_gender, customer_email, customer_address,
+    string customer_id, room_id, customer_name, customer_dateofbirth, check_in, customer_gender, customer_email, customer_address,
         customer_phone, customer_user_name, customer_password;
-    Datetime time;
+    Datetime time_customer_dateofbirth, time_check_in;
     cin.ignore();
-    gotoXY(4,5);cout << "Enter Customer ID: ";
+    gotoXY(4, 5);
+    cout << "Enter Customer ID: ";
     getline(cin, customer_id);
-    gotoXY(4,6);cout << "Enter Room ID: ";
+    gotoXY(4, 6);
+    cout << "Enter Room ID: ";
     getline(cin, room_id);
-    gotoXY(4,7);cout << "Enter Customer Name: ";
+    gotoXY(4, 7);
+    cout << "Enter Customer Name: ";
     getline(cin, customer_name);
-    gotoXY(4,8);cout << "Enter Customer Date Of Birth(yy-mm-dd): ";
+    gotoXY(4, 8);
+    cout << "Enter Customer Date Of Birth(yy-mm-dd): ";
     getline(cin, customer_dateofbirth);
-    gotoXY(4,9);cout << "Enter Customer Gender: ";
+    gotoXY(4, 9);
+    cout << "Enter Check_in_Date: ";
+    getline(cin, check_in);
+    gotoXY(4, 10);
+    cout << "Enter Customer Gender: ";
     getline(cin, customer_gender);
-    gotoXY(4,10);cout << "Enter Customer Email: ";
+    gotoXY(4, 11);
+    cout << "Enter Customer Email: ";
     getline(cin, customer_email);
-    gotoXY(4,11);cout << "Enter Customer Address: ";
+    gotoXY(4, 12);
+    cout << "Enter Customer Address: ";
     getline(cin, customer_address);
-    gotoXY(4,12);cout << "Enter Customer Phone: ";
+    gotoXY(4, 13);
+    cout << "Enter Customer Phone: ";
     getline(cin, customer_phone);
     ifstream inputFile;
     inputFile.open("customer.txt");
@@ -489,30 +537,70 @@ bool customer::find_customer(List<customer> &L)
                 }
             }
             if (customer_dateofbirth.size() != 0)
-            {   
-               
-                time = Datetime::Split(customer_dateofbirth);
-                if (time.get_years() != 0) {
-                    
-                    if (time.get_years() != obj.get_customer_dateofbirth().get_years())
+            {
+                if (Datetime::isValidDate(customer_dateofbirth))
+                {
+                    time_customer_dateofbirth = Datetime::Split(customer_dateofbirth);
+                    if (time_customer_dateofbirth.get_years() != 0)
                     {
-                        continue;
+
+                        if (time_customer_dateofbirth.get_years() != obj.get_customer_dateofbirth().get_years())
+                        {
+                            continue;
+                        }
+                    }
+                    if (time_customer_dateofbirth.get_months() != 0)
+                    {
+
+                        if (time_customer_dateofbirth.get_months() != obj.get_customer_dateofbirth().get_months())
+                        {
+                            continue;
+                        }
+                    }
+                    if (time_customer_dateofbirth.get_days() != 0)
+                    {
+
+                        if (time_customer_dateofbirth.get_days() != obj.get_customer_dateofbirth().get_days())
+                        {
+                            continue;
+                        }
                     }
                 }
-                if (time.get_months() != 0) {
-                    
-                    if (time.get_months() != obj.get_customer_dateofbirth().get_months())
+                else
+                    continue;
+            }
+            if (check_in.size() != 0)
+            {
+                if (Datetime::isValidDate(check_in))
+                {
+                    time_check_in = Datetime::Split(check_in);
+                    if (time_check_in.get_years() != 0)
                     {
-                        continue;
+
+                        if (time_check_in.get_years() != obj.get_check_in().get_years())
+                        {
+                            continue;
+                        }
+                    }
+                    if (time_check_in.get_months() != 0)
+                    {
+
+                        if (time_check_in.get_months() != obj.get_check_in().get_months())
+                        {
+                            continue;
+                        }
+                    }
+                    if (time_check_in.get_days() != 0)
+                    {
+
+                        if (time_check_in.get_days() != obj.get_check_in().get_days())
+                        {
+                            continue;
+                        }
                     }
                 }
-                if (time.get_days() != 0) {
-                   
-                    if (time.get_days() != obj.get_customer_dateofbirth().get_days())
-                    {
-                        continue;
-                    }
-                }
+                else
+                    continue;
             }
             if (customer_gender.size() != 0)
             {
@@ -567,7 +655,7 @@ bool customer::find_customer(List<customer> &L)
         return false;
     return true;
 }
-void customer::display(List<customer>& L)
+void customer::display(List<customer> &L)
 {
     ifstream inputFile;
     inputFile.open("customer.txt");
@@ -583,7 +671,7 @@ void customer::display(List<customer>& L)
     }
     inputFile.close();
 }
-void customer::find_idcustomer(string customer_id,List<customer>&L)
+void customer::find_idcustomer(string customer_id, List<customer> &L)
 {
     ifstream inputFile;
     inputFile.open("customer.txt");
@@ -594,12 +682,12 @@ void customer::find_idcustomer(string customer_id,List<customer>&L)
         obj = Split(str);
         if (customer_id == obj.customer_id)
         {
-           L.push_back(obj);
+            L.push_back(obj);
         }
     }
     inputFile.close();
 }
-void customer::update_customer(customer &obj1,int pos)
+void customer::update_customer(customer &obj1, int pos)
 {
     List<string> L;
     ifstream inputFile;
@@ -618,28 +706,35 @@ void customer::update_customer(customer &obj1,int pos)
         obj = Split(L[i]);
         if (obj.get_customer_id() == obj1.get_customer_id())
         {
-            gotoXY(4,pos+1);cout << "Enter Customer Name: ";
+            gotoXY(4, pos + 1);
+            cout << "Enter Customer Name: ";
             getline(cin, customer_name);
             if (customer_name.size())
                 obj1.set_customer_name(customer_name);
-            gotoXY(4,pos+2);cout << "Enter Customer Date Of Birth (yy-mm-dd): ";
+            gotoXY(4, pos + 2);
+            cout << "Enter Customer Date Of Birth (yy-mm-dd): ";
             getline(cin, customer_dateofbirth);
-            if (customer_dateofbirth.size()) {
+            if (customer_dateofbirth.size())
+            {
                 obj1.set_customer_dateofbirth(Datetime::Split(customer_dateofbirth));
             }
-            gotoXY(4,pos+3);cout << "Enter Customer Gender: ";
+            gotoXY(4, pos + 3);
+            cout << "Enter Customer Gender: ";
             getline(cin, customer_gender);
             if (customer_gender.size())
                 obj1.set_customer_gender(customer_gender);
-            gotoXY(4,pos+4);cout << "Enter Customer Email: ";
+            gotoXY(4, pos + 4);
+            cout << "Enter Customer Email: ";
             getline(cin, customer_email);
             if (customer_email.size())
                 obj1.set_customer_email(customer_email);
-            gotoXY(4,pos+5);cout << "Enter Customer Address: ";
+            gotoXY(4, pos + 5);
+            cout << "Enter Customer Address: ";
             getline(cin, customer_address);
             if (customer_address.size())
                 obj1.set_customer_address(customer_address);
-            gotoXY(4,pos+6);cout << "Enter Customer Phone: ";
+            gotoXY(4, pos + 6);
+            cout << "Enter Customer Phone: ";
             getline(cin, customer_phone);
             if (customer_phone.size())
                 obj1.set_customer_phone(customer_phone);
@@ -684,9 +779,9 @@ void customer::delete_customer(string customer_id)
     }
     if (cnt == 0)
     {
-        Room::find_idroom(room_id,room);
+        Room::find_idroom(room_id, room);
         room[0].setOccupied(false);
-        Room::delete_room(room_id);
+        Room::delete_room(room_id,1);
         room[0].add_room(0);
     }
 }
