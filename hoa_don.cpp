@@ -55,7 +55,7 @@ istream &operator>>(istream &i, hoa_don &obj)
     {
         cout << "Enter RoomID: ";
         getline(i, obj.room_id);
-        Room::find_idroom(obj.room_id,room);
+        Room::find_idroom(obj.room_id, room);
         if (room[0].getRoomID() != obj.room_id)
         {
             cout << "Room Not Found.Try Again!" << endl;
@@ -73,42 +73,7 @@ istream &operator>>(istream &i, hoa_don &obj)
     obj.status = Convert::str_to_bool(status);
     return i;
 }
-// int hoa_don::str_to_int(string str) // hàm chuyển từ kiểu string sang kiểu int
-// {
-//     int result = 0;
-//     for (size_t i = 0; i < str.length(); i++)
-//     {
-//         result = result * 10 + (str[i] - '0');
-//     }
-//     return result;
-// }
-// bool hoa_don::str_to_bool(string str) // hàm chuyển từ kiểu string sang kiểu bool
-// {
-//     if (str == "Da Dong")
-//         return true;
-//     return false;
-// }
-// string hoa_don::int_to_str(int x)
-// {
-//     string obj1 = "";
-//     while (x)
-//     {
-//         obj1 += (x % 10 + '0');
-//         x /= 10;
-//     }
-//     int l = 0, r = obj1.size() - 1;
-//     while (l < r)
-//     {
-//         swap(obj1[l++], obj1[r--]);
-//     }
-//     return obj1;
-// }
-// string hoa_don::bool_to_str(bool ok)
-// {
-//     string obj2;
-//     obj2 = (ok ? ("Da Dong") : ("Chua Dong"));
-//     return obj2;
-// }
+
 ostream &operator<<(ostream &o, const hoa_don &obj)
 {
     cout << "Bill_ID: ";
@@ -228,122 +193,60 @@ void hoa_don::add_hoa_don()
     }
 }
 
-void hoa_don::display(List<hoa_don> &L)
+void hoa_don::display(List<hoa_don> &L, int k)
 {
     ifstream inputFile;
     inputFile.open("hoa_don.txt");
     string str;
     hoa_don obj;
+    List<Room> room;
+    Datetime time;
     while (getline(inputFile, str))
     {
         if (str.size())
         {
             obj = Split(str);
-            L.push_back(obj);
-        }
-    }
-}
-void hoa_don::view_payment_room(List<hoa_don>&L)
-{
-    ifstream inputFile;
-    inputFile.open("hoa_don.txt");
-    string str;
-    Datetime t;
-    while (getline(inputFile, str))
-    {   
-        if (str.size()) {
-        hoa_don obj = hoa_don::Split(str);
-        if (obj.get_status() && Room::find_room_with_status_true(obj.get_room_id()))
-        {
-            if(((obj.get_date().get_months() == t.get_months()) && (obj.get_date().get_years() == t.get_years())) || ((obj.get_date().get_months() == t.get_months() -1) && (obj.get_date().get_years() == t.get_years())) || ((obj.get_date().get_months()%12+1 == t.get_months()) && (obj.get_date().get_years() == t.get_years() -1)))
+            Room::find_idroom(obj.get_room_id(),room);
+            if (k == 0)
             {
                 L.push_back(obj);
             }
-        }
-        }
-    }
-}
-void hoa_don::view_unpayment_room(List<hoa_don>&L)
-{
-    ifstream inputFile;
-    inputFile.open("hoa_don.txt");
-    string str;
-    Datetime t;
-    while (getline(inputFile, str))
-    {   
-        if (str.size()) {
-        hoa_don obj = hoa_don::Split(str);
-        if (!obj.get_status() && Room::find_room_with_status_true(obj.get_room_id()))
-        {
-            if(((obj.get_date().get_months() <= t.get_months()) && (obj.get_date().get_years() == t.get_years())) || ((obj.get_date().get_months() > t.get_months()) && (obj.get_date().get_years() == t.get_years() - 1)))
-            { 
-                L.push_back(obj);
+            else if (k == 1)
+            {
+                if (obj.get_status() && room[0].isOccupied())
+                {
+                    if (((obj.get_date().get_months() == time.get_months()) && (obj.get_date().get_years() == time.get_years())) || ((obj.get_date().get_months() == time.get_months() - 1) && (obj.get_date().get_years() == time.get_years())) || ((obj.get_date().get_months() % 12 + 1 == time.get_months()) && (obj.get_date().get_years() == time.get_years() - 1)))
+                    {
+                        L.push_back(obj);
+                    }
+                }
+            }
+            else
+            {
+                if (!obj.get_status() && room[0].isOccupied())
+                {
+                    if (((obj.get_date().get_months() <= time.get_months()) && (obj.get_date().get_years() == time.get_years())) || ((obj.get_date().get_months() > time.get_months()) && (obj.get_date().get_years() == time.get_years() - 1)))
+                    {
+                        L.push_back(obj);
+                    }
+                }
             }
         }
-        }
     }
-    
 }
-// void hoa_don::find_hoa_don()
-// {
-//     ifstream inputFile;
-//     inputFile.open("hoa_don.txt");
-//     string str, bill_id, room_id, date;
-//     hoa_don obj;
-//     bool ok = false;
-//     cin.ignore();
-//     cout << "Enter bill_id: ";
-//     getline(cin, bill_id);
-//     cout << "Enter room_id: ";
-//     getline(cin, room_id);
-//     if ((bill_id.size() > 0) && (room_id.size() == 0))
-//     {
-//         while (getline(inputFile, str))
-//         {
-//             obj = Split(str);
-//             if (bill_id == obj.bill_id)
-//             {
-//                 cout << obj << endl;
-//                 ok = true;
-//             }
-//         }
-//     }
-//     else if ((bill_id.size() == 0) && (room_id.size() > 0))
-//     {
-//         while (getline(inputFile, str))
-//         {
-//             obj = Split(str);
-//             if (room_id == obj.room_id)
-//             {
-//                 cout << obj << endl;
-//                 ok = true;
-//             }
-//         }
-//     }
-//     else if ((bill_id.size() > 0) && (room_id.size() > 0))
-//     {
-//         while (getline(inputFile, str))
-//         {
-//             obj = Split(str);
-//             if (bill_id == obj.bill_id && room_id == obj.room_id)
-//             {
-//                 cout << obj << endl;
-//                 ok = true;
-//             }
-//         }
-//     }
-//     if(!ok) cout << "NOt Found!!" << endl;
-// }
-bool hoa_don::find_hoa_don(List<hoa_don>&L)
+bool hoa_don::find_hoa_don(List<hoa_don> &L)
 {
-    string room_id,bill_id,date;
+    string room_id, bill_id, date;
     Datetime time;
     cin.ignore();
-    gotoXY(4,5);cout << "Enter Room ID: ";
+    gotoXY(4, 5);
+    cout << "Enter Room ID: ";
     getline(cin, room_id);
-    gotoXY(4,6);cout << "Enter BiLL ID: ";
+    gotoXY(4, 6);
+    cout << "Enter BiLL ID: ";
     getline(cin, bill_id);
-    gotoXY(4,7);cout << "Enter Date(yy-mm-dd): ";
+    gotoXY(4, 7);
+    cout << "Enter Date(yy-mm-dd): ";
     getline(cin, date);
     ifstream inputFile;
     inputFile.open("hoa_don.txt");
@@ -375,19 +278,22 @@ bool hoa_don::find_hoa_don(List<hoa_don>&L)
             if (date.size() != 0)
             {
                 time = Datetime::Split(date);
-                if (time.get_years() != 0) {
+                if (time.get_years() != 0)
+                {
                     if (time.get_years() != obj.get_date().get_years())
                     {
                         continue;
                     }
                 }
-                if (time.get_months() != 0) {
+                if (time.get_months() != 0)
+                {
                     if (time.get_months() != obj.get_date().get_months())
                     {
                         continue;
                     }
                 }
-                if (time.get_days() != 0) {
+                if (time.get_days() != 0)
+                {
                     if (time.get_days() != obj.get_date().get_days())
                     {
                         continue;
@@ -439,42 +345,26 @@ void hoa_don::find_bill_id(string bill_id, List<hoa_don> &L)
         }
     }
 }
-bool hoa_don::find_bill_id_check(string bill_id)
+
+hoa_don hoa_don::find_nearest_hoa_don(string room_id)
 {
     ifstream inputFile;
     inputFile.open("hoa_don.txt");
     string str;
-    hoa_don obj;
-    int cnt = 0;
-    while (getline(inputFile, str))
-    {
-        obj = Split(str);
-        if (bill_id == obj.bill_id)
-        {
-            cnt++;
-        }
-    }
-    if (cnt == 0)
-        return false;
-    return true;
-}
-string hoa_don::find_max_bill_id()
-{
-    ifstream inputFile;
-    inputFile.open("hoa_don.txt");
-    string str;
-    string max_bill_id = "";
+    string max_id = "";
+    hoa_don ans;
     while (getline(inputFile, str))
     {
         hoa_don obj = Split(str);
-        if (obj.get_bill_id() > max_bill_id)
+        if (obj.get_room_id() == room_id && obj.get_bill_id() > max_id)
         {
-            max_bill_id = obj.get_bill_id();
+            max_id = obj.get_bill_id();
+            ans = obj;
         }
     }
-    return max_bill_id;
+    return ans;
 }
-void hoa_don::update_hoa_don(hoa_don &obj1,int vt)
+void hoa_don::update_hoa_don(hoa_don &obj1, int vt)
 {
     bool ok = false;
     List<string> L;
@@ -493,11 +383,13 @@ void hoa_don::update_hoa_don(hoa_don &obj1,int vt)
         obj = Split(L[i]);
         if (obj.get_bill_id() == obj1.get_bill_id())
         {
-            gotoXY(4,vt+1);cout << "Date(Year-Month-Day): ";
+            gotoXY(4, vt + 1);
+            cout << "Date(Year-Month-Day): ";
             getline(cin, date);
             if (date.size())
                 obj1.set_date(Datetime::Split(date));
-            gotoXY(4,vt+2);cout << "Total Cost: ";
+            gotoXY(4, vt + 2);
+            cout << "Total Cost: ";
             getline(cin, total_cost);
             if (total_cost.size())
                 obj1.set_total_cost(Convert::str_to_int(total_cost));
@@ -507,49 +399,53 @@ void hoa_don::update_hoa_don(hoa_don &obj1,int vt)
     }
     write_File(L);
 }
-void hoa_don::Pay_bill(hoa_don& obj1,int vt)
+void hoa_don::Pay_bill(hoa_don &obj1, int vt)
 {
     List<string> L;
     DoanhThu DT;
     ifstream inputFile;
     inputFile.open("hoa_don.txt");
-    string str,status;
+    string str, status;
     while (getline(inputFile, str))
     {
-        if (str.size()) L.push_back(str);
+        if (str.size())
+            L.push_back(str);
     }
     int size = L.getSize();
     hoa_don obj, hd;
     Datetime dt;
     for (int i = 0; i < size; i++)
     {
-       obj = Split(L[i]);
+        obj = Split(L[i]);
         if (obj.get_bill_id() == obj1.get_bill_id())
         {
-            gotoXY(4,vt+1);cout << "Total Cost: " << obj1.get_total_cost() << endl;
+            gotoXY(4, vt + 1);
+            cout << "Total Cost: " << obj1.get_total_cost() << endl;
             cin.ignore();
-            gotoXY(4,vt+2);cout << "Do you want to pay?(Yes/No): ";
-            getline(cin,status);
+            gotoXY(4, vt + 2);
+            cout << "Do you want to pay?(Yes/No): ";
+            getline(cin, status);
             obj1.set_status(Convert::str_to_bool(status));
-            if(obj1.get_status())
+            if (obj1.get_status())
             {
                 obj1.set_status(true);
-                obj1.set_date(Datetime(dt.get_years(),dt.get_months(),dt.get_days()));
+                obj1.set_date(Datetime(dt.get_years(), dt.get_months(), dt.get_days()));
                 L[i] = Union(obj1);
                 write_File(L);
                 hd.set_room_id(obj.get_room_id());
                 hd.set_bill_id(Convert::CreateID("hoa_don.txt"));
                 hd.set_total_cost(obj.get_total_cost());
-               (obj1.get_date().get_months() == 12) ? (hd.set_date(Datetime(obj1.get_date().get_years() + 1,(obj1.get_date().get_months())%12 + 1,0))) : (hd.set_date(Datetime(obj1.get_date().get_years(),obj1.get_date().get_months() + 1,0)));
+                (obj1.get_date().get_months() == 12) ? (hd.set_date(Datetime(obj1.get_date().get_years() + 1, (obj1.get_date().get_months()) % 12 + 1, 0))) : (hd.set_date(Datetime(obj1.get_date().get_years(), obj1.get_date().get_months() + 1, 0)));
                 hd.set_status(false);
                 hd.add_hoa_don();
-                gotoXY(4,vt+3);cout << "Payment success!!!" << endl; 
+                gotoXY(4, vt + 3);
+                cout << "Payment success!!!" << endl;
                 DT.set_date(dt);
                 DT.setThuNhap(obj.get_total_cost());
                 DT.addDoanhThu();
             }
         }
-    }  
+    }
 }
 
 void hoa_don::delete_by_room(string room_id)
@@ -561,7 +457,7 @@ void hoa_don::delete_by_room(string room_id)
     while (getline(inputFile, str))
     {
         hoa_don obj = Split(str);
-        
+
         if (Convert::Tolower(obj.get_room_id()) != Convert::Tolower(room_id))
         {
             L.push_back(str);

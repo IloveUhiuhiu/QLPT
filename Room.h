@@ -29,9 +29,7 @@ public:
     static int NumOfRoom();
     static int NumOfEmptyRoom();
     
-    static void display(List<Room>&);
-    static void view_empty_room(List<Room>&);
-    static void view_rented_room(List<Room>&);
+    static void display(List<Room>&,int = 0); // 0 bình thường, 1 rent, 2 empty 
 
     static void write_File(List<string>&); 
     static void delete_room(string room_id,int k = 0);// xóa phòng k = 0 thì xóa cả điện nước và hóa đơn
@@ -42,7 +40,6 @@ public:
 
     static void find_idroom(string,List<Room>&);
     static void find_room(List<Room>&);
-    static bool find_room_with_status_true(string);
 
     static void update_room(Room&,int);
     static void cancel_room(string room_id);

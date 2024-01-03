@@ -42,9 +42,8 @@ class problem
     void add_problem();
 
     static int NumOfProblem();
-    static void display(List<problem>&);
-    static void view_solved_problem(List<problem>&);
-    static void view_unsolved_problem(List<problem>&);
+
+    static void display(List<problem>&, int = 0); // 0 bình thường, 1 solved, 2 unsolved
 
     static void find_idproblem(string,List<problem>&);
     static void solve(problem&);

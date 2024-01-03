@@ -35,14 +35,13 @@ public:
     static string Union(hoa_don &);
     void add_hoa_don();
 
-    static void display(List<hoa_don>&);
-    static void view_payment_room(List<hoa_don>&);
-    static void view_unpayment_room(List<hoa_don>&);
+    static void display(List<hoa_don>&, int = 0);
+
     static bool find_hoa_don(List<hoa_don>&);
     static bool find_room(string);
     static void find_bill_id(string,List<hoa_don>&);
-    static bool find_bill_id_check(string);
-    string find_max_bill_id();
+    static hoa_don find_nearest_hoa_don(string);
+
     static void update_hoa_don(hoa_don&,int);
     static void Pay_bill(hoa_don&,int);
     static void delete_by_room(string );

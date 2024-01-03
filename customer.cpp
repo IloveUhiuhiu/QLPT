@@ -354,7 +354,8 @@ bool customer::login()
     if (inputFile.is_open())
     {
         while (getline(inputFile, str))
-        {
+        {   
+            if (str.size())
             L.push_back(Split(str));
         }
         inputFile.close();

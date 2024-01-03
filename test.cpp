@@ -23,7 +23,7 @@ void ThanhTru(int x, int y, int dodai, int maunen, int mauchu, int makitu)
 }
 void khungbang()
 {   
-    int mau = 6;
+    int mau = 9;
     ThanhNgang(1, 1, 154, mau, 9, 177); // ngang tren
     ThanhNgang(1, 38, 154, mau, 9, 177);
     ThanhTru(1, 1, 38, mau, 9, 177);   // tru trái
@@ -32,7 +32,7 @@ void khungbang()
 }
 void khung(int a, int b, int c, int d, const string content)
 {
-    int mau = 6;
+    int mau = 9;
     ThanhNgang(2, 1, 154, mau, 9, 177); // ngang tren
     ThanhNgang(2, 8, 154, mau, 9, 177); // ngang giua
     ThanhNgang(2, 15, 40, mau, 9, 177);
@@ -56,8 +56,8 @@ void khung(int a, int b, int c, int d, const string content)
 }
 void bia()
 {
-    ThanhNgang(2, 15, 154, 6, 10, 177); // ngang tren
-    ThanhNgang(2, 27, 154, 6, 10, 177); // ngang duoi
+    ThanhNgang(2, 15, 154, 9, 10, 177); // ngang tren
+    ThanhNgang(2, 27, 154, 9, 10, 177); // ngang duoi
     setColor(0, 10);
     gotoXY(67, 17);
     cout << "PBL2-DU AN LAP TRINH";
@@ -257,7 +257,7 @@ void box_roomempty(int x, int y, List<Room> &L)
     }
     box(x, y, w, n + 1, 3, content);
 }
-void box_diennuoc(int x, int y, List<dien_nuoc> &L)
+void box_diennuoc(int x, int y, List<dien_nuoc> &L, int ok  =  0)
 {
     int n = L.getSize();
     List<int> w;
@@ -295,6 +295,27 @@ void box_diennuoc(int x, int y, List<dien_nuoc> &L)
         content.push_back(Convert::int_to_str(L[i].get_cost_water()));
         content.push_back(Datetime::Union(L[i].get_date()));
         content.push_back(Convert::bool_to_str(L[i].get_status()));
+        if(ok == 1)
+        {
+        if(L[i].get_num_electric_after() != 0 || L[i].get_num_water_after() != 0)
+        {
+            gotoXY(6, 12);
+            cout << "Bill Electric: " << Convert::int_to_str((L[i].get_num_electric_after() - L[i].get_num_electric_before()) * L[i].get_cost_electric()) << "VND" << endl;
+            gotoXY(6,13);
+            cout << "Bill Water: " << Convert::int_to_str((L[i].get_num_water_after() - L[i].get_num_water_before()) * L[i].get_cost_water()) << "VND";
+            gotoXY(6, 14);
+            cout << "Total: " << Convert::int_to_str(((L[i].get_num_electric_after() - L[i].get_num_electric_before()) * L[i].get_cost_electric()) + ((L[i].get_num_water_after() - L[i].get_num_water_before()) * L[i].get_cost_water())) << "VND";
+        }
+        else if (L[i].get_num_electric_after() == 0 && L[i].get_num_water_after() == 0)
+        {
+            gotoXY(6, 12);
+            cout << "Bill Electric: 0VND" << endl;
+            gotoXY(6,13);
+            cout << "Bill Water: 0VND";
+            gotoXY(6, 14);
+            cout << "Total: 0VND";
+        }
+        }
     }
     box(x, y, w, n + 1, 10, content);
 }
@@ -644,13 +665,13 @@ void menu_user(customer &object2)
             break;
         case 3:
             gotoXY(59,4);cout << "***Information Of Electric Water***";
-            dien_nuoc::find_dien_nuoc_id(dn.find_max_dien_nuoc_id(), L2);
-            box_diennuoc(5, 6, L2);
+            L2.push_back(dien_nuoc::find_nearest_dien_nuoc(object2.get_room_id()));
+            box_diennuoc(5, 6, L2,1);
             getch();
             break;
         case 4:
             gotoXY(64,4);cout << "***Information Of BiLL***";
-            hoa_don::find_bill_id(hd.find_max_bill_id(), L3);
+            L3.push_back(hoa_don::find_nearest_hoa_don(object2.get_room_id()));
             box_hoadon(49, 6, L3);
             getch();
             break;
@@ -750,7 +771,6 @@ void menu_Manager_Customer()
             getch();
             break;
         case 2:
-            // add
             gotoXY(59,4);cout << "***Enter Information New Customer***";
             cin >> object2;
             object2.set_customer_id(Convert::CreateID("customer.txt"));
@@ -758,32 +778,15 @@ void menu_Manager_Customer()
             break;
         case 3:
             gotoXY(61,4);cout << "***Find Information Customer***" << endl;
-            if (!customer::find_customer(L))
-            {
-                cout << "Not Found!" << endl;
-                getch();
-                continue;
-            }
-            else
-            {
-                box_customer(9, 14, L);
-                gotoXY(0, 0);
-            }
+            customer::find_customer(L);
+            box_customer(9, 14, L);
             getch();
             break;
         case 4:
             gotoXY(60,4);cout << "***Delete Information Customer***" << endl;
-            if (!customer::find_customer(L))
-            {
-                cout << "Not Found!" << endl;
-                getch();
-                continue;
-            }
-            else
-            {
-                box_customer(9, 14, L);
+            customer::find_customer(L);
+            box_customer(9, 14, L);
                 
-            }
             do
             {   
                 xoa(4, 2 * L.getSize() + 16,40);
@@ -802,11 +805,7 @@ void menu_Manager_Customer()
             break;
         case 5:
             gotoXY(61,4);cout << "***Edit Information Customer***" << endl;
-            if (!customer::find_customer(L))
-            {
-                cout << "Not Found!" << endl;
-                continue;
-            }
+            customer::find_customer(L);
             box_customer(9, 14, L);
             
             L.clear();
@@ -946,13 +945,13 @@ void menu_Manager_Phong_Tro()
             break;
         case 2:
             gotoXY(62,4); cout << "***Information Of All Empty Room***" << endl;
-            Room::view_empty_room(L);
+            Room::display(L,2);
             box_roomempty(57, 6, L);
             getch();
             break;
         case 3:
             gotoXY(62,4); cout << "***Information Of All Rented Room***" << endl;
-            Room::view_rented_room(L);
+            Room::display(L,1);
             box_roomrent(57, 6, L);
             getch();
             break;
@@ -961,14 +960,7 @@ void menu_Manager_Phong_Tro()
             gotoXY(64,4);cout << "***Find Information Room***" << endl;
             cin.ignore();
             Room::find_room(L);
-            if (L.getSize() > 0)
-            {
-                box_room(50, 9, L);
-            }
-            else
-            {
-                cout << "Not Found" << endl;
-            }
+            box_room(50, 9, L);
             getch();
             break;
         }
@@ -991,12 +983,6 @@ void menu_Manager_Phong_Tro()
             gotoXY(64,4);cout << "***Edit Information Room***";
             cin.ignore();
             Room::find_room(L);
-            if (!L.getSize())
-            {
-                cout << "Not Found!" << endl;
-                getch();
-                continue;
-            }
             box_room(50, 9, L);
             len = L.getSize();
             L.clear();
@@ -1125,31 +1111,26 @@ void menu_Manager_Payment()
             break;
         case 2:
             gotoXY(64,4);cout << "***Information Of All Pay BiLL***";
-            hoa_don::view_payment_room(L);
+            hoa_don::display(L,1);
             box_hoadonpay(49, 6, L);
             getch();
             break;
         case 3:
             gotoXY(64,4);cout << "***Information Of All UnPay BiLL***";
-            hoa_don::view_unpayment_room(L);
+            hoa_don::display(L,2);
             box_hoadonunpay(49, 6, L);
             getch();
             break;
         case 4:
             gotoXY(64,4);cout << "***Find Information BiLL***" << endl;
-            if (!hoa_don::find_hoa_don(L))
-            {
-                gotoXY(4,5);cout << "Not Found!" << endl;
-                getch();
-                continue;
-            }
+            hoa_don::find_hoa_don(L);
             box_hoadon(49, 9, L);
             getch();
             break;
         case 5:
             gotoXY(70,4);cout << "***Pay BiLL***";
             gotoXY(4,5);cout << "List Of Unpaid Rooms: " << endl;
-            hoa_don::view_unpayment_room(L);
+            hoa_don::display(L,2);
             
             box_hoadonunpay(49,6, L);
             getch();
@@ -1177,12 +1158,7 @@ void menu_Manager_Payment()
 
         case 6:
             gotoXY(67,4);cout << "***Edit Information BiLL***" << endl;
-            if (!hoa_don::find_hoa_don(L))
-            {
-                cout << "Not Found!" << endl;
-                getch();
-                continue;
-            }
+            hoa_don::find_hoa_don(L);
             box_hoadon(49, 9, L);
             len = L.getSize();
             L.clear();
@@ -1301,26 +1277,21 @@ void menu_Manager_Dien_Nuoc()
             break;
         case 2:
             gotoXY(58,4);cout << "***Information Of UnPaid Electric Water***";
-            dien_nuoc::view_unpaid_room(L);
+            dien_nuoc::display(L,2);
             cout << L.getSize() << endl;
             box_diennuocunpay(9, 6, L);
             getch();
             break;
         case 3:
             gotoXY(60,4);cout << "***Information Of Paid Electric Water***";
-            dien_nuoc::view_Paid_room(L);
+            dien_nuoc::display(L,1);
             cout << L.getSize() << endl;
             box_diennuocpay(9, 6, L);
             getch();
             break;
         case 4:
             gotoXY(60,4);cout << "***Find Informatin Electric Water***" << endl;
-            if (!dien_nuoc::find_dien_nuoc(L))
-            {
-                cout << "Not Found" << endl;
-                getch();
-                continue;
-            }
+            dien_nuoc::find_dien_nuoc(L);
             box_diennuoc(5, 10, L);
             getch();
 
@@ -1328,27 +1299,32 @@ void menu_Manager_Dien_Nuoc()
         case 5:
             gotoXY(66,4);cout << "***Pay Electric Water***";
             gotoXY(4,5);cout << "Informatin Unpaid Room:" << endl;
-            dien_nuoc::view_unpaid_room(L);
+            dien_nuoc::display(L,2);
             box_diennuocunpay(5, 7, L);
             len = L.getSize();
             gotoXY(0, 2 * len + 9);
             cin.ignore();
             do
-            {   L.clear();
-                xoa(4,2 * len + 10,40);
-                xoa(4,2 * len + 11,40);
+            {   
+                L.clear();
+                xoa(4,2 * len + 10,100);
+                xoa(4,2 * len + 11,100);
+                xoa(4,2 * len + 12,100);
+                xoa(4,2 * len + 13,100);
+                xoa(4,2 * len + 14,100);
+                xoa(4,2 * len + 15,100);
+                xoa(4,2 * len + 16,100);
                 gotoXY(4, 2 * len + 10);cout << "Enter ID Of Electric Water Want To Pay: ";
                 getline(cin, ID);
+                if(ID =="exit") break;
                 dien_nuoc::find_dien_nuoc_id(ID, L);
                 if (ID.size() && L.getSize() == 0)
                 {
                     gotoXY(4, 2 * len + 11);cout << "ID does not exist!!!Try Again." << endl;
                     getch();
                 }
-            } while (ID.size() && L.getSize() == 0);
-            if (ID.size() == 0)
-                break;
-            dien_nuoc::Pay_dien_nuoc(L[0],2*len+10);
+                dien_nuoc::Pay_dien_nuoc(L[0],2*len+10);
+            } while ((ID.size() && L.getSize() == 0) || ID.size() == 0 || true);
             break;
         case 6:
             gotoXY(66,4);cout << "***Edit Cost Electric***";
@@ -1374,12 +1350,7 @@ void menu_Manager_Dien_Nuoc()
             break;
         case 8:
             gotoXY(60,4);cout << "***Edit Information Electric Water***";
-            if (!dien_nuoc::find_dien_nuoc(L))
-            {
-                cout << "Not Found!" << endl;
-                getch();
-                continue;
-            }
+            dien_nuoc::find_dien_nuoc(L);
             box_diennuoc(5, 10, L);
             len = L.getSize();
             L.clear();
@@ -1640,21 +1611,21 @@ void menu_problem()
 
         case 2:
             gotoXY(62,4);cout << "***View List Solved Problem***";
-            problem::view_solved_problem(L);
+            problem::display(L,1);
             box_solvedproblem(30, 6, L);
             getch();
             break;
 
         case 3:
             gotoXY(62,4);cout << "***View List UnSolved Problem***";
-            problem::view_unsolved_problem(L);
+            problem::display(L,2);
             box_unsolvedproblem(30, 6, L);
             getch();
             break;
         case 4:
             gotoXY(66,4);cout << "***Confirm Solve Problem***";
             gotoXY(4,5);cout << "Information Of UnSolved Problem:" << endl;
-            problem::view_unsolved_problem(L);
+            problem::display(L,2);
             box_problem(28, 7, L);
             len = 2*L.getSize();
             L.clear();
@@ -1787,11 +1758,11 @@ void menu_login()
     int role = 0;
     cin.ignore();
     do
-    {   ThanhNgang(53,13, 50, 6, 10, 177);// ngang tren
-        ThanhTru(53,13,17, 6, 10, 177);// tru trai
-        ThanhNgang(55,29, 50, 6, 10, 177);// ngang duoi
-        ThanhTru(103,13,17, 6, 10, 177);// tru phải
-        ThanhNgang(53,17, 50, 6, 10, 177);
+    {   ThanhNgang(53,13, 50, 8, 10, 177);// ngang tren
+        ThanhTru(53,13,17, 8, 10, 177);// tru trai
+        ThanhNgang(55,29, 50, 8, 10, 177);// ngang duoi
+        ThanhTru(103,13,17, 8, 10, 177);// tru phải
+        ThanhNgang(53,17, 50, 8, 10, 177);
         setColor(0, 14);
         gotoXY(75,15); cout << "LOGIN";
         // gotoXY(72,24); cout << "USERNAME: "; //goto(82,24)
@@ -1907,7 +1878,7 @@ void menu()
             system("cls");
             khungbang();
             gotoXY(62,4); cout << "***Information Of All Empty Room***" << endl;
-            Room::view_empty_room(L);
+            Room::display(L,2);
             box_roomempty(57, 6, L);
             getch();
         default:

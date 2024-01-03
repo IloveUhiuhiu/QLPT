@@ -49,9 +49,7 @@ public:
     static void write_File(List<string> &);
     static string Union(dien_nuoc &);
 
-    static void display(List<dien_nuoc>&);
-    static void view_Paid_room(List<dien_nuoc>&);
-    static void view_unpaid_room(List<dien_nuoc>&);
+    static void display(List<dien_nuoc>&,int = 0); // 0 bình thường, 1 paid, 2 unpaid
 
     static int getNewCostWater();
     static int getNewCostElectric();
@@ -63,7 +61,6 @@ public:
     static bool find_dien_nuoc(List<dien_nuoc>&);
     static void find_dien_nuoc_id(string,List<dien_nuoc>&);
     static dien_nuoc find_nearest_dien_nuoc(string);
-    string find_max_dien_nuoc_id();
 
     static void update_dien_nuoc(dien_nuoc&,int);
     static void Pay_dien_nuoc(dien_nuoc&,int);

@@ -51,7 +51,8 @@ bool admin::login()
     if (inputFile.is_open())
     {
         while (getline(inputFile, str))
-        {
+        {   
+            if (str.size()) {
             str += ',';
             int id = 1;
             int begin = 0, end = 0;
@@ -75,6 +76,7 @@ bool admin::login()
                 end++;
             }
             L.push_back(admin(admin_name, admin_email, admin_user_name, admin_password));
+            }
         }
         inputFile.close();
         int size = L.getSize();

@@ -10,54 +10,62 @@ Room::Room(string room_id, string kind_of, int cost, bool occupied)
 Room::~Room() {}
 
 // Getter and Setter
-string Room::getRoomID() const {
+string Room::getRoomID() const
+{
     return room_id;
 }
 
-void Room::setRoomID(string room_id) {
+void Room::setRoomID(string room_id)
+{
     this->room_id = room_id;
 }
 
-string Room::getKindOf() const {
+string Room::getKindOf() const
+{
     return kind_of;
 }
 
-void Room::setKindOf(string kind_of) {
+void Room::setKindOf(string kind_of)
+{
     this->kind_of = kind_of;
 }
 
-int Room::getCost() const {
+int Room::getCost() const
+{
     return cost;
 }
 
-void Room::setCost(int cost) {
+void Room::setCost(int cost)
+{
     this->cost = cost;
 }
 
-bool Room::isOccupied() const {
+bool Room::isOccupied() const
+{
     return occupied;
 }
 
-void Room::setOccupied(bool occupied) {
+void Room::setOccupied(bool occupied)
+{
     this->occupied = occupied;
 }
 
-
-void Room::delete_room(string room_id,int k) 
+void Room::delete_room(string room_id, int k)
 {
     List<string> L;
     ifstream inputFile;
     inputFile.open("room.txt");
     string str;
     while (getline(inputFile, str))
-    {   
+    {
         Room obj = Split(str);
         if (Convert::Tolower(obj.getRoomID()) != Convert::Tolower(room_id))
         {
             L.push_back(str);
         }
     }
-    if ( k == 0) {
+    if (k == 0)
+    {
         dien_nuoc::delete_by_room(room_id);
         hoa_don::delete_by_room(room_id);
     }
@@ -88,17 +96,17 @@ Room Room::Split(string str)
             {
                 cost = Convert::str_to_int(str.substr(begin, end - begin));
             }
-            else 
+            else
             {
                 occupied = Convert::str_to_bool(str.substr(begin, end - begin));
             }
-            
+
             ++id;
             begin = end + 1;
         }
         end++;
     }
-    return Room(room_id,kind_of,cost,occupied);
+    return Room(room_id, kind_of, cost, occupied);
 }
 string Room::Union(Room &obj)
 {
@@ -127,7 +135,7 @@ void Room::write_File(List<string> &L)
     }
 }
 
-void Room::add_room(int k) 
+void Room::add_room(int k)
 {
     ifstream inputFile;
     inputFile.open("room.txt");
@@ -159,27 +167,27 @@ void Room::add_room(int k)
     }
     write_File(L);
     if (k == 1)
-    {   
+    {
         Datetime dt;
         dien_nuoc dn;
         dn.set_room_id(this->room_id);
         dn.set_dien_nuoc_id(Convert::CreateID("dien_nuoc.txt"));
         dn.set_cost_water(dien_nuoc::getNewCostWater());
         dn.set_cost_electric(dien_nuoc::getNewCostElectric());
-        dn.set_date(Datetime(dt.get_years(),dt.get_months(),0));
+        dn.set_date(Datetime(dt.get_years(), dt.get_months(), 0));
         dn.add_dien_nuoc();
     }
-
 }
-void Room::find_idroom(string room_id,List<Room>&L)
+void Room::find_idroom(string room_id, List<Room> &L)
 {
     ifstream inputFile;
     inputFile.open("room.txt");
     string str;
     Room obj;
     while (getline(inputFile, str))
-    {   
-        if (str.size()) {
+    {
+        if (str.size())
+        {
             obj = Room::Split(str);
             if (Convert::Tolower(obj.getRoomID()) == Convert::Tolower(room_id))
             {
@@ -188,62 +196,72 @@ void Room::find_idroom(string room_id,List<Room>&L)
         }
     }
 }
-istream& operator>> (istream& i, Room& room)
-{   
+istream &operator>>(istream &i, Room &room)
+{
     List<Room> L;
     cin.ignore();
     do
-    {   
+    {
         L.clear();
-        xoa(4,5,40);
-        xoa(4,6,40);
-        gotoXY(4,5);cout << "Enter Room ID: ";
+        xoa(4, 5, 40);
+        xoa(4, 6, 40);
+        gotoXY(4, 5);
+        cout << "Enter Room ID: ";
         getline(i, room.room_id);
-        Room::find_idroom(room.room_id,L);
-        
+        Room::find_idroom(room.room_id, L);
+
         if (L.getSize())
         {
-            gotoXY(4,6);cout << "ID Already Exists.Try Again!" << endl;
+            gotoXY(4, 6);
+            cout << "ID Already Exists.Try Again!" << endl;
             getch();
         }
     } while (L.getSize());
-    do{ 
-        xoa(4,6,40);
-        xoa(4,7,40);
-        gotoXY(4,6);cout << "Type (A, B, or C): ";
+    do
+    {
+        xoa(4, 6, 40);
+        xoa(4, 7, 40);
+        gotoXY(4, 6);
+        cout << "Type (A, B, or C): ";
         i >> room.kind_of;
-        if (room.kind_of != "A" && room.kind_of != "B" && room.kind_of != "C") {
-            gotoXY(4,7); cout << "Incorrect Room Type.Try again.";
+        if (room.kind_of != "A" && room.kind_of != "B" && room.kind_of != "C")
+        {
+            gotoXY(4, 7);
+            cout << "Incorrect Room Type.Try again.";
             getch();
         }
     } while (room.kind_of != "A" && room.kind_of != "B" && room.kind_of != "C");
 
-    gotoXY(4,7);cout << "Cost: ";
+    gotoXY(4, 7);
+    cout << "Cost: ";
     i >> room.cost;
 
     room.occupied = false;
     return i;
 }
 
-ostream& operator << (ostream& o,const Room& room)
+ostream &operator<<(ostream &o, const Room &room)
 {
     o << "RoomID: " << room.room_id << endl;
     o << "Kind of: " << room.kind_of << endl;
     o << "Cost: " << room.cost << endl;
-    o << "Occupied: " << (room.occupied ? "Yes" : "No")  << endl;
+    o << "Occupied: " << (room.occupied ? "Yes" : "No") << endl;
     return o;
 }
 
-void Room::find_room(List<Room>&roomList)
+void Room::find_room(List<Room> &roomList)
 {
-    string searchRoomID, searchKindOf,costInput;
-    gotoXY(4,5);cout << "Enter RoomID : ";
+    string searchRoomID, searchKindOf, costInput;
+    gotoXY(4, 5);
+    cout << "Enter RoomID : ";
     getline(cin, searchRoomID);
 
-    gotoXY(4,6);cout << "Enter Type (A, B, or C) : ";
+    gotoXY(4, 6);
+    cout << "Enter Type (A, B, or C) : ";
     getline(cin, searchKindOf);
 
-    gotoXY(4,7);cout << "Enter Cost: ";
+    gotoXY(4, 7);
+    cout << "Enter Cost: ";
     getline(cin, costInput);
 
     string s, subs;
@@ -253,10 +271,13 @@ void Room::find_room(List<Room>&roomList)
     inputFile.open("room.txt");
     string str;
     Room obj;
-    while (getline(inputFile, str)) {
-        if (str.size()) {
+    while (getline(inputFile, str))
+    {
+        if (str.size())
+        {
             obj = Room::Split(str);
-            if (searchRoomID.size()) {
+            if (searchRoomID.size())
+            {
                 subs = Convert::Tolower(obj.getRoomID());
                 s = Convert::Tolower(searchRoomID);
                 auto found = s.find(subs);
@@ -265,7 +286,8 @@ void Room::find_room(List<Room>&roomList)
                     continue;
                 }
             }
-            if (searchKindOf.size()) {
+            if (searchKindOf.size())
+            {
                 subs = Convert::Tolower(obj.getKindOf());
                 s = Convert::Tolower(searchKindOf);
                 auto found = s.find(subs);
@@ -274,7 +296,8 @@ void Room::find_room(List<Room>&roomList)
                     continue;
                 }
             }
-            if (costInput.size()) {
+            if (costInput.size())
+            {
                 subs = Convert::Tolower(obj.getRoomID());
                 s = Convert::Tolower(costInput);
                 auto found = s.find(subs);
@@ -288,26 +311,6 @@ void Room::find_room(List<Room>&roomList)
     }
 
     inputFile.close();
-
-}
-
-void Room::view_empty_room(List<Room>& L)
-{
-    ifstream inputFile;
-    inputFile.open("room.txt");
-    string str;
-    Room obj;
-    while (getline(inputFile, str))
-    {   
-        if (str.size()) {
-            obj = Room::Split(str);
-            if (!obj.isOccupied())
-            {
-                L.push_back(obj);
-            }
-        }
-    }
-    inputFile.close();
 }
 int Room::NumOfEmptyRoom()
 {
@@ -317,8 +320,9 @@ int Room::NumOfEmptyRoom()
     Room obj;
     int ans = 0;
     while (getline(inputFile, str))
-    {   
-        if (str.size()) {
+    {
+        if (str.size())
+        {
             obj = Room::Split(str);
             if (!obj.isOccupied())
             {
@@ -329,36 +333,36 @@ int Room::NumOfEmptyRoom()
     inputFile.close();
     return ans;
 }
-void Room::view_rented_room(List<Room>& L)
-{
-    ifstream inputFile;
-    inputFile.open("room.txt");
-    string str;
-    Room obj;
-    while (getline(inputFile, str))
-    {   
-        if (str.size()) {
-            obj = Room::Split(str);
-            if (obj.isOccupied())
-            {
-                L.push_back(obj);
-            }
-        }
-    }
-    inputFile.close();
-}
 
-void Room::display(List<Room> &L)
+void Room::display(List<Room> &L, int k)
 {
     ifstream inputFile;
     inputFile.open("room.txt");
     string str;
     Room room;
     while (getline(inputFile, str))
-    {   
-        if (str.size()) {
+    {
+        if (str.size())
+        {
             room = Room::Split(str);
-            L.push_back(room);
+            if (k == 0)
+            {
+                L.push_back(room);
+            }
+            else if (k == 1)
+            {
+                if (room.isOccupied())
+                {
+                    L.push_back(room);
+                }
+            }
+            else
+            {
+                if (!room.isOccupied())
+                {
+                    L.push_back(room);
+                }
+            }
         }
     }
     inputFile.close();
@@ -370,8 +374,9 @@ int Room::NumOfRoom()
     string str;
     int ans = 0;
     while (getline(inputFile, str))
-    {   
-        if (str.size()) {
+    {
+        if (str.size())
+        {
             ans++;
         }
     }
@@ -379,8 +384,8 @@ int Room::NumOfRoom()
     return ans;
 }
 
-void Room::update_room(Room &obj1,int vt)
-{   
+void Room::update_room(Room &obj1, int vt)
+{
     List<string> L;
     ifstream inputFile;
     inputFile.open("room.txt");
@@ -396,26 +401,28 @@ void Room::update_room(Room &obj1,int vt)
     {
         obj = Split(L[i]);
         if (obj.getRoomID() == obj1.getRoomID())
-        {   
-            gotoXY(4,vt+1);cout << "Type Room: ";
+        {
+            gotoXY(4, vt + 1);
+            cout << "Type Room: ";
             getline(cin, kind_of);
             if (kind_of.size())
                 obj1.setKindOf(kind_of);
-            gotoXY(4,vt+2);cout << "Cost Of Room: ";
+            gotoXY(4, vt + 2);
+            cout << "Cost Of Room: ";
             getline(cin, cost);
             if (cost.size())
                 obj1.setCost(Convert::str_to_int(cost));
-            gotoXY(4,vt+3);cout << "Status Of Room(Rent or Empty): ";
+            gotoXY(4, vt + 3);
+            cout << "Status Of Room(Rent or Empty): ";
             getline(cin, occupied);
             if (occupied.size() && (occupied == "Rent" || occupied == "Empty"))
-                obj1.setOccupied(("Rent")?true:false);
+                obj1.setOccupied(("Rent") ? true : false);
             str = Union(obj1);
             L[i] = str;
         }
     }
     write_File(L);
 }
-
 
 void Room::cancel_room(string room_id)
 {
@@ -441,14 +448,15 @@ void Room::cancel_room(string room_id)
     // Ghi danh sách đã được cập nhật trở lại vào "room.txt"
     write_File(L);
 
-      // Mở file "customer.txt" để xóa thông tin của người dùng
+    // Mở file "customer.txt" để xóa thông tin của người dùng
     List<string> customerList;
     ifstream customerFile;
     customerFile.open("customer.txt");
     string customerStr;
     while (getline(customerFile, customerStr))
-    {   
-        if (customerStr.size()) {
+    {
+        if (customerStr.size())
+        {
             customer obj = customer::Split(customerStr);
 
             // Nếu người dùng có room_id tương ứng, không thêm thông tin người dùng này vào danh sách (để xóa nó)
@@ -463,32 +471,13 @@ void Room::cancel_room(string room_id)
 
     // Ghi danh sách đã được cập nhật trở lại vào "customer.txt"
     customer::write_File(customerList);
-
-}
-bool Room::find_room_with_status_true(string room_id)
-{
-    ifstream inputFile;
-    inputFile.open("room.txt");
-    string str;
-    while (getline(inputFile, str))
-    {
-        if (str.size())
-        {
-            Room obj = Room::Split(str);
-            if (obj.getRoomID() == room_id && obj.isOccupied())
-            {
-                return true;
-            }
-        }
-    }
-    return false;
 }
 
 
 void Room::change_room()
 {
     List<string> L;
-    ifstream inputFile1,inputFile2,inputFile;
+    ifstream inputFile1, inputFile2, inputFile;
     inputFile.open("dien_nuoc.txt");
     Datetime dt;
     string str, num_electric_before, num_electric_after, num_water_before, num_water_after, status, ID_room_before, ID_room_after;
@@ -501,42 +490,50 @@ void Room::change_room()
     int size = L.getSize();
     dien_nuoc obj, dn, obj1;
     // nhap id phong truoc
-    gotoXY(4,4);
+    gotoXY(4, 4);
     cout << "Enter ID Room Before: ";
     getline(cin, ID_room_before);
-    if (ID_room_before.size() == 0) return;
-    gotoXY(4,5);cout << "Enter ID Room After: ";
+    if (ID_room_before.size() == 0)
+        return;
+    gotoXY(4, 5);
+    cout << "Enter ID Room After: ";
     getline(cin, ID_room_after);
-    if (ID_room_after.size() == 0) return;
+    if (ID_room_after.size() == 0)
+        return;
     // dien nuoc
     for (int i = 0; i < size; i++)
     {
         obj = dien_nuoc::Split(L[i]);
         if (ID_room_before == obj.get_room_id())
-        {   
+        {
 
             if (obj.get_num_electric_after() == 0 && obj.get_num_water_after() == 0)
-            {   
+            {
                 do
-                {   xoa(4,6,40);
-                    xoa(4,7,40);
-                    gotoXY(4,6);cout << "Num Electric After: ";
+                {
+                    xoa(4, 6, 40);
+                    xoa(4, 7, 40);
+                    gotoXY(4, 6);
+                    cout << "Num Electric After: ";
                     getline(cin, num_electric_after);
                     if (Convert::str_to_int(num_electric_after) <= obj.get_num_electric_before())
                     {
-                        gotoXY(4,7);cout << "Electric After is inValid. Try Again." << endl;
+                        gotoXY(4, 7);
+                        cout << "Electric After is inValid. Try Again." << endl;
                     }
                 } while (Convert::str_to_int(num_electric_after) <= obj.get_num_electric_before());
                 obj.set_num_electric_after(Convert::str_to_int(num_electric_after));
                 do
                 {
-                    xoa(4,7,40);
-                    xoa(4,8,40);
-                    gotoXY(4,7);cout << "Num Water After: ";
+                    xoa(4, 7, 40);
+                    xoa(4, 8, 40);
+                    gotoXY(4, 7);
+                    cout << "Num Water After: ";
                     getline(cin, num_water_after);
                     if (Convert::str_to_int(num_water_after) <= obj.get_num_water_before())
                     {
-                        gotoXY(4,8);cout << "Water After is inValid. Try Again." << endl;
+                        gotoXY(4, 8);
+                        cout << "Water After is inValid. Try Again." << endl;
                     }
                 } while (Convert::str_to_int(num_water_after) <= obj.get_num_water_before());
                 obj.set_num_water_after(Convert::str_to_int(num_water_after));
@@ -544,7 +541,7 @@ void Room::change_room()
                 obj.set_date(Datetime(dt.get_years(), dt.get_months(), dt.get_days()));
                 dien_nuoc::delete_dien_nuoc(obj.get_dien_nuoc_id());
                 obj.add_dien_nuoc();
-               
+
                 dn = dien_nuoc::Split(L[i]);
                 dn.set_dien_nuoc_id(Convert::CreateID("dien_nuoc.txt"));
                 (obj.get_date().get_months() == 12) ? (dn.set_date(Datetime(obj.get_date().get_years() + 1, (obj.get_date().get_months()) % 12 + 1, 0))) : (dn.set_date(Datetime(obj.get_date().get_years(), obj.get_date().get_months() + 1, 0)));
@@ -567,7 +564,7 @@ void Room::change_room()
             {
                 obj1.set_num_electric_before(obj1.get_num_electric_before() - (obj.get_num_electric_after() - obj.get_num_electric_before()));
                 obj1.set_num_water_before(obj1.get_num_water_before() - (obj.get_num_water_after() - obj.get_num_water_before()));
-                obj1.set_date(Datetime(dt.get_years(), dt.get_months(),0));
+                obj1.set_date(Datetime(dt.get_years(), dt.get_months(), 0));
                 dien_nuoc::delete_dien_nuoc(obj1.get_dien_nuoc_id());
                 obj1.add_dien_nuoc();
                 break;
@@ -635,7 +632,9 @@ void Room::change_room()
         {
             room.setOccupied(false);
             str = Room::Union(room);
-        } else if (room.room_id == ID_room_after) {
+        }
+        else if (room.room_id == ID_room_after)
+        {
             room.setOccupied(true);
             str = Room::Union(room);
         }
@@ -643,5 +642,4 @@ void Room::change_room()
     }
     inputFile.close();
     Room::write_File(L);
-
 }
