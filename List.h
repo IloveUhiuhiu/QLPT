@@ -30,8 +30,8 @@ public:
     void push_back(T);// hàm thêm một node vào cuối danh sách
     void add(int, T);// hàm thêm một node vào vị trí bất kì
     void erase(int);// xóa một node bất kì
+    void erase (int,int); // xóa dữ liệu theo khoảng
     void clear();// xóa toàn bộ dư liệu và xóa bộ nhớ
-    void erase(int, int);// xóa dữ liệu theo khoảng
     int getSize();// trả về kích thước của danh sách
     T &operator[](int);// đa năng hóa toán tử []
 };
