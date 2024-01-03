@@ -6,18 +6,18 @@
 #include <fstream>
 #include <unistd.h>
 #include <iomanip>
-#include "console.h"
+#include "Console.h"
 
 using namespace std;
-class user
+class User
 {
 protected:
     string user_name;
     string password;
 
 public:
-    user(string = "", string = "");
-    ~user();
+    User(string = "", string = "");
+    ~User();
 
     string get_user_name() const;
     void set_user_name(string);

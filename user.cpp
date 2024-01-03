@@ -1,24 +1,24 @@
-#include "user.h"
+#include "User.h"
 
-user::user(string user_name, string password) : user_name(user_name), password(password)
+User::User(string user_name, string password) : user_name(user_name), password(password)
 {
 }
-user::~user()
+User::~User()
 {
 }
-string user::get_user_name() const
+string User::get_user_name() const
 {
     return this->user_name;
 }
-void user::set_user_name(string user_name)
+void User::set_user_name(string user_name)
 {
     this->user_name = user_name;
 }
-string user::get_password() const
+string User::get_password() const
 {
     return this->password;
 }
-void user::set_password(string password)
+void User::set_password(string password)
 {
     this->password = password;
 }

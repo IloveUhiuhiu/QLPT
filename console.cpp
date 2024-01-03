@@ -1,5 +1,5 @@
 
-#include "console.h"
+#include "Console.h"
 int inputKey()
 {
 	if (_kbhit())

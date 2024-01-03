@@ -1,3 +1,0 @@
-doan nhap id neu nhap sai la loi (update customer)
-add hoa don hoi loi
-

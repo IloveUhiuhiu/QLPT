@@ -1,7 +1,7 @@
 // DoanhThu.h
 #ifndef DOANHTHU_H
 #define DOANHTHU_H
-#include "Datetime.h"
+#include "ThoiGian.h"
 
 class DoanhThu {
 public:
@@ -12,8 +12,8 @@ public:
     ~DoanhThu();
 
     // Getter và Setter date
-    Datetime get_date() const;
-    void set_date(Datetime);
+    ThoiGian get_date() const;
+    void set_date(ThoiGian);
     
 
     int getThuNhap() const;
@@ -35,7 +35,7 @@ public:
     // void display() const;
 
 private:
-    Datetime date;
+    ThoiGian date;
     int thuNhap;
 };
 

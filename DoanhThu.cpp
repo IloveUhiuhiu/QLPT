@@ -1,4 +1,4 @@
-// DoanhThu.cpp
+
 #include "DoanhThu.h"
 
 // Constructors
@@ -12,39 +12,16 @@ DoanhThu::~DoanhThu() {
     // Không có công việc đặc biệt cần thực hiện trong destructor ở đây
 }
 
-// Getter và Setter
-// int DoanhThu::getNgay() const {
-//     return ngay;
-// }
-
-// void DoanhThu::setNgay(int ngay) {
-//     this->ngay = ngay;
-// }
-
-Datetime DoanhThu::get_date() const
+ThoiGian DoanhThu::get_date() const
 {
     return this->date;
 
 }
-void DoanhThu::set_date(Datetime time)
+void DoanhThu::set_date(ThoiGian time)
 {
     this->date = time;
 }
-// int DoanhThu::getThang() const {
-//     return thang;
-// }
 
-// void DoanhThu::setThang(int thang) {
-//     this->thang = thang;
-// }
-
-// int DoanhThu::getNam() const {
-//     return nam;
-// }
-
-// void DoanhThu::setNam(int nam) {
-//     this->nam = nam;
-// }
 
 int DoanhThu::getThuNhap() const {
     return thuNhap;
@@ -55,7 +32,7 @@ void DoanhThu::setThuNhap(int thuNhap) {
 }
 DoanhThu DoanhThu::Split(string str) // hàm tách chuổi
 {
-    Datetime date;
+    ThoiGian date;
     int thuNhap;
     str += ',';
     int id = 1;
@@ -66,11 +43,11 @@ DoanhThu DoanhThu::Split(string str) // hàm tách chuổi
         {
             if (id == 1)
             {
-                date = Datetime::Split(str.substr(begin, end - begin));
+                date = ThoiGian::Split(str.substr(begin, end - begin));
             }
             else 
             {
-                thuNhap = Convert::str_to_int(str.substr(begin, end - begin));
+                thuNhap = ChuyenDoi::str_to_int(str.substr(begin, end - begin));
             }
             ++id;
             begin = end + 1;
@@ -83,7 +60,7 @@ DoanhThu DoanhThu::Split(string str) // hàm tách chuổi
 void DoanhThu::write_File(List<string> &L)
 {
     ofstream inputFile;
-    inputFile.open("doanhthu.txt", std::ios::out | std::ios::trunc);
+    inputFile.open("DoanhThu.txt", std::ios::out | std::ios::trunc);
     if (inputFile.is_open())
     {
         int size = L.getSize();
@@ -97,39 +74,39 @@ void DoanhThu::write_File(List<string> &L)
     }
     else
     {
-        cout << "Error Opening File doanhthu.txt" << endl;
+        cout << "Error Opening File DoanhThu.txt" << endl;
     }
 }
 string DoanhThu::Union(DoanhThu &obj)
 {
-    string str =  Datetime::Union(obj.date) + "," + Convert::int_to_str(obj.thuNhap);
+    string str =  ThoiGian::Union(obj.date) + "," + ChuyenDoi::int_to_str(obj.thuNhap);
     return str;
 }
 // Phương thức thêm doanh thu
 void DoanhThu::addDoanhThu() {
     // Thêm thông tin doanh thu mới
     string str = Union(*this);
-    ofstream inputFile("doanhthu.txt", std::ios_base::app); // Mở tệp tin để ghi tiếp vào cuối tệp
+    ofstream inputFile("DoanhThu.txt", std::ios_base::app); // Mở tệp tin để ghi tiếp vào cuối tệp
 
     if (inputFile.is_open()) {
         inputFile << str << "\n"; // Ghi dòng mới vào tệp
         inputFile.close(); // Đóng tệp sau khi ghi
     } else {
-        cout << "Can't Open File doanhthu.txt!!!\n";
+        cout << "Can't Open File DoanhThu.txt!!!\n";
     }
     
 }
 
 int DoanhThu::tongDoanhThutheothoigian(int startYear, int startMonth, int startDay, int endYear, int endMonth, int endDay) {
-    Datetime startDate(startYear, startMonth, startDay);
-    Datetime endDate(endYear, endMonth, endDay);
+    ThoiGian startDate(startYear, startMonth, startDay);
+    ThoiGian endDate(endYear, endMonth, endDay);
 
     int res = 0;
     List<string> L;
-    ifstream inputFile("doanhthu.txt");
+    ifstream inputFile("DoanhThu.txt");
     
     if (!inputFile.is_open()) {
-        cout << "Error Opening File doanhthu.txt" << endl;
+        cout << "Error Opening File DoanhThu.txt" << endl;
         return -1; // Trả về giá trị đặc biệt để chỉ ra rằng không có doanh thu
     }
 
@@ -157,8 +134,3 @@ ostream& operator<< (ostream& o, const DoanhThu& obj) {
     o << obj.thuNhap << endl;
     return o;
 }
-// Phương thức hiển thị thông tin doanh thu
-// void DoanhThu::display() const {
-//     cout << "Ngay: " << ngay << "/" << thang << "/" << nam << endl;
-//     cout << "Thu nhap: " << thuNhap << endl;
-// }

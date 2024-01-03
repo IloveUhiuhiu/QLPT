@@ -1,8 +1,0 @@
-kiểm tra room đã cho chưa (add room,add custoemr(rỗng))
-phần delete, find room 
-xóa phòng (xóa điện nước???)
-thanh toán phòng-> add doanh thu
-update diennuoc, hoadon ko có status
-find nhập date sẽ lỗi
-add xóa mẹ đi
-edit hoa đone thiếu status

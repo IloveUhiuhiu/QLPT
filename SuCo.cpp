@@ -1,68 +1,68 @@
-#include "problem.h"
+#include "SuCo.h"
 
-int problem::cnt = 0;
-problem::problem(string problem_id, string room_id, Datetime registeddate, Datetime finishdate, string content, bool status)
+int SuCo::cnt = 0;
+SuCo::SuCo(string problem_id, string room_id, ThoiGian registeddate, ThoiGian finishdate, string content, bool status)
     : problem_id(problem_id), room_id(room_id), registeddate(registeddate), finishdate(finishdate), content(content), status(status)
 {
 }
-problem::~problem()
+SuCo::~SuCo()
 {
 }
-string problem::get_problem_id() const
+string SuCo::get_problem_id() const
 {
     return this->problem_id;
 }
-void problem::set_problem_id(string problem_id)
+void SuCo::set_problem_id(string problem_id)
 {
     this->problem_id = problem_id;
 }
 
-string problem::get_room_id() const
+string SuCo::get_room_id() const
 {
     return this->room_id;
 }
-void problem::set_room_id(string room_id)
+void SuCo::set_room_id(string room_id)
 {
     this->room_id = room_id;
 }
-Datetime problem::get_registeddate() const
+ThoiGian SuCo::get_registeddate() const
 {
     return this->registeddate;
 }
-void problem::set_registeddate(Datetime registeddate)
+void SuCo::set_registeddate(ThoiGian registeddate)
 {
     this->registeddate = registeddate;
 }
-Datetime problem::get_finishdate() const
+ThoiGian SuCo::get_finishdate() const
 {
     return this->finishdate;
 }
-void problem::set_finishdate(Datetime finishdate)
+void SuCo::set_finishdate(ThoiGian finishdate)
 {
     this->finishdate = finishdate;
 }
 
-string problem::get_content() const
+string SuCo::get_content() const
 {
     return this->content;
 }
-void problem::set_content(string content)
+void SuCo::set_content(string content)
 {
     this->content = content;
 }
-bool problem::get_status() const
+bool SuCo::get_status() const
 {
     return this->status;
 }
-void problem::set_status(bool status)
+void SuCo::set_status(bool status)
 {
     this->status = status;
 }
-istream &operator>>(istream &i, problem &obj)
+istream &operator>>(istream &i, SuCo &obj)
 {
     cin.ignore();
-    obj.set_problem_id(Convert::CreateID("problem.txt"));
-    List<Room> room;
+    obj.set_problem_id(ChuyenDoi::CreateID("SuCo.txt"));
+    List<Phong> room;
     do
     {
         xoa(4, 5, 40);
@@ -70,14 +70,14 @@ istream &operator>>(istream &i, problem &obj)
         gotoXY(4, 5);
         cout << "Enter RoomID: ";
         getline(i, obj.room_id);
-        Room::find_idroom(obj.room_id, room);
+        Phong::find_idroom(obj.room_id, room);
         if (room[0].getRoomID() != obj.room_id)
         {
             gotoXY(4, 6);
             cout << "Room Not Found.Try Again!" << endl;
         }
     } while (room[0].getRoomID() != obj.room_id);
-    Datetime date;
+    ThoiGian date;
     obj.registeddate = date;
     gotoXY(4, 6);
     cout << "Content: ";
@@ -85,10 +85,10 @@ istream &operator>>(istream &i, problem &obj)
     return i;
 }
 
-void problem::write_File(List<string> &L)
+void SuCo::write_File(List<string> &L)
 {
     ofstream inputFile;
-    inputFile.open("problem.txt", std::ios::out | std::ios::trunc);
+    inputFile.open("SuCo.txt", std::ios::out | std::ios::trunc);
     if (inputFile.is_open())
     {
         int size = L.getSize();
@@ -102,14 +102,14 @@ void problem::write_File(List<string> &L)
     }
     else
     {
-        cout << "Error Opening File problem.txt" << endl;
+        cout << "Error Opening File SuCo.txt" << endl;
     }
 }
-problem problem::Split(string str)
+SuCo SuCo::Split(string str)
 {
     string problem_id, room_id, registeddate, finishdate, content;
     bool status;
-    Datetime time1, time2;
+    ThoiGian time1, time2;
     str += ',';
     int id = 1;
     int begin = 0, end = 0;
@@ -128,12 +128,12 @@ problem problem::Split(string str)
             else if (id == 3)
             {
                 registeddate = str.substr(begin, end - begin);
-                time1 = Datetime::Split(registeddate);
+                time1 = ThoiGian::Split(registeddate);
             }
             else if (id == 4)
             {
                 finishdate = str.substr(begin, end - begin);
-                time2 = Datetime::Split(finishdate);
+                time2 = ThoiGian::Split(finishdate);
             }
             else if (id == 5)
             {
@@ -141,24 +141,24 @@ problem problem::Split(string str)
             }
             else
             {
-                status = Convert::str_to_bool(str.substr(begin, end - begin));
+                status = ChuyenDoi::str_to_bool(str.substr(begin, end - begin));
             }
             ++id;
             begin = end + 1;
         }
         end++;
     }
-    return problem(problem_id, room_id, time1, time2, content, status);
+    return SuCo(problem_id, room_id, time1, time2, content, status);
 }
-string problem::Union(problem &obj)
+string SuCo::Union(SuCo &obj)
 {
-    string str = obj.problem_id + "," + obj.room_id + "," + Datetime::Union(obj.registeddate) + "," + Datetime::Union(obj.finishdate) + "," + obj.content + "," + Convert::bool_to_str(obj.status);
+    string str = obj.problem_id + "," + obj.room_id + "," + ThoiGian::Union(obj.registeddate) + "," + ThoiGian::Union(obj.finishdate) + "," + obj.content + "," + ChuyenDoi::bool_to_str(obj.status);
     return str;
 }
 
-void problem::add_problem()
+void SuCo::add_problem()
 {
-    ofstream inputFile("problem.txt", std::ios::app);
+    ofstream inputFile("SuCo.txt", std::ios::app);
     string str;
     if (inputFile.is_open())
     {
@@ -168,16 +168,16 @@ void problem::add_problem()
     }
     else
     {
-        cout << "Error Opening File problem.txt" << endl;
+        cout << "Error Opening File SuCo.txt" << endl;
     }
 }
 
-void problem::display(List<problem> &L, int k)
+void SuCo::display(List<SuCo> &L, int k)
 {
     ifstream inputFile;
-    inputFile.open("problem.txt");
+    inputFile.open("SuCo.txt");
     string str;
-    problem obj;
+    SuCo obj;
     while (getline(inputFile, str))
     {
         if (str.size())
@@ -200,12 +200,12 @@ void problem::display(List<problem> &L, int k)
         }
     }
 }
-int problem::NumOfProblem()
+int SuCo::NumOfProblem()
 {
     ifstream inputFile;
-    inputFile.open("problem.txt");
+    inputFile.open("SuCo.txt");
     string str;
-    problem obj;
+    SuCo obj;
     int ans = 0;
     while (getline(inputFile, str))
     {
@@ -220,12 +220,12 @@ int problem::NumOfProblem()
     return ans;
 }
 
-void problem::find_idproblem(string id, List<problem> &L)
+void SuCo::find_idproblem(string id, List<SuCo> &L)
 {
     ifstream inputFile;
-    inputFile.open("problem.txt");
+    inputFile.open("SuCo.txt");
     string str;
-    problem obj;
+    SuCo obj;
     while (getline(inputFile, str))
     {
         if (str.size())
@@ -236,12 +236,12 @@ void problem::find_idproblem(string id, List<problem> &L)
         }
     }
 }
-void problem::solve(problem &obj1)
+void SuCo::solve(SuCo &obj1)
 {
     ifstream inputFile;
-    inputFile.open("problem.txt");
+    inputFile.open("SuCo.txt");
     string str;
-    problem obj;
+    SuCo obj;
     List<string> L;
     while (getline(inputFile, str))
     {
