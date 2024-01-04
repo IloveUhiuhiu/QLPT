@@ -445,7 +445,7 @@ void NguoiThue::add_customer()
         // set lại thằng ni xong add
         if (dn.get_num_electric_after() > 0)
         {
-            dn.set_dien_nuoc_id(ChuyenDoi::CreateID("dien_nuoc.txt"));
+            dn.set_dien_nuoc_id(ChuyenDoi::CreateID("DienNuoc.txt"));
             dn.set_num_electric_before(dn.get_num_electric_after());
             dn.set_num_water_before(dn.get_num_water_after());
             dn.set_num_water_after(0);
@@ -458,7 +458,7 @@ void NguoiThue::add_customer()
         }
 
         HoaDon hd;
-        hd.set_bill_id(ChuyenDoi::CreateID("hoa_don.txt"));
+        hd.set_bill_id(ChuyenDoi::CreateID("HoaDon.txt"));
         hd.set_room_id(this->room_id);
         hd.set_total_cost(room[0].getCost());
         hd.set_date(ThoiGian(now.get_years(), now.get_months(), 0));

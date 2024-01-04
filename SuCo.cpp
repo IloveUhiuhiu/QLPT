@@ -63,23 +63,9 @@ istream &operator>>(istream &i, SuCo &obj)
     cin.ignore();
     obj.set_problem_id(ChuyenDoi::CreateID("SuCo.txt"));
     List<Phong> room;
-    do
-    {
-        xoa(4, 5, 40);
-        xoa(4, 6, 40);
-        gotoXY(4, 5);
-        cout << "Enter RoomID: ";
-        getline(i, obj.room_id);
-        Phong::find_idroom(obj.room_id, room);
-        if (room[0].getRoomID() != obj.room_id)
-        {
-            gotoXY(4, 6);
-            cout << "Room Not Found.Try Again!" << endl;
-        }
-    } while (room[0].getRoomID() != obj.room_id);
     ThoiGian date;
     obj.registeddate = date;
-    gotoXY(4, 6);
+    gotoXY(4, 5);
     cout << "Content: ";
     getline(i, obj.content);
     return i;
@@ -187,7 +173,7 @@ void SuCo::display(List<SuCo> &L, int k)
             {
                 L.push_back(obj);
             }
-            if (k == 1)
+            else if (k == 1)
             {
                 if (obj.status)
                     L.push_back(obj);
@@ -199,6 +185,7 @@ void SuCo::display(List<SuCo> &L, int k)
             }
         }
     }
+    inputFile.close();
 }
 int SuCo::NumOfProblem()
 {

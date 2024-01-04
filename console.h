@@ -31,7 +31,7 @@ using namespace std;
 
 
 int inputKey();
-void xoa(int x, int y, int dodai);
+void xoa(int x,int y,int dodai,int chieucao = 0);
 void setColor(int maunen, int mauchu);
 void textcolor(WORD color);
 void SetBGColor(WORD color);

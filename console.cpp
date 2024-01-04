@@ -81,11 +81,12 @@ void setColor(int maunen, int mauchu)
     SetBGColor(maunen);
     textcolor(mauchu);
 }
-void xoa(int x, int y, int dodai)
+void xoa(int x,int y,int dodai,int chieucao)
 {
-    gotoXY(x, y);
-    for (int i = x; i <= x + dodai; i++)
-    {
-        cout << " ";
+    
+    for (int j = y; j <= y + chieucao; j++)
+    {   
+        gotoXY(x,j);
+        for (int i=x; i<= x + dodai; i++) cout << " ";
     }
 }

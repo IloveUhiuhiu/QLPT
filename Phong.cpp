@@ -171,7 +171,7 @@ void Phong::add_room(int k)
         ThoiGian dt;
         DienNuoc dn;
         dn.set_room_id(this->room_id);
-        dn.set_dien_nuoc_id(ChuyenDoi::CreateID("dien_nuoc.txt"));
+        dn.set_dien_nuoc_id(ChuyenDoi::CreateID("DienNuoc.txt"));
         dn.set_cost_water(DienNuoc::getNewCostWater());
         dn.set_cost_electric(DienNuoc::getNewCostElectric());
         dn.set_date(ThoiGian(dt.get_years(), dt.get_months(), 0));

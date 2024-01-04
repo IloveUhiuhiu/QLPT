@@ -2,7 +2,8 @@
 #include "NguoiThue.h"
 #include "DoanhThu.h"
 #include "SuCo.h"
-
+char ch = ' ';
+int sz, page, p;
 void ThanhNgang(int x, int y, int dodai, int maunen, int mauchu, int makitu)
 {
     setColor(maunen, mauchu);
@@ -153,7 +154,7 @@ void box_count(int x, int y, int cnt)
     L.push_back(s);
     box(x, y, w, 1, 1, L);
 }
-void box_customer(int x, int y, List<NguoiThue> &L)
+void box_customer(int x, int y, List<NguoiThue> &L, int page_p = 0, int choose = 6)
 {
     int n = L.getSize();
     List<int> w;
@@ -177,7 +178,7 @@ void box_customer(int x, int y, List<NguoiThue> &L)
     w.push_back(14);
     content.push_back("Phone");
     w.push_back(14);
-    for (int i = 0; i < n; i++)
+    for (int i = page_p*choose; i < min(n,(page_p+1)*choose); i++)
     {
         content.push_back(L[i].get_customer_id());
         content.push_back(L[i].get_room_id());
@@ -189,10 +190,10 @@ void box_customer(int x, int y, List<NguoiThue> &L)
         content.push_back(L[i].get_customer_address());
         content.push_back(L[i].get_customer_phone());
     }
-    box(x, y, w, n + 1, 9 , content);
+    box(x, y, w, min(choose+1,n - choose * page_p+1), 9 , content);
 }
 
-void box_room(int x, int y, List<Phong> &L)
+void box_room(int x, int y, List<Phong> &L,int page_p = 0,int choose = 10)
 {
     int n = L.getSize();
     List<int> w;
@@ -206,17 +207,17 @@ void box_room(int x, int y, List<Phong> &L)
     w.push_back(14);
     content.push_back("Status");
     w.push_back(14);
-    for (int i = 0; i < n; i++)
-    {
+    for (int i = page_p*choose; i < min(n,(page_p+1)*choose); i++)
+    {   
         content.push_back(L[i].getRoomID());
         content.push_back(L[i].getKindOf());
         content.push_back(ChuyenDoi::int_to_str((L[i].getCost())));
         content.push_back((L[i].isOccupied() ? "Rent" : "Empty"));
     }
-    box(x, y, w, n + 1, 4, content);
+    box(x, y, w, min(choose+1,n - choose * page_p+1), 4, content);
 }
 
-void box_roomrent(int x, int y, List<Phong> &L)
+void box_roomrent(int x, int y, List<Phong> &L,int page_p = 0, int choose = 10)
 {
     int n = L.getSize();
     List<int> w;
@@ -228,16 +229,16 @@ void box_roomrent(int x, int y, List<Phong> &L)
     w.push_back(14);
     content.push_back("Cost(VND)");
     w.push_back(14);
-    for (int i = 0; i < n; i++)
+    for (int i = page_p*choose; i < min(n,(page_p+1)*choose); i++)
     {
         content.push_back(L[i].getRoomID());
         content.push_back(L[i].getKindOf());
         content.push_back(ChuyenDoi::int_to_str(L[i].getCost()));
     }
-    box(x, y, w, n + 1, 3, content);
+    box(x, y, w, min(choose+1,n - choose * page_p+1), 3, content);
 }
 
-void box_roomempty(int x, int y, List<Phong> &L)
+void box_roomempty(int x, int y, List<Phong> &L,int page_p = 0,int choose = 10)
 {
     int n = L.getSize();
     List<int> w;
@@ -249,15 +250,15 @@ void box_roomempty(int x, int y, List<Phong> &L)
     w.push_back(14);
     content.push_back("Cost(VND)");
     w.push_back(14);
-    for (int i = 0; i < n; i++)
+    for (int i = page_p*choose; i < min(n,(page_p+1)*choose); i++)
     {
         content.push_back(L[i].getRoomID());
         content.push_back(L[i].getKindOf());
         content.push_back(ChuyenDoi::int_to_str(L[i].getCost()));
     }
-    box(x, y, w, n + 1, 3, content);
+    box(x, y, w, min(choose+1,n - choose * page_p+1), 3, content);
 }
-void box_diennuoc(int x, int y, List<DienNuoc> &L, int ok  =  0)
+void box_diennuoc(int x, int y, List<DienNuoc> &L, int page_p = 0, int choose = 10, int ok  =  0)
 {
     int n = L.getSize();
     List<int> w;
@@ -283,7 +284,7 @@ void box_diennuoc(int x, int y, List<DienNuoc> &L, int ok  =  0)
     w.push_back(14);
     content.push_back("Status");
     w.push_back(10);
-    for (int i = 0; i < n; i++)
+    for (int i = page_p*choose; i < min(n,(page_p+1)*choose); i++)
     {
         content.push_back(L[i].get_dien_nuoc_id());
         content.push_back(L[i].get_room_id());
@@ -317,9 +318,9 @@ void box_diennuoc(int x, int y, List<DienNuoc> &L, int ok  =  0)
         }
         }
     }
-    box(x, y, w, n + 1, 10, content);
+    box(x, y, w, min(choose+1,n - choose * page_p+1), 10, content);
 }
-void box_diennuocpay(int x, int y, List<DienNuoc> &L)
+void box_diennuocpay(int x, int y, List<DienNuoc> &L, int page_p = 0, int choose = 10)
 {
     int n = L.getSize();
     List<int> w;
@@ -343,7 +344,7 @@ void box_diennuocpay(int x, int y, List<DienNuoc> &L)
     w.push_back(14);
     content.push_back("PaymentDate");
     w.push_back(14);
-    for (int i = 0; i < n; i++)
+    for (int i = page_p*choose; i < min(n,(page_p+1)*choose); i++)
     {
         content.push_back(L[i].get_dien_nuoc_id());
         content.push_back(L[i].get_room_id());
@@ -355,9 +356,9 @@ void box_diennuocpay(int x, int y, List<DienNuoc> &L)
         content.push_back(ChuyenDoi::int_to_str(L[i].get_cost_water()));
         content.push_back(ThoiGian::Union(L[i].get_date()));
     }
-    box(x, y, w, n + 1, 9, content);
+    box(x, y, w, min(choose+1,n - choose * page_p+1), 9, content);
 }
-void box_diennuocunpay(int x, int y, List<DienNuoc> &L)
+void box_diennuocunpay(int x, int y, List<DienNuoc> &L, int page_p = 0, int choose = 10)
 {
     int n = L.getSize();
     List<int> w;
@@ -381,7 +382,7 @@ void box_diennuocunpay(int x, int y, List<DienNuoc> &L)
     w.push_back(14);
     content.push_back("PaymentDate");
     w.push_back(14);
-    for (int i = 0; i < n; i++)
+    for (int i = page_p*choose; i < min(n,(page_p+1)*choose); i++)
     {
         content.push_back(L[i].get_dien_nuoc_id());
         content.push_back(L[i].get_room_id());
@@ -393,9 +394,9 @@ void box_diennuocunpay(int x, int y, List<DienNuoc> &L)
         content.push_back(ChuyenDoi::int_to_str(L[i].get_cost_water()));
         content.push_back(ThoiGian::Union(L[i].get_date()));
     }
-    box(x, y, w, n + 1, 9, content);
+    box(x, y, w, min(choose+1,n - choose * page_p+1), 9, content);
 }
-void box_hoadon(int x, int y, List<HoaDon> &L)
+void box_hoadon(int x, int y, List<HoaDon> &L, int page_p = 0, int choose = 10)
 {
     int n = L.getSize();
     List<int> w;
@@ -411,7 +412,7 @@ void box_hoadon(int x, int y, List<HoaDon> &L)
     w.push_back(16);
     content.push_back("Status");
     w.push_back(14);
-    for (int i = 0; i < n; i++)
+    for (int i = page_p*choose; i < min(n,(page_p+1)*choose); i++)
     {
         content.push_back(L[i].get_bill_id());
         content.push_back(L[i].get_room_id());
@@ -419,9 +420,9 @@ void box_hoadon(int x, int y, List<HoaDon> &L)
         content.push_back(ChuyenDoi::int_to_str(L[i].get_total_cost()));
         content.push_back(ChuyenDoi::bool_to_str(L[i].get_status()));
     }
-    box(x, y, w, n + 1, 5, content);
+    box(x, y, w, min(choose+1,n - choose * page_p+1), 5, content);
 }
-void box_hoadonpay(int x, int y, List<HoaDon> &L)
+void box_hoadonpay(int x, int y, List<HoaDon> &L, int page_p = 0, int choose = 10)
 {
     int n = L.getSize();
     List<int> w;
@@ -435,16 +436,16 @@ void box_hoadonpay(int x, int y, List<HoaDon> &L)
     w.push_back(14);
     content.push_back("TotalCost(VND)");
     w.push_back(16);
-    for (int i = 0; i < n; i++)
+    for (int i = page_p*choose; i < min(n,(page_p+1)*choose); i++)
     {
         content.push_back(L[i].get_bill_id());
         content.push_back(L[i].get_room_id());
         content.push_back(ThoiGian::Union(L[i].get_date()));
         content.push_back(ChuyenDoi::int_to_str(L[i].get_total_cost()));
     }
-    box(x, y, w, n + 1, 4, content);
+    box(x, y, w, min(choose+1,n - choose * page_p+1), 4, content);
 }
-void box_hoadonunpay(int x, int y, List<HoaDon> &L)
+void box_hoadonunpay(int x, int y, List<HoaDon> &L, int page_p = 0, int choose = 10)
 {
     int n = L.getSize();
     List<int> w;
@@ -458,17 +459,17 @@ void box_hoadonunpay(int x, int y, List<HoaDon> &L)
     w.push_back(14);
     content.push_back("TotalCost(VND)");
     w.push_back(16);
-    for (int i = 0; i < n; i++)
+    for (int i = page_p*choose; i < min(n,(page_p+1)*choose); i++)
     {
         content.push_back(L[i].get_bill_id());
         content.push_back(L[i].get_room_id());
         content.push_back(ThoiGian::Union(L[i].get_date()));
         content.push_back(ChuyenDoi::int_to_str(L[i].get_total_cost()));
     }
-    box(x, y, w, n + 1, 4, content);
+    box(x, y, w, min(choose+1,n - choose * page_p+1), 4, content);
 }
 
-void box_problem(int x, int y, List<SuCo> &L)
+void box_problem(int x, int y, List<SuCo> &L,int page_p =0, int choose = 10)
 {
     int n = L.getSize();
     List<int> w;
@@ -486,7 +487,7 @@ void box_problem(int x, int y, List<SuCo> &L)
     w.push_back(30);
     content.push_back("Status");
     w.push_back(10);
-    for (int i = 0; i < n; i++)
+    for (int i = page_p*choose; i < min(n,(page_p+1)*choose); i++)
     {
         content.push_back(L[i].get_problem_id());
         content.push_back(L[i].get_room_id());
@@ -495,9 +496,9 @@ void box_problem(int x, int y, List<SuCo> &L)
         content.push_back(L[i].get_content());
         content.push_back(ChuyenDoi::bool_to_str(L[i].get_status()));
     }
-    box(x, y, w, n + 1, 6, content);
+    box(x, y, w, min(choose+1,n - choose * page_p+1), 6, content);
 }
-void box_solvedproblem(int x, int y, List<SuCo> &L)
+void box_solvedproblem(int x, int y, List<SuCo> &L, int page_p = 0, int choose = 10)
 {
     int n = L.getSize();
     List<int> w;
@@ -513,7 +514,7 @@ void box_solvedproblem(int x, int y, List<SuCo> &L)
     w.push_back(15);
     content.push_back("Content");
     w.push_back(30);
-    for (int i = 0; i < n; i++)
+    for (int i = page_p*choose; i < min(n,(page_p+1)*choose); i++)
     {
         content.push_back(L[i].get_problem_id());
         content.push_back(L[i].get_room_id());
@@ -521,9 +522,9 @@ void box_solvedproblem(int x, int y, List<SuCo> &L)
         content.push_back(ThoiGian::Union(L[i].get_finishdate()));
         content.push_back(L[i].get_content());
     }
-    box(x, y, w, n + 1, 5, content);
+    box(x, y, w, min(choose+1,n - choose * page_p+1), 5, content);
 }
-void box_unsolvedproblem(int x, int y, List<SuCo> &L)
+void box_unsolvedproblem(int x, int y, List<SuCo> &L, int page_p = 0, int choose = 10)
 {
     int n = L.getSize();
     List<int> w;
@@ -539,7 +540,7 @@ void box_unsolvedproblem(int x, int y, List<SuCo> &L)
     w.push_back(15);
     content.push_back("Content");
     w.push_back(30);
-    for (int i = 0; i < n; i++)
+    for (int i = page_p*choose; i < min(n,(page_p+1)*choose); i++)
     {
         content.push_back(L[i].get_problem_id());
         content.push_back(L[i].get_room_id());
@@ -547,7 +548,7 @@ void box_unsolvedproblem(int x, int y, List<SuCo> &L)
         content.push_back(ThoiGian::Union(L[i].get_finishdate()));
         content.push_back(L[i].get_content());
     }
-    box(x, y, w, n + 1, 5, content);
+    box(x, y, w, min(choose+1,n - choose * page_p+1), 5, content);
 }
 void hide_password_input(string &password)
 {
@@ -590,7 +591,7 @@ void menu_user(NguoiThue &object2)
     Phong room;
     DienNuoc dn;
     HoaDon hd;
-    SuCo p;
+    SuCo sc;
     List<NguoiThue> L;
     List<Phong> L1;
     List<DienNuoc> L2;
@@ -666,20 +667,51 @@ void menu_user(NguoiThue &object2)
         case 3:
             gotoXY(59,4);cout << "***Information Of Electric Water***";
             L2.push_back(DienNuoc::find_nearest_dien_nuoc(object2.get_room_id()));
-            box_diennuoc(5, 6, L2,1);
-            getch();
+            sz = L2.getSize();
+            page = (sz-1)/10;
+            p = 0;
+            while (true) {
+                xoa(4,6,148,32);
+                box_diennuoc(5, 6, L2,p,10,1);
+                gotoXY(145,36); cout << p+1 << " / " << page+1 ;
+                ch = getch();
+                if (ch == 'l') {
+                    if (p < page) p++;
+                } else if (ch == 'x') {
+                    if (p > 0) p--; 
+                } else {
+                    break;
+                }  
+            }
             break;
         case 4:
             gotoXY(64,4);cout << "***Information Of BiLL***";
             L3.push_back(HoaDon::find_nearest_hoa_don(object2.get_room_id()));
+            sz = L3.getSize();
+            page = (sz-1)/10;
+            p = 0;
+            while (true) {
+                xoa(4,6,140,28);
+                box_hoadon(49, 6, L3,p);
+                gotoXY(145,36); cout << p+1 << " / " << page+1 ;
+                ch = getch();
+                if (ch == 'l') {
+                    if (p < page) p++;
+                } else if (ch == 'x') {
+                    if (p > 0) p--; 
+                } else {
+                    break;
+                }  
+            }
             box_hoadon(49, 6, L3);
             getch();
             break;
         case 5: 
             
             gotoXY(62,4);cout << "***Add Information Problem***";
-            cin >> p;
-            p.add_problem();
+            cin >> sc;
+            sc.set_room_id(object2.get_room_id());
+            sc.add_problem();
             
             gotoXY(4,7);cout << "Add Problem Successful.";
             getch();
@@ -765,38 +797,80 @@ void menu_Manager_Customer()
         {
         case 1:
             gotoXY(63,4);cout << "***Information Of All Customer***" << endl;
-            cout << endl;
             NguoiThue::display(L);
-            box_customer(9, 6, L);
-            getch();
+            sz = L.getSize();
+            page = (sz-1)/6;
+            p = 0;
+            while (true) {
+                xoa(4,5,144,32);
+                box_customer(9, 6, L, p);
+                gotoXY(145,36); cout << p+1 << " / " << page+1 ;
+                ch = getch();
+                if (ch == 'l') {
+                    if (p < page) p++;
+                } else if (ch == 'x') {
+                    if (p > 0) p--; 
+                } else {
+                    break;
+                }  
+            }
             break;
         case 2:
             gotoXY(59,4);cout << "***Enter Information New Customer***";
             cin >> object2;
-            object2.set_customer_id(ChuyenDoi::CreateID("customer.txt"));
+            object2.set_customer_id(ChuyenDoi::CreateID("NguoiThue.txt"));
             object2.add_customer();
             break;
         case 3:
             gotoXY(61,4);cout << "***Find Information Customer***" << endl;
             NguoiThue::find_customer(L);
-            box_customer(9, 14, L);
-            getch();
+            sz = L.getSize();
+            page = (sz-1)/6;
+            p = 0;
+            while (true) {
+                xoa(4,14,144,23);
+                box_customer(9, 14, L, p);
+                gotoXY(145,36); cout << p+1 << " / " << page+1 ;
+                ch = getch();
+                if (ch == 'l') {
+                    if (p < page) p++;
+                } else if (ch == 'x') {
+                    if (p > 0) p--; 
+                } else {
+                    break;
+                }  
+            }
             break;
         case 4:
             gotoXY(60,4);cout << "***Delete Information Customer***" << endl;
             NguoiThue::find_customer(L);
-            box_customer(9, 14, L);
+            sz = L.getSize();
+            page = (sz-1)/6;
+            p = 0;
+            while (true) {
+                xoa(4,14,144,23);
+                box_customer(9, 14, L, p);
+                gotoXY(145,36); cout << p+1 << " / " << page+1 ;
+                ch = getch();
+                if (ch == 'l') {
+                    if (p < page) p++;
+                } else if (ch == 'x') {
+                    if (p > 0) p--; 
+                } else {
+                    break;
+                }  
+            }
                 
             do
             {   
-                xoa(4, 2 * L.getSize() + 16,40);
-                xoa(4, 2 * L.getSize() + 17,40);
-                gotoXY(4, 2 * L.getSize() + 16);cout << "Enter Customer ID:";
+                xoa(4,33,40);
+                xoa(4,34,40);
+                gotoXY(4, 33);cout << "Enter Customer ID:";
                 getline(cin, ID);
                 NguoiThue::find_idcustomer(ID, L);
                 if (ID.size() && L.getSize() == 0)
                 {
-                    gotoXY(4, 2 * L.getSize() + 17);cout << "ID does not exist!!!Try Again." << endl;
+                    gotoXY(4, 34);cout << "ID does not exist!!!Try Again." << endl;
                 }
             } while (ID.size() && L.getSize() == 0);
             if (ID.size() == 0)
@@ -806,29 +880,43 @@ void menu_Manager_Customer()
         case 5:
             gotoXY(61,4);cout << "***Edit Information Customer***" << endl;
             NguoiThue::find_customer(L);
-            box_customer(9, 14, L);
-            
-            L.clear();
+            sz = L.getSize();
+            page = (sz-1)/6;
+            p = 0;
+            while (true) {
+                xoa(4,14,144,23);
+                box_customer(9, 14, L, p);
+                gotoXY(145,36); cout << p+1 << " / " << page+1 ;
+                ch = getch();
+                if (ch == 'l') {
+                    if (p < page) p++;
+                } else if (ch == 'x') {
+                    if (p > 0) p--; 
+                } else {
+                    break;
+                }  
+            }
+            L.clear();   
             do
             {   
-                xoa(4, 2 * L.getSize() + 16,40);
-                xoa(4, 2 * L.getSize() + 17,40);
-                gotoXY(4, 2 * L.getSize() + 16);cout << "Enter Customer ID:";
+                xoa(4,33,40);
+                xoa(4,34,40);
+                gotoXY(4, 33);cout << "Enter Customer ID:";
                 getline(cin, ID);
                 NguoiThue::find_idcustomer(ID, L);
                 if (ID.size() && L.getSize() == 0)
                 {
-                    gotoXY(4, 2 * L.getSize() + 17);cout << "ID does not exist!!!Try Again." << endl;
+                    gotoXY(4, 34);cout << "ID does not exist!!!Try Again." << endl;
                 }
             } while (ID.size() && L.getSize() == 0);
             if (ID.size() == 0)
                 break;
             system("cls");
             khungbang();
-            gotoXY(4,58);cout << "***Information Current Customer***" << endl;
+            gotoXY(4,5);cout << "Information Current Customer:" << endl;
             box_customer(9, 6, L);
-            gotoXY(4, 2 * L.getSize() + 9);cout << "Enter New Information: " << endl;
-            NguoiThue::update_customer(L[0],2*L.getSize()+9);
+            gotoXY(4, 11);cout << "Enter New Information: " << endl;
+            NguoiThue::update_customer(L[0],11);
             break;
         case 6:
             gotoXY(68,4); cout << "***Change Password***";
@@ -940,28 +1028,84 @@ void menu_Manager_Phong_Tro()
         case 1:
             gotoXY(65,4); cout << "***Information Of All Room***" << endl;
             Phong::display(L);
-            box_room(50, 6, L);
-            getch();
+            sz = L.getSize();
+            page = (sz-1)/10;
+            p = 0;
+            while (true) {
+                xoa(4,5,140,32);
+                box_room(50, 6, L, p);
+                gotoXY(145,36); cout << p+1 << " / " << page+1 ;
+                ch = getch();
+                if (ch == 'l') {
+                    if (p < page) p++;
+                } else if (ch == 'x') {
+                    if (p > 0) p--; 
+                } else {
+                    break;
+                }  
+            }
             break;
         case 2:
             gotoXY(62,4); cout << "***Information Of All Empty Room***" << endl;
             Phong::display(L,2);
-            box_roomempty(57, 6, L);
-            getch();
+            sz = L.getSize();
+            page = (sz-1)/14;
+            p = 0;
+            while (true) {
+                xoa(4,5,140,32);
+                box_roomempty(50, 6, L, p);
+                gotoXY(145,36); cout << p+1 << " / " << page+1 ;
+                ch = getch();
+                if (ch == 'l') {
+                    if (p < page) p++;
+                } else if (ch == 'x') {
+                    if (p > 0) p--; 
+                } else {
+                    break;
+                }  
+            }
             break;
         case 3:
             gotoXY(62,4); cout << "***Information Of All Rented Room***" << endl;
             Phong::display(L,1);
-            box_roomrent(57, 6, L);
-            getch();
+            sz = L.getSize();
+            page = (sz-1)/14;
+            p = 0;
+            while (true) {
+                xoa(4,5,140,32);
+                box_roomrent(50, 6, L, p);
+                gotoXY(145,36); cout << p+1 << " / " << page+1 ;
+                ch = getch();
+                if (ch == 'l') {
+                    if (p < page) p++;
+                } else if (ch == 'x') {
+                    if (p > 0) p--; 
+                } else {
+                    break;
+                }  
+            }
             break;
         case 4:
         {
             gotoXY(64,4);cout << "***Find Information Room***" << endl;
             cin.ignore();
             Phong::find_room(L);
-            box_room(50, 9, L);
-            getch();
+            sz = L.getSize();
+            page = (sz-1)/10;
+            p = 0;
+            while (true) {
+                xoa(4,9,140,28);
+                box_room(50, 9, L, p);
+                gotoXY(145,36); cout << p+1 << " / " << page+1 ;
+                ch = getch();
+                if (ch == 'l') {
+                    if (p < page) p++;
+                } else if (ch == 'x') {
+                    if (p > 0) p--; 
+                } else {
+                    break;
+                }  
+            }
             break;
         }
 
@@ -983,19 +1127,33 @@ void menu_Manager_Phong_Tro()
             gotoXY(64,4);cout << "***Edit Information Room***";
             cin.ignore();
             Phong::find_room(L);
-            box_room(50, 9, L);
-            len = L.getSize();
+            sz = L.getSize();
+            page = (sz-1)/10;
+            p = 0;
+            while (true) {
+                xoa(4,9,140,28);
+                box_room(50, 9, L, p);
+                gotoXY(145,36); cout << p+1 << " / " << page+1 ;
+                ch = getch();
+                if (ch == 'l') {
+                    if (p < page) p++;
+                } else if (ch == 'x') {
+                    if (p > 0) p--; 
+                } else {
+                    break;
+                }  
+            }
             L.clear();
             do
             {   
-                xoa(4, 2 * len + 11,40);
-                xoa(4, 2 * len + 12,40);
-                gotoXY(4, 2 * len + 11);cout << "Enter Room ID: ";
+                xoa(4, 33,40);
+                xoa(4, 34,40);
+                gotoXY(4, 33);cout << "Enter Room ID: ";
                 getline(cin, ID);
                Phong::find_idroom(ID, L);
                 if (ID.size() && L.getSize() == 0)
                 {
-                    gotoXY(4, 2 * len + 12);cout << "ID does not exist!!!Try Again." << endl;
+                    gotoXY(4, 34);cout << "ID does not exist!!!Try Again." << endl;
                     getch();
                 }
             } while (ID.size() && L.getSize() == 0);
@@ -1031,9 +1189,6 @@ void menu_Manager_Phong_Tro()
             break;
         }
         L.clear();
-        // if (choice)
-        //     getch();
-
     } while (choice != 0);
 }
 void menu_Manager_Payment()
@@ -1105,74 +1260,158 @@ void menu_Manager_Payment()
         case 1:
             gotoXY(66,4);cout << "***Information Of All BiLL***";
             HoaDon::display(L);
-            // cout << L.getSize() << endl;
-            box_hoadon(49, 6, L);
-            getch();
+            sz = L.getSize();
+            page = (sz-1)/10;
+            p = 0;
+            while (true) {
+                xoa(4,5,140,32);
+                box_hoadon(49, 6, L, p);
+                gotoXY(145,36); cout << p+1 << " / " << page+1 ;
+                ch = getch();
+                if (ch == 'l') {
+                    if (p < page) p++;
+                } else if (ch == 'x') {
+                    if (p > 0) p--; 
+                } else {
+                    break;
+                }  
+            }
             break;
         case 2:
             gotoXY(64,4);cout << "***Information Of All Pay BiLL***";
             HoaDon::display(L,1);
-            box_hoadonpay(49, 6, L);
-            getch();
+            sz = L.getSize();
+            page = (sz-1)/10;
+            p = 0;
+            while (true) {
+                xoa(4,5,140,32);
+                box_hoadonpay(49, 6, L, p);
+                gotoXY(145,36); cout << p+1 << " / " << page+1 ;
+                ch = getch();
+                if (ch == 'l') {
+                    if (p < page) p++;
+                } else if (ch == 'x') {
+                    if (p > 0) p--; 
+                } else {
+                    break;
+                }  
+            }
             break;
         case 3:
             gotoXY(64,4);cout << "***Information Of All UnPay BiLL***";
             HoaDon::display(L,2);
-            box_hoadonunpay(49, 6, L);
-            getch();
+            sz = L.getSize();
+            page = (sz-1)/10;
+            p = 0;
+            while (true) {
+                xoa(4,5,140,32);
+                box_hoadonunpay(49, 6, L, p);
+                gotoXY(145,36); cout << p+1 << " / " << page+1 ;
+                ch = getch();
+                if (ch == 'l') {
+                    if (p < page) p++;
+                } else if (ch == 'x') {
+                    if (p > 0) p--; 
+                } else {
+                    break;
+                }  
+            }
             break;
         case 4:
             gotoXY(64,4);cout << "***Find Information BiLL***" << endl;
             HoaDon::find_hoa_don(L);
-            box_hoadon(49, 9, L);
-            getch();
+            sz = L.getSize();
+            page = (sz-1)/10;
+            p = 0;
+            while (true) {
+                xoa(4,9,140,28);
+                box_hoadon(49, 9, L, p);
+                gotoXY(145,36); cout << p+1 << " / " << page+1 ;
+                ch = getch();
+                if (ch == 'l') {
+                    if (p < page) p++;
+                } else if (ch == 'x') {
+                    if (p > 0) p--; 
+                } else {
+                    break;
+                }  
+            }
             break;
         case 5:
             gotoXY(70,4);cout << "***Pay BiLL***";
             gotoXY(4,5);cout << "List Of Unpaid Rooms: " << endl;
             HoaDon::display(L,2);
-            
-            box_hoadonunpay(49,6, L);
-            getch();
+            sz = L.getSize();
+            page = (sz-1)/10;
+            p = 0;
+            while (true) {
+                xoa(4,9,140,28);
+                box_hoadonunpay(49,6, L,p);
+                gotoXY(145,36); cout << p+1 << " / " << page+1 ;
+                ch = getch();
+                if (ch == 'l') {
+                    if (p < page) p++;
+                } else if (ch == 'x') {
+                    if (p > 0) p--; 
+                } else {
+                    break;
+                }  
+            }
             len = L.getSize();
             L.clear();
             cin.ignore();
             do
             {   
-                xoa(4,2*len+9,40);
-                xoa(4,2*len+10,40);
+                xoa(4,29,40);
+                xoa(4,30,40);
                 
-                gotoXY(4, 2 * len + 9);cout << "Enter ID Of Bill Want To Pay: ";
+                gotoXY(4, 29);cout << "Enter ID Of Bill Want To Pay: ";
                 getline(cin, ID);
                 HoaDon::find_bill_id(ID, L);
                 if (ID.size() && L.getSize() == 0)
                 {
-                    gotoXY(4, 2 * len + 10);cout << "ID does not exist!!!Try Again." << endl;
+                    gotoXY(4, 30);cout << "ID does not exist!!!Try Again." << endl;
                     getch();
                 }
             } while (ID.size() && L.getSize() == 0);
             if (ID.size() == 0)
                 break;
-            HoaDon::Pay_bill(L[0], 2 * len + 10);
+            HoaDon::Pay_bill(L[0], 30);
             break;
 
         case 6:
             gotoXY(67,4);cout << "***Edit Information BiLL***" << endl;
             HoaDon::find_hoa_don(L);
-            box_hoadon(49, 9, L);
+            sz = L.getSize();
+            page = (sz-1)/10;
+            p = 0;
+            while (true) {
+                xoa(4,9,140,28);
+                box_hoadon(49, 9, L, p);
+                gotoXY(145,36); cout << p+1 << " / " << page+1 ;
+                ch = getch();
+                if (ch == 'l') {
+                    if (p < page) p++;
+                } else if (ch == 'x') {
+                    if (p > 0) p--; 
+                } else {
+                    break;
+                }  
+            }
+            
             len = L.getSize();
             L.clear();
             do
             {   
-                xoa(4,2*len+12,40);
-                xoa(4,2*len+13,40);
-                gotoXY(4,2*len+12);cout << "Enter BiLL ID: ";
+                xoa(4,33,40);
+                xoa(4,34,40);
+                gotoXY(4,33);cout << "Enter BiLL ID: ";
                 
                 getline(cin, ID);
                 HoaDon::find_bill_id(ID, L);
                 if (ID.size() && L.getSize() == 0)
                 {
-                    gotoXY(4,2*len+13);cout << "ID does not exist!!!Try Again." << endl;
+                    gotoXY(4,34);cout << "ID does not exist!!!Try Again." << endl;
                     getch();
                 }
             } while (ID.size() && L.getSize() == 0);
@@ -1182,16 +1421,15 @@ void menu_Manager_Payment()
             khungbang();
             gotoXY(4,4);cout << "Infomation Current BiLL:" << endl;
             box_hoadon(49, 6, L);
-            gotoXY(4, 2 * L.getSize() + 9);
+            gotoXY(4, 11);
             cout << "Enter New Information:" << endl;
-            HoaDon::update_hoa_don(L[0],2 * L.getSize() + 9);
+            HoaDon::update_hoa_don(L[0],11);
             break;
         default:
             break;
         }
         L.clear();
-        // if (choice)
-        //     getch();
+       
 
     } while (choice != 0);
 }
@@ -1270,60 +1508,126 @@ void menu_Manager_Dien_Nuoc()
         {
         case 1:
             gotoXY(61,4);cout << "***Information Of All Electric Water***";
-            cout << L.getSize() << endl;
             DienNuoc::display(L);
-            box_diennuoc(5, 6, L);
-            getch();
+            sz = L.getSize();
+            page = (sz-1)/10;
+            p = 0;
+            while (true) {
+                xoa(4,5,148,32);
+                box_diennuoc(5, 6, L,p);
+                gotoXY(145,36); cout << p+1 << " / " << page+1 ;
+                ch = getch();
+                if (ch == 'l') {
+                    if (p < page) p++;
+                } else if (ch == 'x') {
+                    if (p > 0) p--; 
+                } else {
+                    break;
+                }  
+            }
             break;
         case 2:
             gotoXY(58,4);cout << "***Information Of UnPaid Electric Water***";
             DienNuoc::display(L,2);
-            cout << L.getSize() << endl;
-            box_diennuocunpay(9, 6, L);
-            getch();
+            sz = L.getSize();
+            page = (sz-1)/10;
+            p = 0;
+            while (true) {
+                xoa(4,5,148,32);
+                box_diennuocunpay(9, 6, L,p);
+                gotoXY(145,36); cout << p+1 << " / " << page+1 ;
+                ch = getch();
+                if (ch == 'l') {
+                    if (p < page) p++;
+                } else if (ch == 'x') {
+                    if (p > 0) p--; 
+                } else {
+                    break;
+                }  
+            }
             break;
         case 3:
             gotoXY(60,4);cout << "***Information Of Paid Electric Water***";
             DienNuoc::display(L,1);
-            cout << L.getSize() << endl;
-            box_diennuocpay(9, 6, L);
-            getch();
+            sz = L.getSize();
+            page = (sz-1)/10;
+            p = 0;
+            while (true) {
+                xoa(4,5,148,32);
+                box_diennuocpay(9, 6, L, p);
+                gotoXY(145,36); cout << p+1 << " / " << page+1 ;
+                ch = getch();
+                if (ch == 'l') {
+                    if (p < page) p++;
+                } else if (ch == 'x') {
+                    if (p > 0) p--; 
+                } else {
+                    break;
+                }  
+            }
             break;
         case 4:
             gotoXY(60,4);cout << "***Find Informatin Electric Water***" << endl;
             DienNuoc::find_dien_nuoc(L);
-            box_diennuoc(5, 10, L);
-            getch();
+            sz = L.getSize();
+            page = (sz-1)/10;
+            p = 0;
+            while (true) {
+                xoa(4,10,148,27);
+                box_diennuocunpay(9, 10, L,p);
+                gotoXY(145,36); cout << p+1 << " / " << page+1 ;
+                ch = getch();
+                if (ch == 'l') {
+                    if (p < page) p++;
+                } else if (ch == 'x') {
+                    if (p > 0) p--; 
+                } else {
+                    break;
+                }  
+            }
 
             break;
         case 5:
             gotoXY(66,4);cout << "***Pay Electric Water***";
             gotoXY(4,5);cout << "Informatin Unpaid Room:" << endl;
             DienNuoc::display(L,2);
-            box_diennuocunpay(5, 7, L);
-            len = L.getSize();
-            gotoXY(0, 2 * len + 9);
+            sz = L.getSize();
+            page = (sz-1)/10;
+            p = 0;
+            while (true) {
+                xoa(5,7,148,30);
+                box_diennuocunpay(5, 7, L,p);
+                gotoXY(145,36); cout << p+1 << " / " << page+1 ;
+                ch = getch();
+                if (ch == 'l') {
+                    if (p < page) p++;
+                } else if (ch == 'x') {
+                    if (p > 0) p--; 
+                } else {
+                    break;
+                }  
+            }
             cin.ignore();
             do
             {   
                 L.clear();
-                xoa(4,2 * len + 10,100);
-                xoa(4,2 * len + 11,100);
-                xoa(4,2 * len + 12,100);
-                xoa(4,2 * len + 13,100);
-                xoa(4,2 * len + 14,100);
-                xoa(4,2 * len + 15,100);
-                xoa(4,2 * len + 16,100);
-                gotoXY(4, 2 * len + 10);cout << "Enter ID Of Electric Water Want To Pay: ";
+                xoa(4,30,100);
+                xoa(4,31,100);
+                xoa(4,32,100);
+                xoa(4,33,100);
+                xoa(4,34,100);
+                xoa(4,35,100);
+                xoa(4,36,100);
+                gotoXY(4, 30);cout << "Enter ID Of Electric Water Want To Pay: ";
                 getline(cin, ID);
                 if(ID =="exit") break;
                 DienNuoc::find_dien_nuoc_id(ID, L);
                 if (ID.size() && L.getSize() == 0)
                 {
-                    gotoXY(4, 2 * len + 11);cout << "ID does not exist!!!Try Again." << endl;
+                    gotoXY(4, 31);cout << "ID does not exist!!!Try Again." << endl;
                     getch();
                 }
-                DienNuoc::Pay_dien_nuoc(L[0],2*len+10);
+                DienNuoc::Pay_dien_nuoc(L[0],30);
             } while ((ID.size() && L.getSize() == 0) || ID.size() == 0 || true);
             break;
         case 6:
@@ -1351,19 +1655,34 @@ void menu_Manager_Dien_Nuoc()
         case 8:
             gotoXY(60,4);cout << "***Edit Information Electric Water***";
             DienNuoc::find_dien_nuoc(L);
-            box_diennuoc(5, 10, L);
+            sz = L.getSize();
+            page = (sz-1)/10;
+            p = 0;
+            while (true) {
+                xoa(5,10,148,27);
+                box_diennuoc(5, 10, L,p);
+                gotoXY(145,36); cout << p+1 << " / " << page+1 ;
+                ch = getch();
+                if (ch == 'l') {
+                    if (p < page) p++;
+                } else if (ch == 'x') {
+                    if (p > 0) p--; 
+                } else {
+                    break;
+                }  
+            }
             len = L.getSize();
             L.clear();
             do
-            {   xoa (4,2*len+13,40);
-                xoa(4,2*len+14,40);
-                gotoXY(4,2*len+13);
+            {   xoa (4,33,40);
+                xoa(4,34,40);
+                gotoXY(4,33);
                 cout << "Enter Electric Water ID: ";
                 getline(cin, ID);
                 DienNuoc::find_dien_nuoc_id(ID, L);
                 if (ID.size() && L.getSize() == 0)
                 {
-                    gotoXY(4,2*len+14);cout << "ID does not exist!!!Try Again." << endl;
+                    gotoXY(4,34);cout << "ID does not exist!!!Try Again." << endl;
                     getch();
                 }
             } while (ID.size() && L.getSize() == 0);
@@ -1375,11 +1694,11 @@ void menu_Manager_Dien_Nuoc()
             gotoXY(4,4);cout << "Information Current Electric_Water: " << endl;
             // tin diem nuoc
             box_diennuoc(5, 6, L);
-            gotoXY(4, 2 * L.getSize() + 9);
+            gotoXY(4, 11);
             // DienNuoc::display(L);
 
             cout << "Information New Electric_Water: " << endl;
-            DienNuoc::update_dien_nuoc(L[0],2*L.getSize()+9);
+            DienNuoc::update_dien_nuoc(L[0],11);
             break;
         default:
             break;
@@ -1605,47 +1924,104 @@ void menu_problem()
         case 1:
             gotoXY(66,4);cout << "***View List Problem***";
             SuCo::display(L);
-            box_problem(28, 6, L);
-            getch();
+            sz = L.getSize();
+            page = (sz-1)/10;
+            p = 0;
+            while (true) {
+                xoa(4,6,148,31);
+                box_problem(28, 6, L, p);
+                gotoXY(145,36); cout << p+1 << " / " << page+1 ;
+                ch = getch();
+                if (ch == 'l') {
+                    if (p < page) p++;
+                } else if (ch == 'x') {
+                    if (p > 0) p--; 
+                } else {
+                    break;
+                }  
+            }
             break;
 
         case 2:
             gotoXY(62,4);cout << "***View List Solved Problem***";
             SuCo::display(L,1);
-            box_solvedproblem(30, 6, L);
-            getch();
+            sz = L.getSize();
+            page = (sz-1)/10;
+            p = 0;
+            while (true) {
+                xoa(4,6,148,31);
+                box_solvedproblem(30, 6, L,p);
+                gotoXY(145,36); cout << p+1 << " / " << page+1 ;
+                ch = getch();
+                if (ch == 'l') {
+                    if (p < page) p++;
+                } else if (ch == 'x') {
+                    if (p > 0) p--; 
+                } else {
+                    break;
+                }  
+            }
+            
             break;
 
         case 3:
             gotoXY(62,4);cout << "***View List UnSolved Problem***";
             SuCo::display(L,2);
-            box_unsolvedproblem(30, 6, L);
-            getch();
+            sz = L.getSize();
+            page = (sz-1)/10;
+            p = 0;
+            while (true) {
+                xoa(4,6,148,31);
+                box_unsolvedproblem(30, 6, L,p);
+                gotoXY(145,36); cout << p+1 << " / " << page+1 ;
+                ch = getch();
+                if (ch == 'l') {
+                    if (p < page) p++;
+                } else if (ch == 'x') {
+                    if (p > 0) p--; 
+                } else {
+                    break;
+                }  
+            }
             break;
         case 4:
             gotoXY(66,4);cout << "***Confirm Solve Problem***";
             gotoXY(4,5);cout << "Information Of UnSolved Problem:" << endl;
             SuCo::display(L,2);
-            box_problem(28, 7, L);
-            len = 2*L.getSize();
+            sz = L.getSize();
+            page = (sz-1)/10;
+            p = 0;
+            while (true) {
+                xoa(4,6,148,31);
+                box_unsolvedproblem(30, 6, L, p);
+                gotoXY(145,36); cout << p+1 << " / " << page+1 ;
+                ch = getch();
+                if (ch == 'l') {
+                    if (p < page) p++;
+                } else if (ch == 'x') {
+                    if (p > 0) p--; 
+                } else {
+                    break;
+                }  
+            }
             L.clear();
             cin.ignore();
             do
             {   
-                xoa(4,2*len+10,40);
-                xoa(4,2*len+11,40);
-                gotoXY(4, 2 * len + 10);cout << "Enter Problem ID:";
+                xoa(4,30,40);
+                xoa(4,31,40);
+                gotoXY(4, 30);cout << "Enter Problem ID:";
                 getline(cin, ID);
                 SuCo::find_idproblem(ID, L);
                 if (ID.size() && L.getSize() == 0)
                 {
-                    gotoXY(4, 2 * len + 11);cout << "ID Already Exists!!!Try Again." << endl;
+                    gotoXY(4, 31);cout << "ID Already Exists!!!Try Again." << endl;
                     getch();
                 }
             } while (ID.size() && L.getSize() == 0);
             if (ID.size() == 0)
                 break;
-            gotoXY(4, 2 * len + 11);cout << "Do you want to Confirm?(Yes/No): ";
+            gotoXY(4, 31);cout << "Do you want to Confirm?(Yes/No): ";
             cin >> ID;
             if (ID == "Yes")
             {
@@ -1797,7 +2173,8 @@ void menu_login()
         {
             role = 2;
             for (int j = 0; j <= 100; j = j + 25)
-            {
+            {   
+                 gotoXY(56,27);
                 cout << "Checking Information"<<string(j%3+1,'.') << " " << j << "%" << endl;
                 sleep(1);
                 xoa(56,27,45);
@@ -1879,8 +2256,24 @@ void menu()
             khungbang();
             gotoXY(62,4); cout << "***Information Of All Empty Room***" << endl;
             Phong::display(L,2);
-            box_roomempty(57, 6, L);
-            getch();
+            sz = L.getSize();
+            page = (sz-1)/14;
+            p = 0;
+            while (true) {
+                xoa(4,5,140,32);
+                box_roomempty(50, 6, L, p);
+                gotoXY(145,36); cout << p+1 << " / " << page+1 ;
+                ch = getch();
+                if (ch == 'l') {
+                    if (p < page) p++;
+                } else if (ch == 'x') {
+                    if (p > 0) p--; 
+                } else {
+                    break;
+                }  
+            }
+
+            break;
         default:
             break;
         }

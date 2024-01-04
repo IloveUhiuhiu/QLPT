@@ -565,6 +565,7 @@ void DienNuoc::Pay_dien_nuoc(DienNuoc &obj1, int vt)
                     dn.set_num_water_after(0);
                     dn.set_status(false);
                     dn.add_dien_nuoc();
+                    xoa(4,vt+6,100);
                     gotoXY(4, vt + 6);
                     cout << "Payment success!!!" << endl;
                     getch();
