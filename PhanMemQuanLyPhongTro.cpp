@@ -655,14 +655,42 @@ void menu_user(NguoiThue &object2)
         case 1:
             gotoXY(61,4);cout << "***Information Of Customer***" << endl;
             NguoiThue::find_idroom(object2.get_room_id(), L);
-            box_customer(9, 6, L);
-            getch();
+            sz = L.getSize();
+            page = (sz-1)/6;
+            p = 0;
+            while (true) {
+                xoa(4,6,144,31);
+                box_customer(9, 6, L,p);
+                gotoXY(145,36); cout << p+1 << " / " << page+1 ;
+                ch = getch();
+                if (ch == 'l') {
+                    if (p < page) p++;
+                } else if (ch == 'x') {
+                    if (p > 0) p--; 
+                } else {
+                    break;
+                }  
+            }
             break;
         case 2:
             gotoXY(63,4); cout << "***Information Of Room***" << endl;
             Phong::find_idroom(object2.get_room_id(), L1);
-            box_room(50, 6, L1);
-            getch();
+            sz = L1.getSize();
+            page = (sz-1)/14;
+            p = 0;
+            while (true) {
+                xoa(4,6,140,31);
+                box_room(50, 6, L1,p);
+                gotoXY(145,36); cout << p+1 << " / " << page+1 ;
+                ch = getch();
+                if (ch == 'l') {
+                    if (p < page) p++;
+                } else if (ch == 'x') {
+                    if (p > 0) p--; 
+                } else {
+                    break;
+                }  
+            }
             break;
         case 3:
             gotoXY(59,4);cout << "***Information Of Electric Water***";
@@ -671,7 +699,7 @@ void menu_user(NguoiThue &object2)
             page = (sz-1)/10;
             p = 0;
             while (true) {
-                xoa(4,6,148,32);
+                xoa(4,6,148,31);
                 box_diennuoc(5, 6, L2,p,10,1);
                 gotoXY(145,36); cout << p+1 << " / " << page+1 ;
                 ch = getch();
@@ -691,7 +719,7 @@ void menu_user(NguoiThue &object2)
             page = (sz-1)/10;
             p = 0;
             while (true) {
-                xoa(4,6,140,28);
+                xoa(4,6,140,31);
                 box_hoadon(49, 6, L3,p);
                 gotoXY(145,36); cout << p+1 << " / " << page+1 ;
                 ch = getch();
@@ -1049,7 +1077,7 @@ void menu_Manager_Phong_Tro()
             gotoXY(62,4); cout << "***Information Of All Empty Room***" << endl;
             Phong::display(L,2);
             sz = L.getSize();
-            page = (sz-1)/14;
+            page = (sz-1)/10;
             p = 0;
             while (true) {
                 xoa(4,5,140,32);
@@ -1069,7 +1097,8 @@ void menu_Manager_Phong_Tro()
             gotoXY(62,4); cout << "***Information Of All Rented Room***" << endl;
             Phong::display(L,1);
             sz = L.getSize();
-            page = (sz-1)/14;
+            cout << sz << endl; getch();
+            page = (sz-1)/10;
             p = 0;
             while (true) {
                 xoa(4,5,140,32);
