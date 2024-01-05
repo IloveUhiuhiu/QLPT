@@ -43,7 +43,7 @@ public:
 
     static void update_room(Phong&,int);
     static void cancel_room(string room_id);
-    static void change_room();
+    static void change_room(Phong , Phong);
 
 private:
     string room_id;

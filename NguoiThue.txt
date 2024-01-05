@@ -5,7 +5,7 @@
 000006,R005,Nguyen Huu Phuc,2004-5-5,2024-1-4,Nam,nhp@gmail.com,Da Nang,0366646806,user5,5555
 000007,R005,Vo Dinh Hai,2004-6-6,2024-1-4,Nam,vdh@gmail.com,Da Nang,0366646807,user5,5555
 000009,R015,Le Quynh Nha,2004-6-23,2024-1-4,Nu,lqn@gmail.com,Hue,0366646809,user15,1515
-000010,R021,Nguyen Van Anh,2004-5-20,2024-1-4,Nu,nva@gmail.com,Hue,0366646810,user21,2121
-000011,R020,Nguyen Trung,2004-12-20,2024-1-4,Nam,nt@gmail.com,Hue,0366646811,user20,2020
+000011,R022,Nguyen Trung,2004-12-20,2024-1-4,Nam,nt@gmail.com,Hue,0366646811,user20,2020
 000015,R024,Huynh Dong,2003-3-2,2024-1-4,Nam,hd@gmail.com,Quang Nam,0366646818,user24,2424
 000016,R024,Nguyen Minh,2003-9-24,2024-1-4,Nam,nm@gmail.com,Da Nang,0366646820,user24,2424
+000017,R021,Truong Cong Bao,2003-4-7,2024-1-5,Nam,tcb@gmail.com,Hue,0366646831,user21,2121

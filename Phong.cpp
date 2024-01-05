@@ -483,57 +483,21 @@ void Phong::cancel_room(string room_id)
     NguoiThue::write_File(customerList);
 }
 
-void Phong::change_room()
+void Phong::change_room(Phong roomBefore, Phong roomAfter)
 {
     List<string> L;
-    Phong roomBefore, roomAfter, room;
+    Phong room;
     List<Phong> roomList;
     DienNuoc dnBefore, dnAfter, obj;
     List<DienNuoc> dnList;
     List<HoaDon> hdList;
     HoaDon hdBefore, hdAfter, obj1;
     ThoiGian dt;
-    string str, num_electric_before, num_electric_after, num_water_before, num_water_after, status, ID_room_before, ID_room_after;
+    string str, num_electric_before, num_electric_after, num_water_before, num_water_after, status,ID_room_before,ID_room_after;
     int size, bonus, cnt = 0;
-    cin.ignore();
-    // lấy thông tin phòng before
-    do
-    {
-        xoa(4, 4, 40);
-        xoa(4, 5, 40);
-        gotoXY(4, 4);
-        cout << "Enter ID Room Before: ";
-        getline(cin, ID_room_before);
-        Phong::find_idroom(ID_room_before, roomList);
-        if (roomList.getSize() == 0)
-        {
-            gotoXY(4, 5);
-            cout << "Room ID is Invalid. Try Again.";
-        }
-    } while (roomList.getSize() == 0 && ID_room_before.size());
-    if (ID_room_before.size() == 0)
-        return;
-    roomBefore = roomList[0];
-    roomList.clear();
-    // lấy thông tin phòng after
-    do
-    {
-        xoa(4, 5, 40);
-        xoa(4, 6, 40);
-        gotoXY(4, 5);
-        cout << "Enter ID Room After: ";
-        getline(cin, ID_room_after);
-        Phong::find_idroom(ID_room_after, roomList);
-        if (roomList.getSize() == 0)
-        {
-            gotoXY(4, 6);
-            cout << "Room ID is Invalid. Try Again.";
-        }
-    } while (roomList.getSize() == 0 && ID_room_after.size());
-    if (ID_room_after.size() == 0)
-        return;
-    roomAfter = roomList[0];
-    roomList.clear();
+    
+    ID_room_before = roomBefore.getRoomID();
+    ID_room_after = roomAfter.getRoomID();
     L.clear();
     // ĐIện Nước
     ifstream inputFile;
@@ -569,14 +533,14 @@ void Phong::change_room()
     // nhập số nước số didenj sau và kiểm tra
     do
     {
-        xoa(4, 6, 40);
-        xoa(4, 7, 40);
-        gotoXY(4, 6);
+        xoa(4, 20, 100);
+        xoa(4, 21, 100);
+        gotoXY(4, 20);
         cout << "Num Electric After: ";
         getline(cin, num_electric_after);
         if (ChuyenDoi::str_to_int(num_electric_after) < dnBefore.get_num_electric_before())
         {
-            gotoXY(4, 7);
+            gotoXY(4, 21);
             cout << "Electric After is inValid. Try Again." << endl;
         }
     } while (ChuyenDoi::str_to_int(num_electric_after) < dnBefore.get_num_electric_before());
@@ -584,14 +548,14 @@ void Phong::change_room()
 
     do
     {
-        xoa(4, 7, 40);
-        xoa(4, 8, 40);
-        gotoXY(4, 7);
+        xoa(4, 21, 100);
+        xoa(4, 22, 100);
+        gotoXY(4, 21);
         cout << "Num Water After : ";
         getline(cin, num_water_after);
         if (ChuyenDoi::str_to_int(num_water_after) < dnBefore.get_num_water_before())
         {
-            gotoXY(4, 8);
+            gotoXY(4, 22);
             cout << "Water After is inValid. Try Again." << endl;
         }
     } while (ChuyenDoi::str_to_int(num_water_after) < dnBefore.get_num_water_before());
