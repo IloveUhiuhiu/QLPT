@@ -1,11 +1,17 @@
-000001,R001,Dang Phuc Long,2004-7-29,2024-1-4,Nam,dpl@gmail.com,Quang Nam,0366646701,user1,1111
-000002,R001,Thai Viet Hung,2004-10-20,2024-1-4,Nam,tvh@gmail.com,Hue,0366646800,user1,1111
-000003,R002,Nguyen Thanh Nam,2004-1-2,2024-1-4,Nam,ntn@gmail.com,Hue,0366646802,user2,2222
-000005,R004,Tran Nhu Thuan,2004-12-4,2024-1-4,Nam,tnt@gmail.com,Quang Tri,0366646805,user4,4444
-000006,R005,Nguyen Huu Phuc,2004-5-5,2024-1-4,Nam,nhp@gmail.com,Da Nang,0366646806,user5,5555
-000007,R005,Vo Dinh Hai,2004-6-6,2024-1-4,Nam,vdh@gmail.com,Da Nang,0366646807,user5,5555
-000009,R015,Le Quynh Nha,2004-6-23,2024-1-4,Nu,lqn@gmail.com,Hue,0366646809,user15,1515
-000011,R022,Nguyen Trung,2004-12-20,2024-1-4,Nam,nt@gmail.com,Hue,0366646811,user20,2020
-000015,R024,Huynh Dong,2003-3-2,2024-1-4,Nam,hd@gmail.com,Quang Nam,0366646818,user24,2424
-000016,R024,Nguyen Minh,2003-9-24,2024-1-4,Nam,nm@gmail.com,Da Nang,0366646820,user24,2424
-000017,R021,Truong Cong Bao,2003-4-7,2024-1-5,Nam,tcb@gmail.com,Hue,0366646831,user21,2121
+000001,R001,Dang Phuc Long,2004-7-29,2024-1-5,Nam,dpl@gmail.com,Hue,0366646801,user1,1111
+000002,R001,Thai Viet Hung,2004-10-9,2024-1-5,Nam,tvh@gmail.com,Hue,0366646802,user1,1111
+000003,R001,Nguyen Thanh Nam,2004-6-12,2024-1-5,Nam,ntn@gmail.com,Hue,0366646803,user1,1111
+000004,R002,Tran Nhu Thuan,2004-4-15,2024-1-5,Nam,tnt@gmail.com,Quang Tri,0366646804,user2,2222
+000005,R003,Nguyen Trung,2000-12-3,2024-1-5,Nam,nt@gmail.com,Hue,0366646805,user3,3333
+000006,R004,Vo Dinh Hai,2001-2-25,2024-1-5,Nam,vdh@gmail.com,Da Nang,0366646806,user4,4444
+000007,R005,Le Quynh Nha,2003-9-18,2024-1-5,Nu,lqn@gmail.com,Hue,0366646807,user5,5555
+000008,R005,Cao Thu Nga,2004-5-6,2024-1-5,Nu,ctn@gmail.com,Da Nang,0366646808,user5,5555
+000009,R006,Nguyen Van Anh,2003-5-15,2024-1-5,Nu,nva@gmail.com,Hue,0366646809,user6,6666
+000010,R007,Vo Van Duc,2002-2-2,2024-1-5,Nam,vvd@gmail.com,Nghe An,0366646810,user7,7777
+000011,R008,Hoang Van Duc,2004-5-7,2024-1-5,Nam,hvd@gmail.com,Quang Tri,0366646811,user8,8888
+000012,R016,Nguyen Huu Phuc,2005-6-19,2024-1-5,Nam,nhp@gmail.com,Da Nang,0366646812,user16,1616
+000013,R017,Pham Nhat Thanh,2001-9-8,2024-1-5,Nam,pnt@gmail.com,Quang Binh,0366646813,user17,1717
+000014,R017,Nguyen Van Hieu,2001-5-4,2024-1-5,Nam,nvh@gmail.com,Quang Binh,0366646814,user17,1717
+000015,R018,Tran Vu Lam,2004-1-2,2024-1-5,Nam,tvl@gmail.com,Quang Nam,0366646815,user18,1818
+000016,R021,Vo Nhat Minh,2005-6-6,2024-1-5,Nam,vnm@gmail.com,Hue,0366646816,user21,2121
+000017,R022,Hoang Nhat Linh,2004-5-4,2024-1-5,Nam,hnl@gmail.com,Quang Nam,0366646817,user22,2222
