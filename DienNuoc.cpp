@@ -510,14 +510,16 @@ void DienNuoc::Pay_dien_nuoc(DienNuoc &obj1, int vt)
             if (obj1.get_num_electric_after() == 0 && obj1.get_num_water_after() == 0)
             {
                 do
-                {
+                {   
+                    xoa(4,vt+1,100);
                     gotoXY(4, vt + 1);
                     cout << "Num Electric After: ";
                     getline(cin, num_electric_after);
                 } while (ChuyenDoi::str_to_int(num_electric_after) <= obj1.get_num_electric_before() || ChuyenDoi::str_to_int(num_electric_after) == 0);
                 obj1.set_num_electric_after(ChuyenDoi::str_to_int(num_electric_after));
                 do
-                {
+                {   
+                    xoa(4,vt+2,100);
                     gotoXY(4, vt + 2);
                     cout << "Num Water After: ";
                     getline(cin, num_water_after);

@@ -493,9 +493,9 @@ void Phong::change_room(Phong roomBefore, Phong roomAfter)
     List<HoaDon> hdList;
     HoaDon hdBefore, hdAfter, obj1;
     ThoiGian dt;
-    string str, num_electric_before, num_electric_after, num_water_before, num_water_after, status,ID_room_before,ID_room_after;
+    string str, num_electric_before, num_electric_after, num_water_before, num_water_after, status, ID_room_before, ID_room_after;
     int size, bonus, cnt = 0;
-    
+
     ID_room_before = roomBefore.getRoomID();
     ID_room_after = roomAfter.getRoomID();
     L.clear();
@@ -565,7 +565,6 @@ void Phong::change_room(Phong roomBefore, Phong roomAfter)
     dnBefore.set_date(dt);
     dnBefore.add_dien_nuoc();
 
-
     // thay đổi điện nước sau
     // (dnAfter.get_date().get_months() == 12) ? (dnAfter.set_date(ThoiGian(dnAfter.get_date().get_years() + 1, (dnAfter.get_date().get_months()) % 12 + 1, 0))) : (dnAfter.set_date(ThoiGian(dnAfter.get_date().get_years(), dnAfter.get_date().get_months() + 1, 0)));
     dnAfter.set_num_electric_before(dnAfter.get_num_electric_before() - (dnBefore.get_num_electric_after() - dnBefore.get_num_electric_before()));
@@ -587,66 +586,38 @@ void Phong::change_room(Phong roomBefore, Phong roomAfter)
 
     inputFile.open("HoaDon.txt");
     L.clear();
-
+    // láy thông tin Hóa dđơn trước và sau
     while (getline(inputFile, str))
     {
         if (str.size())
         {
+            obj1 = HoaDon::Split(str);
+            if (obj1.get_room_id() == ID_room_before && obj1.get_date().get_days() == 0)
+            {
+                hdBefore = obj1;
+                continue;
+            }
             L.push_back(str);
         }
     }
     size = L.getSize();
-    // láy thông tin Hóa dđơn trước và sau
-    for (int i = 0; i < size; i++)
+
+    hdAfter.set_bill_id(ChuyenDoi::CreateID("HoaDon.txt"));
+    hdAfter.set_room_id(ID_room_after);
+    hdAfter.set_date(ThoiGian(dt.get_years(), dt.get_months(), 0));
+    if (dt.is_mid_month())
     {
-        obj1 = HoaDon::Split(L[i]);
-        if (obj1.get_room_id() == ID_room_after && obj1.get_date().get_days() == 0)
-        {
-            hdAfter = obj1;
-        }
-        if (obj1.get_room_id() == ID_room_before && obj1.get_date().get_days() == 0)
-        {
-            hdBefore = obj1;
-        }
-    }
-    if (hdAfter.get_bill_id().size() != 6)
-    {
-        hdAfter.set_bill_id(ChuyenDoi::CreateID("HoaDon.txt"));
-        hdAfter.set_room_id(ID_room_after);
-        hdAfter.set_date(ThoiGian(dt.get_years(), dt.get_months(), 0));
-        if (dt.is_mid_month())
-        {
-            bonus = hdBefore.get_total_cost();
-        }
-        else
-        {
-            bonus = hdBefore.get_total_cost() / 2;
-        }
-        hdAfter.set_total_cost(roomAfter.getCost() + bonus);
-        hdAfter.add_hoa_don();
+        bonus = hdBefore.get_total_cost();
     }
     else
     {
-        for (int i = 0; i < size; i++)
-        {
-            obj1 = HoaDon::Split(L[i]);
-            if (obj1.get_bill_id() == hdAfter.get_bill_id())
-            {
-                if (dt.is_mid_month())
-                {
-                    bonus = hdBefore.get_total_cost();
-                }
-                else
-                {
-                    bonus = hdBefore.get_total_cost() / 2;
-                }
-                obj1.set_total_cost(roomAfter.getCost() + bonus);
-                L[i] = HoaDon::Union(obj1);
-            }
-        }
-        HoaDon::write_File(L);
+        bonus = hdBefore.get_total_cost() / 2;
     }
-    
+    hdAfter.set_total_cost(roomAfter.getCost() + bonus);
+    L.push_back(HoaDon::Union(hdAfter));
+
+    HoaDon::write_File(L);
+
     inputFile.close();
 
     // Người Thuê
