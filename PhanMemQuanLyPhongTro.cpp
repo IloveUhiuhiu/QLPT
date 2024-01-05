@@ -1097,7 +1097,6 @@ void menu_Manager_Phong_Tro()
             gotoXY(62,4); cout << "***Information Of All Rented Room***" << endl;
             Phong::display(L,1);
             sz = L.getSize();
-            cout << sz << endl; getch();
             page = (sz-1)/10;
             p = 0;
             while (true) {
@@ -1603,7 +1602,7 @@ void menu_Manager_Dien_Nuoc()
             p = 0;
             while (true) {
                 xoa(4,10,148,27);
-                box_diennuocunpay(9, 10, L,p);
+                box_diennuoc(5, 10, L,p);
                 gotoXY(145,36); cout << p+1 << " / " << page+1 ;
                 ch = getch();
                 if (ch == 'l') {
@@ -1625,7 +1624,7 @@ void menu_Manager_Dien_Nuoc()
             p = 0;
             while (true) {
                 xoa(5,7,148,30);
-                box_diennuocunpay(5, 7, L,p);
+                box_diennuocunpay(9, 7, L,p);
                 gotoXY(145,36); cout << p+1 << " / " << page+1 ;
                 ch = getch();
                 if (ch == 'l') {

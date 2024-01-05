@@ -240,11 +240,11 @@ bool HoaDon::find_hoa_don(List<HoaDon> &L)
     ThoiGian time;
     cin.ignore();
     gotoXY(4, 5);
-    cout << "Enter Room ID: ";
-    getline(cin, room_id);
-    gotoXY(4, 6);
     cout << "Enter BiLL ID: ";
     getline(cin, bill_id);
+    gotoXY(4, 6);
+    cout << "Enter Room ID: ";
+    getline(cin, room_id);
     gotoXY(4, 7);
     cout << "Enter Date(yy-mm-dd): ";
     getline(cin, date);

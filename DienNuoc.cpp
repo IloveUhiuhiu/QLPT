@@ -1,6 +1,6 @@
 #include "DienNuoc.h"
 DienNuoc::DienNuoc(string dien_nuoc_id, string room_id, int num_electric_before, int num_electric_after, int num_water_before,
-                     int num_water_after, int cost_water, int cost_electric, ThoiGian time, bool status)
+                   int num_water_after, int cost_water, int cost_electric, ThoiGian time, bool status)
     : dien_nuoc_id(dien_nuoc_id), room_id(room_id), num_electric_before(num_electric_before), num_electric_after(num_electric_after), num_water_before(num_water_before),
       num_water_after(num_water_after), cost_water(cost_water), cost_electric(cost_electric), date(time), status(status) {}
 
@@ -156,27 +156,27 @@ DienNuoc DienNuoc::Split(string str) // hàm tách chuổi
             }
             else if (id == 3)
             {
-                num_electric_before =ChuyenDoi::str_to_int(str.substr(begin, end - begin));
+                num_electric_before = ChuyenDoi::str_to_int(str.substr(begin, end - begin));
             }
             else if (id == 4)
             {
-                num_electric_after =ChuyenDoi::str_to_int(str.substr(begin, end - begin));
+                num_electric_after = ChuyenDoi::str_to_int(str.substr(begin, end - begin));
             }
             else if (id == 5)
             {
-                num_water_before =ChuyenDoi::str_to_int(str.substr(begin, end - begin));
+                num_water_before = ChuyenDoi::str_to_int(str.substr(begin, end - begin));
             }
             else if (id == 6)
             {
-                num_water_after =ChuyenDoi::str_to_int(str.substr(begin, end - begin));
+                num_water_after = ChuyenDoi::str_to_int(str.substr(begin, end - begin));
             }
             else if (id == 7)
             {
-                cost_water =ChuyenDoi::str_to_int(str.substr(begin, end - begin));
+                cost_water = ChuyenDoi::str_to_int(str.substr(begin, end - begin));
             }
             else if (id == 8)
             {
-                cost_electric =ChuyenDoi::str_to_int(str.substr(begin, end - begin));
+                cost_electric = ChuyenDoi::str_to_int(str.substr(begin, end - begin));
             }
             else if (id == 9)
             {
@@ -185,7 +185,7 @@ DienNuoc DienNuoc::Split(string str) // hàm tách chuổi
             }
             else if (id == 10)
             {
-                status =ChuyenDoi::str_to_bool(str.substr(begin, end - begin));
+                status = ChuyenDoi::str_to_bool(str.substr(begin, end - begin));
             }
             ++id;
             begin = end + 1;
@@ -196,7 +196,7 @@ DienNuoc DienNuoc::Split(string str) // hàm tách chuổi
 }
 string DienNuoc::Union(DienNuoc &obj) // hàm gộp chuổi
 {
-    string str = obj.dien_nuoc_id + "," + obj.room_id + "," +ChuyenDoi::int_to_str(obj.num_electric_before) + "," +ChuyenDoi::int_to_str(obj.num_electric_after) + "," +ChuyenDoi::int_to_str(obj.num_water_before) + "," +ChuyenDoi::int_to_str(obj.num_water_after) + "," +ChuyenDoi::int_to_str(obj.cost_water) + "," +ChuyenDoi::int_to_str(obj.cost_electric) + "," + ThoiGian::Union(obj.date) + "," +ChuyenDoi::bool_to_str(obj.status);
+    string str = obj.dien_nuoc_id + "," + obj.room_id + "," + ChuyenDoi::int_to_str(obj.num_electric_before) + "," + ChuyenDoi::int_to_str(obj.num_electric_after) + "," + ChuyenDoi::int_to_str(obj.num_water_before) + "," + ChuyenDoi::int_to_str(obj.num_water_after) + "," + ChuyenDoi::int_to_str(obj.cost_water) + "," + ChuyenDoi::int_to_str(obj.cost_electric) + "," + ThoiGian::Union(obj.date) + "," + ChuyenDoi::bool_to_str(obj.status);
     return str;
 }
 
@@ -220,46 +220,37 @@ int DienNuoc::getNewCostElectric()
 void DienNuoc::updateCostElectric(int newCostElectric)
 {
     ofstream outputFile;
-    outputFile.open("costElectric.txt", std::ios::out | std::ios::trunc);
+    outputFile.open("TienDien.txt", std::ios::out | std::ios::trunc);
     outputFile << newCostElectric;
 }
 void DienNuoc::updateCostWater(int newCostWater)
 {
     ofstream outputFile;
-    outputFile.open("costWater.txt", std::ios::out | std::ios::trunc);
+    outputFile.open("TienNuoc.txt", std::ios::out | std::ios::trunc);
     outputFile << newCostWater;
 }
 void DienNuoc::add_dien_nuoc()
 {
     List<string> L;
-    string str, dien_nuoc_id, num_electric_before, num_electric_after, num_water_before, num_water_after, cost_water, cost_electric, date, status;
+    string str;
+    DienNuoc obj;
     ifstream inputFile;
     inputFile.open("DienNuoc.txt");
-    bool add = true;
     while (getline(inputFile, str))
     {
-        int end = 0;
-        for (auto x : str)
+        if (str.size())
         {
-            if (x == ',')
+            obj = Split(str);
+            if (obj.dien_nuoc_id != this->dien_nuoc_id)
             {
-                dien_nuoc_id = str.substr(0, end);
-                break;
+                L.push_back(str);
             }
-            end++;
         }
-        if (dien_nuoc_id == this->dien_nuoc_id)
-        {
-            add = false;
-        }
-        L.push_back(str);
     }
-    if (add)
-    {
-        str = Union(*this);
-        L.push_back(str);
-    }
+    str = Union(*this);
+    L.push_back(str);
     write_File(L);
+    inputFile.close();
 }
 
 bool DienNuoc::find_room(string room_id)
@@ -354,8 +345,8 @@ bool DienNuoc::find_dien_nuoc(List<DienNuoc> &L)
             }
             if (room_id.size() != 0)
             {
-                s =ChuyenDoi::Tolower(obj.get_room_id());
-                subs =ChuyenDoi::Tolower(room_id);
+                s = ChuyenDoi::Tolower(obj.get_room_id());
+                subs = ChuyenDoi::Tolower(room_id);
                 auto found = s.find(subs);
                 if (found == std::string::npos)
                 {
@@ -364,38 +355,34 @@ bool DienNuoc::find_dien_nuoc(List<DienNuoc> &L)
             }
             if (date.size() != 0)
             {
-                if (ThoiGian::isValidDate(date))
+
+                time = ThoiGian::Split(date);
+                if (time.get_years() != 0)
                 {
-                    time = ThoiGian::Split(date);
-                    if (time.get_years() != 0)
+                    if (time.get_years() != obj.get_date().get_years())
                     {
-                        if (time.get_years() != obj.get_date().get_years())
-                        {
-                            continue;
-                        }
-                    }
-                    if (time.get_months() != 0)
-                    {
-                        if (time.get_months() != obj.get_date().get_months())
-                        {
-                            continue;
-                        }
-                    }
-                    if (time.get_days() != 0)
-                    {
-                        if (time.get_days() != obj.get_date().get_days())
-                        {
-                            continue;
-                        }
+                        continue;
                     }
                 }
-                else
-                    continue;
+                if (time.get_months() != 0)
+                {
+                    if (time.get_months() != obj.get_date().get_months())
+                    {
+                        continue;
+                    }
+                }
+                if (time.get_days() != 0)
+                {
+                    if (time.get_days() != obj.get_date().get_days())
+                    {
+                        continue;
+                    }
+                }
             }
             if (status.size())
             {
-                s =ChuyenDoi::Tolower(ChuyenDoi::bool_to_str(obj.get_status()));
-                subs =ChuyenDoi::Tolower(status);
+                s = ChuyenDoi::Tolower(ChuyenDoi::bool_to_str(obj.get_status()));
+                subs = ChuyenDoi::Tolower(status);
                 auto found = s.find(subs);
                 if (found == std::string::npos)
                 {
@@ -527,14 +514,14 @@ void DienNuoc::Pay_dien_nuoc(DienNuoc &obj1, int vt)
                     gotoXY(4, vt + 1);
                     cout << "Num Electric After: ";
                     getline(cin, num_electric_after);
-                } while (ChuyenDoi::str_to_int(num_electric_after) <= obj1.get_num_electric_before() ||ChuyenDoi::str_to_int(num_electric_after) == 0);
+                } while (ChuyenDoi::str_to_int(num_electric_after) <= obj1.get_num_electric_before() || ChuyenDoi::str_to_int(num_electric_after) == 0);
                 obj1.set_num_electric_after(ChuyenDoi::str_to_int(num_electric_after));
                 do
                 {
                     gotoXY(4, vt + 2);
                     cout << "Num Water After: ";
                     getline(cin, num_water_after);
-                } while (ChuyenDoi::str_to_int(num_water_after) <= obj1.get_num_water_before() ||ChuyenDoi::str_to_int(num_water_after) == 0);
+                } while (ChuyenDoi::str_to_int(num_water_after) <= obj1.get_num_water_before() || ChuyenDoi::str_to_int(num_water_after) == 0);
                 obj1.set_num_water_after(ChuyenDoi::str_to_int(num_water_after));
                 str = Union(obj1);
                 L[i] = str;
@@ -565,7 +552,7 @@ void DienNuoc::Pay_dien_nuoc(DienNuoc &obj1, int vt)
                     dn.set_num_water_after(0);
                     dn.set_status(false);
                     dn.add_dien_nuoc();
-                    xoa(4,vt+6,100);
+                    xoa(4, vt + 6, 100);
                     gotoXY(4, vt + 6);
                     cout << "Payment success!!!" << endl;
                     getch();
@@ -586,7 +573,8 @@ void DienNuoc::delete_dien_nuoc(string dien_nuoc_id)
     string str;
     while (getline(inputFile, str))
     {
-        L.push_back(str);
+        if (str.size())
+            L.push_back(str);
     }
     int size = L.getSize();
 
@@ -600,6 +588,7 @@ void DienNuoc::delete_dien_nuoc(string dien_nuoc_id)
         L.push_back(str);
     }
     write_File(L);
+    inputFile.close();
 }
 void DienNuoc::display(List<DienNuoc> &L, int k)
 {
@@ -654,7 +643,7 @@ void DienNuoc::delete_by_room(string room_id)
         if (str.size())
         {
             DienNuoc obj = DienNuoc::Split(str);
-            if (ChuyenDoi::Tolower(obj.get_room_id()) !=ChuyenDoi::Tolower(room_id))
+            if (ChuyenDoi::Tolower(obj.get_room_id()) != ChuyenDoi::Tolower(room_id))
             {
                 L.push_back(str);
             }

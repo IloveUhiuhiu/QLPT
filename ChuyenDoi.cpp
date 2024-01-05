@@ -4,6 +4,8 @@ string ChuyenDoi::int_to_str(int x) // hàm chuyển từ kiểu int sang kiểu
     string obj1 = "";
     if (x == 0)
         obj1 = "0";
+    bool ok = (x >= 0)?true:false;
+    x = abs(x);
     while (x)
     {
         obj1 += (x % 10 + '0');
@@ -14,15 +16,18 @@ string ChuyenDoi::int_to_str(int x) // hàm chuyển từ kiểu int sang kiểu
     {
         swap(obj1[l++], obj1[r--]);
     }
+    if (!ok) obj1 = "-" + obj1;
     return obj1;
 }
 int ChuyenDoi::str_to_int(string str) // hàm chuyển từ kiểu string sang kiểu int
-{
+{   
+    bool ok = (str[0] != '-')?true:false;
     int result = 0;
-    for (int i = 0; i < str.size(); i++)
+    for (int i = (ok)?0:1; i < str.size(); i++)
     {
         result = result * 10 + (str[i] - '0');
     }
+    if (!ok) result*= -1;
     return result;
 }
 string ChuyenDoi::bool_to_str(bool ok) // hàm chuyển từ kiểu bool sang kiểu string

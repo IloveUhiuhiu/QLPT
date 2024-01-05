@@ -251,7 +251,7 @@ ostream &operator<<(ostream &o, const Phong &room)
 
 void Phong::find_room(List<Phong> &roomList)
 {
-    string searchRoomID, searchKindOf, costInput;
+    string searchRoomID, searchKindOf, costInput, status;
     gotoXY(4, 5);
     cout << "Enter RoomID : ";
     getline(cin, searchRoomID);
@@ -264,6 +264,9 @@ void Phong::find_room(List<Phong> &roomList)
     cout << "Enter Cost: ";
     getline(cin, costInput);
 
+    gotoXY(4, 8);
+    cout << "Enter Status: ";
+    getline(cin, status);
     string s, subs;
     int cnt = 0;
 
@@ -298,13 +301,25 @@ void Phong::find_room(List<Phong> &roomList)
             }
             if (costInput.size())
             {
-                subs = ChuyenDoi::Tolower(obj.getRoomID());
-                s = ChuyenDoi::Tolower(costInput);
-                auto found = s.find(subs);
-                if (found == std::string::npos)
+                bool ok = true;
+                for (auto x : costInput)
+                    if (x < '0' || x > '9')
+                        ok = false;
+                if (!ok)
+                    continue;
+
+                int cost = ChuyenDoi::str_to_int(costInput);
+                if (cost < obj.getCost())
                 {
                     continue;
                 }
+            }
+            if (status.size())
+            {
+                s = ChuyenDoi::Tolower(status);
+                subs = (obj.isOccupied() ? "rent" : "empty");
+                if (s != subs)
+                    continue;
             }
             roomList.push_back(obj);
         }
@@ -412,11 +427,6 @@ void Phong::update_room(Phong &obj1, int vt)
             getline(cin, cost);
             if (cost.size())
                 obj1.setCost(ChuyenDoi::str_to_int(cost));
-            gotoXY(4, vt + 3);
-            cout << "Status Of Room(Rent or Empty): ";
-            getline(cin, occupied);
-            if (occupied.size() && (occupied == "Rent" || occupied == "Empty"))
-                obj1.setOccupied(("Rent") ? true : false);
             str = Union(obj1);
             L[i] = str;
         }
@@ -451,7 +461,7 @@ void Phong::cancel_room(string room_id)
     // Mở file "customer.txt" để xóa thông tin của người dùng
     List<string> customerList;
     ifstream customerFile;
-    customerFile.open("customer.txt");
+    customerFile.open("NguoiThue.txt");
     string customerStr;
     while (getline(customerFile, customerStr))
     {
@@ -473,34 +483,70 @@ void Phong::cancel_room(string room_id)
     NguoiThue::write_File(customerList);
 }
 
-
 void Phong::change_room()
 {
     List<string> L;
-    ifstream inputFile1, inputFile2, inputFile;
-    inputFile.open("DienNuoc.txt");
+    Phong roomBefore, roomAfter, room;
+    List<Phong> roomList;
+    DienNuoc dnBefore, dnAfter, obj;
+    List<DienNuoc> dnList;
+    List<HoaDon> hdList;
+    HoaDon hdBefore, hdAfter, obj1;
     ThoiGian dt;
     string str, num_electric_before, num_electric_after, num_water_before, num_water_after, status, ID_room_before, ID_room_after;
+    int size, bonus, cnt = 0;
+    cin.ignore();
+    // lấy thông tin phòng before
+    do
+    {
+        xoa(4, 4, 40);
+        xoa(4, 5, 40);
+        gotoXY(4, 4);
+        cout << "Enter ID Room Before: ";
+        getline(cin, ID_room_before);
+        Phong::find_idroom(ID_room_before, roomList);
+        if (roomList.getSize() == 0)
+        {
+            gotoXY(4, 5);
+            cout << "Room ID is Invalid. Try Again.";
+        }
+    } while (roomList.getSize() == 0 && ID_room_before.size());
+    if (ID_room_before.size() == 0)
+        return;
+    roomBefore = roomList[0];
+    roomList.clear();
+    // lấy thông tin phòng after
+    do
+    {
+        xoa(4, 5, 40);
+        xoa(4, 6, 40);
+        gotoXY(4, 5);
+        cout << "Enter ID Room After: ";
+        getline(cin, ID_room_after);
+        Phong::find_idroom(ID_room_after, roomList);
+        if (roomList.getSize() == 0)
+        {
+            gotoXY(4, 6);
+            cout << "Room ID is Invalid. Try Again.";
+        }
+    } while (roomList.getSize() == 0 && ID_room_after.size());
+    if (ID_room_after.size() == 0)
+        return;
+    roomAfter = roomList[0];
+    roomList.clear();
+    L.clear();
+    // ĐIện Nước
+    ifstream inputFile;
+    inputFile.open("DienNuoc.txt");
+
     while (getline(inputFile, str))
     {
         if (str.size())
             L.push_back(str);
     }
-    cin.ignore();
-    int size = L.getSize();
-    DienNuoc obj, dn, obj1;
-    // nhap id phong truoc
-    gotoXY(4, 4);
-    cout << "Enter ID Room Before: ";
-    getline(cin, ID_room_before);
-    if (ID_room_before.size() == 0)
-        return;
-    gotoXY(4, 5);
-    cout << "Enter ID Room After: ";
-    getline(cin, ID_room_after);
-    if (ID_room_after.size() == 0)
-        return;
-    // dien nuoc
+
+    size = L.getSize();
+    // láy thông tin điện nước trước và sau
     for (int i = 0; i < size; i++)
     {
         obj = DienNuoc::Split(L[i]);
@@ -509,106 +555,141 @@ void Phong::change_room()
 
             if (obj.get_num_electric_after() == 0 && obj.get_num_water_after() == 0)
             {
-                do
-                {
-                    xoa(4, 6, 40);
-                    xoa(4, 7, 40);
-                    gotoXY(4, 6);
-                    cout << "Num Electric After: ";
-                    getline(cin, num_electric_after);
-                    if (ChuyenDoi::str_to_int(num_electric_after) <= obj.get_num_electric_before())
-                    {
-                        gotoXY(4, 7);
-                        cout << "Electric After is inValid. Try Again." << endl;
-                    }
-                } while (ChuyenDoi::str_to_int(num_electric_after) <= obj.get_num_electric_before());
-                obj.set_num_electric_after(ChuyenDoi::str_to_int(num_electric_after));
-                do
-                {
-                    xoa(4, 7, 40);
-                    xoa(4, 8, 40);
-                    gotoXY(4, 7);
-                    cout << "Num Water After: ";
-                    getline(cin, num_water_after);
-                    if (ChuyenDoi::str_to_int(num_water_after) <= obj.get_num_water_before())
-                    {
-                        gotoXY(4, 8);
-                        cout << "Water After is inValid. Try Again." << endl;
-                    }
-                } while (ChuyenDoi::str_to_int(num_water_after) <= obj.get_num_water_before());
-                obj.set_num_water_after(ChuyenDoi::str_to_int(num_water_after));
-                obj.set_status(true);
-                obj.set_date(ThoiGian(dt.get_years(), dt.get_months(), dt.get_days()));
-                DienNuoc::delete_dien_nuoc(obj.get_dien_nuoc_id());
-                obj.add_dien_nuoc();
-
-                dn = DienNuoc::Split(L[i]);
-                dn.set_dien_nuoc_id(ChuyenDoi::CreateID("DienNuoc.txt"));
-                (obj.get_date().get_months() == 12) ? (dn.set_date(ThoiGian(obj.get_date().get_years() + 1, (obj.get_date().get_months()) % 12 + 1, 0))) : (dn.set_date(ThoiGian(obj.get_date().get_years(), obj.get_date().get_months() + 1, 0)));
-                dn.set_num_electric_before(obj.get_num_electric_after());
-                dn.set_num_water_before(obj.get_num_water_after());
-                dn.set_num_electric_after(0);
-                dn.set_num_water_after(0);
-                dn.set_status(false);
-                dn.add_dien_nuoc();
-                break;
+                dnBefore = obj;
+            }
+        }
+        if (ID_room_after == obj.get_room_id())
+        {
+            if (obj.get_num_electric_after() == 0 && obj.get_num_water_after() == 0)
+            {
+                dnAfter = obj;
             }
         }
     }
+    // nhập số nước số didenj sau và kiểm tra
+    do
+    {
+        xoa(4, 6, 40);
+        xoa(4, 7, 40);
+        gotoXY(4, 6);
+        cout << "Num Electric After: ";
+        getline(cin, num_electric_after);
+        if (ChuyenDoi::str_to_int(num_electric_after) < dnBefore.get_num_electric_before())
+        {
+            gotoXY(4, 7);
+            cout << "Electric After is inValid. Try Again." << endl;
+        }
+    } while (ChuyenDoi::str_to_int(num_electric_after) < dnBefore.get_num_electric_before());
+    dnBefore.set_num_electric_after(ChuyenDoi::str_to_int(num_electric_after));
+
+    do
+    {
+        xoa(4, 7, 40);
+        xoa(4, 8, 40);
+        gotoXY(4, 7);
+        cout << "Num Water After : ";
+        getline(cin, num_water_after);
+        if (ChuyenDoi::str_to_int(num_water_after) < dnBefore.get_num_water_before())
+        {
+            gotoXY(4, 8);
+            cout << "Water After is inValid. Try Again." << endl;
+        }
+    } while (ChuyenDoi::str_to_int(num_water_after) < dnBefore.get_num_water_before());
+    // thay dổi điện nước trước
+    dnBefore.set_num_water_after(ChuyenDoi::str_to_int(num_water_after));
+    dnBefore.set_status(true);
+    dnBefore.set_date(dt);
+    dnBefore.add_dien_nuoc();
+
+
+    // thay đổi điện nước sau
+    // (dnAfter.get_date().get_months() == 12) ? (dnAfter.set_date(ThoiGian(dnAfter.get_date().get_years() + 1, (dnAfter.get_date().get_months()) % 12 + 1, 0))) : (dnAfter.set_date(ThoiGian(dnAfter.get_date().get_years(), dnAfter.get_date().get_months() + 1, 0)));
+    dnAfter.set_num_electric_before(dnAfter.get_num_electric_before() - (dnBefore.get_num_electric_after() - dnBefore.get_num_electric_before()));
+    dnAfter.set_num_water_before(dnAfter.get_num_water_before() - (dnBefore.get_num_water_after() - dnBefore.get_num_water_before()));
+    dnAfter.add_dien_nuoc();
+
+    // add ddienj nước mới
+    dnBefore.set_dien_nuoc_id(ChuyenDoi::CreateID("DienNuoc.txt"));
+    dnBefore.set_num_electric_before(ChuyenDoi::str_to_int(num_electric_after));
+    dnBefore.set_num_water_before(ChuyenDoi::str_to_int(num_water_after));
+    dnBefore.set_num_electric_after(0);
+    dnBefore.set_num_water_after(0);
+    dnBefore.set_status(false);
+    (dnBefore.get_date().get_months() == 12) ? (dnBefore.set_date(ThoiGian(dnBefore.get_date().get_years() + 1, (dnBefore.get_date().get_months()) % 12 + 1, 0))) : (dnBefore.set_date(ThoiGian(dnBefore.get_date().get_years(), dnBefore.get_date().get_months() + 1, 0)));
+    dnBefore.add_dien_nuoc();
+    inputFile.close();
+
+    /// Hóa Đơn
+
+    inputFile.open("HoaDon.txt");
+    L.clear();
+
+    while (getline(inputFile, str))
+    {
+        if (str.size())
+        {
+            L.push_back(str);
+        }
+    }
+    size = L.getSize();
+    // láy thông tin Hóa dđơn trước và sau
     for (int i = 0; i < size; i++)
     {
-        obj1 = DienNuoc::Split(L[i]);
-        if (ID_room_after == obj1.get_room_id())
+        obj1 = HoaDon::Split(L[i]);
+        if (obj1.get_room_id() == ID_room_after && obj1.get_date().get_days() == 0)
         {
-            if (obj1.get_num_electric_after() == 0 && obj1.get_num_water_after() == 0)
-            {
-                obj1.set_num_electric_before(obj1.get_num_electric_before() - (obj.get_num_electric_after() - obj.get_num_electric_before()));
-                obj1.set_num_water_before(obj1.get_num_water_before() - (obj.get_num_water_after() - obj.get_num_water_before()));
-                obj1.set_date(ThoiGian(dt.get_years(), dt.get_months(), 0));
-                DienNuoc::delete_dien_nuoc(obj1.get_dien_nuoc_id());
-                obj1.add_dien_nuoc();
-                break;
-            }
+            hdAfter = obj1;
+        }
+        if (obj1.get_room_id() == ID_room_before && obj1.get_date().get_days() == 0)
+        {
+            hdBefore = obj1;
         }
     }
-    inputFile.close();
-    /// hoa don
-    inputFile1.open("HoaDon.txt");
-    L.clear();
-    HoaDon hd1;
-    int bonus;
-    while (getline(inputFile1, str))
+    if (hdAfter.get_bill_id().size() != 6)
     {
-        hd1 = HoaDon::Split(str);
-
-        if (hd1.get_room_id() == ID_room_before)
+        hdAfter.set_bill_id(ChuyenDoi::CreateID("HoaDon.txt"));
+        hdAfter.set_room_id(ID_room_after);
+        hdAfter.set_date(ThoiGian(dt.get_years(), dt.get_months(), 0));
+        if (dt.is_mid_month())
         {
-            if (hd1.get_date().get_days() == 0)
+            bonus = hdBefore.get_total_cost();
+        }
+        else
+        {
+            bonus = hdBefore.get_total_cost() / 2;
+        }
+        hdAfter.set_total_cost(roomAfter.getCost() + bonus);
+        hdAfter.add_hoa_don();
+    }
+    else
+    {
+        for (int i = 0; i < size; i++)
+        {
+            obj1 = HoaDon::Split(L[i]);
+            if (obj1.get_bill_id() == hdAfter.get_bill_id())
             {
-                hd1.set_room_id(ID_room_after);
-                hd1.set_date(ThoiGian(dt.get_years(), dt.get_months(), 0));
                 if (dt.is_mid_month())
                 {
-                    bonus = 2 * hd1.get_total_cost();
+                    bonus = hdBefore.get_total_cost();
                 }
                 else
                 {
-                    bonus = hd1.get_total_cost() + hd1.get_total_cost() / 2;
+                    bonus = hdBefore.get_total_cost() / 2;
                 }
-                hd1.set_total_cost(bonus);
-                str = HoaDon::Union(hd1);
+                obj1.set_total_cost(roomAfter.getCost() + bonus);
+                L[i] = HoaDon::Union(obj1);
             }
         }
-        L.push_back(str);
+        HoaDon::write_File(L);
     }
-    inputFile1.close();
-    HoaDon::write_File(L);
+    
+    inputFile.close();
 
-    // customer
-    inputFile2.open("NguoiThue.txt");
+    // Người Thuê
+    inputFile.open("NguoiThue.txt");
     L.clear();
     NguoiThue cs;
-    while (getline(inputFile2, str))
+    while (getline(inputFile, str))
     {
         cs = NguoiThue::Split(str);
 
@@ -619,11 +700,11 @@ void Phong::change_room()
         }
         L.push_back(str);
     }
-    inputFile2.close();
     NguoiThue::write_File(L);
-    // thay doi trang thai room
+    inputFile.close();
+
+    // Thay đổi trạng thái của phòng
     inputFile.open("Phong.txt");
-    Phong room;
     L.clear();
     while (getline(inputFile, str))
     {
@@ -640,6 +721,6 @@ void Phong::change_room()
         }
         L.push_back(str);
     }
-    inputFile.close();
     Phong::write_File(L);
+    inputFile.close();
 }
