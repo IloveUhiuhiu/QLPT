@@ -603,6 +603,7 @@ void DienNuoc::display(List<DienNuoc> &L, int k)
         if (str.size())
         {
             obj = Split(str);
+            room.clear();
             Phong::find_idroom(obj.get_room_id(), room);
             if (k == 0)
             {

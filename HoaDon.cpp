@@ -206,6 +206,7 @@ void HoaDon::display(List<HoaDon> &L, int k)
         if (str.size())
         {
             obj = Split(str);
+            room.clear();
             Phong::find_idroom(obj.get_room_id(),room);
             if (k == 0)
             {
@@ -236,7 +237,7 @@ void HoaDon::display(List<HoaDon> &L, int k)
 }
 bool HoaDon::find_hoa_don(List<HoaDon> &L)
 {
-    string room_id, bill_id, date;
+    string room_id, bill_id, date, status;
     ThoiGian time;
     cin.ignore();
     gotoXY(4, 5);
@@ -248,6 +249,9 @@ bool HoaDon::find_hoa_don(List<HoaDon> &L)
     gotoXY(4, 7);
     cout << "Enter Date(yy-mm-dd): ";
     getline(cin, date);
+    gotoXY(4, 8);
+    cout << "Enter Status: ";
+    getline(cin, status);
     ifstream inputFile;
     inputFile.open("HoaDon.txt");
     string str, s, subs;
@@ -298,6 +302,11 @@ bool HoaDon::find_hoa_don(List<HoaDon> &L)
                     {
                         continue;
                     }
+                }
+            }
+            if (status.size()) {
+                if (status != ((obj.get_status())?"Yes":"No")) {
+                    continue;
                 }
             }
             ++cnt;
@@ -440,6 +449,7 @@ void HoaDon::Pay_bill(HoaDon &obj1, int vt)
                 hd.add_hoa_don();
                 gotoXY(4, vt + 3);
                 cout << "Payment success!!!" << endl;
+                getch();
                 DT.set_date(dt);
                 DT.setThuNhap(obj.get_total_cost());
                 DT.addDoanhThu();

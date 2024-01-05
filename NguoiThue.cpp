@@ -1,6 +1,6 @@
 #include "NguoiThue.h"
 NguoiThue::NguoiThue(string customer_id, string room_id, string customer_name, ThoiGian customer_dateofbirth, ThoiGian check_in, string customer_gender,
-                   string customer_email, string customer_address, string customer_phone, string user_name, string password)
+                     string customer_email, string customer_address, string customer_phone, string user_name, string password)
     : customer_id(customer_id), room_id(room_id), customer_name(customer_name), customer_dateofbirth(customer_dateofbirth), check_in(check_in), customer_gender(customer_gender), customer_email(customer_email), customer_address(customer_address), customer_phone(customer_phone), User(user_name, password)
 {
 }
@@ -337,7 +337,7 @@ NguoiThue NguoiThue::Split(string str)
         end++;
     }
     return NguoiThue(customer_id, room_id, customer_name, time_customer_dateofbirth, time_check_in, customer_gender, customer_email, customer_address,
-                    customer_phone, customer_user_name, customer_password);
+                     customer_phone, customer_user_name, customer_password);
 }
 string NguoiThue::Union(NguoiThue &obj)
 {
@@ -354,9 +354,9 @@ bool NguoiThue::login()
     if (inputFile.is_open())
     {
         while (getline(inputFile, str))
-        {   
+        {
             if (str.size())
-            L.push_back(Split(str));
+                L.push_back(Split(str));
         }
         inputFile.close();
         int size = L.getSize();
@@ -395,7 +395,7 @@ void NguoiThue::write_File(List<string> &L)
     }
     else
     {
-        cout << "Error Opening File NguoiThue.txt" << endl;
+        cout << "Error Opening File NguoiThue.txt1" << endl;
     }
 }
 void NguoiThue::add_customer()
@@ -465,6 +465,7 @@ void NguoiThue::add_customer()
         hd.set_status(false);
         hd.add_hoa_don();
     }
+    getch();
 }
 
 bool NguoiThue::find_customer(List<NguoiThue> &L)
@@ -539,69 +540,61 @@ bool NguoiThue::find_customer(List<NguoiThue> &L)
             }
             if (customer_dateofbirth.size() != 0)
             {
-                if (ThoiGian::isValidDate(customer_dateofbirth))
+
+                time_customer_dateofbirth = ThoiGian::Split(customer_dateofbirth);
+                if (time_customer_dateofbirth.get_years() != 0)
                 {
-                    time_customer_dateofbirth = ThoiGian::Split(customer_dateofbirth);
-                    if (time_customer_dateofbirth.get_years() != 0)
-                    {
 
-                        if (time_customer_dateofbirth.get_years() != obj.get_customer_dateofbirth().get_years())
-                        {
-                            continue;
-                        }
-                    }
-                    if (time_customer_dateofbirth.get_months() != 0)
+                    if (time_customer_dateofbirth.get_years() != obj.get_customer_dateofbirth().get_years())
                     {
-
-                        if (time_customer_dateofbirth.get_months() != obj.get_customer_dateofbirth().get_months())
-                        {
-                            continue;
-                        }
-                    }
-                    if (time_customer_dateofbirth.get_days() != 0)
-                    {
-
-                        if (time_customer_dateofbirth.get_days() != obj.get_customer_dateofbirth().get_days())
-                        {
-                            continue;
-                        }
+                        continue;
                     }
                 }
-                else
-                    continue;
+                if (time_customer_dateofbirth.get_months() != 0)
+                {
+
+                    if (time_customer_dateofbirth.get_months() != obj.get_customer_dateofbirth().get_months())
+                    {
+                        continue;
+                    }
+                }
+                if (time_customer_dateofbirth.get_days() != 0)
+                {
+
+                    if (time_customer_dateofbirth.get_days() != obj.get_customer_dateofbirth().get_days())
+                    {
+                        continue;
+                    }
+                }
             }
             if (check_in.size() != 0)
             {
-                if (ThoiGian::isValidDate(check_in))
+
+                time_check_in = ThoiGian::Split(check_in);
+                if (time_check_in.get_years() != 0)
                 {
-                    time_check_in = ThoiGian::Split(check_in);
-                    if (time_check_in.get_years() != 0)
-                    {
 
-                        if (time_check_in.get_years() != obj.get_check_in().get_years())
-                        {
-                            continue;
-                        }
-                    }
-                    if (time_check_in.get_months() != 0)
+                    if (time_check_in.get_years() != obj.get_check_in().get_years())
                     {
-
-                        if (time_check_in.get_months() != obj.get_check_in().get_months())
-                        {
-                            continue;
-                        }
-                    }
-                    if (time_check_in.get_days() != 0)
-                    {
-
-                        if (time_check_in.get_days() != obj.get_check_in().get_days())
-                        {
-                            continue;
-                        }
+                        continue;
                     }
                 }
-                else
-                    continue;
+                if (time_check_in.get_months() != 0)
+                {
+
+                    if (time_check_in.get_months() != obj.get_check_in().get_months())
+                    {
+                        continue;
+                    }
+                }
+                if (time_check_in.get_days() != 0)
+                {
+
+                    if (time_check_in.get_days() != obj.get_check_in().get_days())
+                    {
+                        continue;
+                    }
+                }
             }
             if (customer_gender.size() != 0)
             {
@@ -782,7 +775,7 @@ void NguoiThue::delete_customer(string customer_id)
     {
         Phong::find_idroom(room_id, room);
         room[0].setOccupied(false);
-        Phong::delete_room(room_id,1);
+        Phong::delete_room(room_id, 1);
         room[0].add_room(0);
     }
 }

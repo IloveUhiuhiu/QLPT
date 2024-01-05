@@ -871,6 +871,7 @@ void menu_Manager_Customer()
             break;
         case 4:
             gotoXY(60,4);cout << "***Delete Information Customer***" << endl;
+            gotoXY(4,4); cout << "Find Information Customer";
             NguoiThue::find_customer(L);
             sz = L.getSize();
             page = (sz-1)/6;
@@ -903,10 +904,13 @@ void menu_Manager_Customer()
             } while (ID.size() && L.getSize() == 0);
             if (ID.size() == 0)
                 break;
+            gotoXY(4, 34);cout << "Delete Successful." << endl;
+            getch();
             NguoiThue::delete_customer(ID);
             break;
         case 5:
             gotoXY(61,4);cout << "***Edit Information Customer***" << endl;
+            gotoXY(4,4); cout << "Find Information Customer";
             NguoiThue::find_customer(L);
             sz = L.getSize();
             page = (sz-1)/6;
@@ -1081,7 +1085,7 @@ void menu_Manager_Phong_Tro()
             p = 0;
             while (true) {
                 xoa(4,5,140,32);
-                box_roomempty(50, 6, L, p);
+                box_roomempty(56, 6, L, p);
                 gotoXY(145,36); cout << p+1 << " / " << page+1 ;
                 ch = getch();
                 if (ch == 'l') {
@@ -1101,7 +1105,7 @@ void menu_Manager_Phong_Tro()
             p = 0;
             while (true) {
                 xoa(4,5,140,32);
-                box_roomrent(50, 6, L, p);
+                box_roomrent(56, 6, L, p);
                 gotoXY(145,36); cout << p+1 << " / " << page+1 ;
                 ch = getch();
                 if (ch == 'l') {
@@ -1153,6 +1157,7 @@ void menu_Manager_Phong_Tro()
             break;
         case 7:
             gotoXY(64,4);cout << "***Edit Information Room***";
+            gotoXY(4,4); cout << "Find Information Room";
             cin.ignore();
             Phong::find_room(L);
             sz = L.getSize();
@@ -1385,30 +1390,33 @@ void menu_Manager_Payment()
                     break;
                 }  
             }
-            len = L.getSize();
-            L.clear();
             cin.ignore();
-            do
+             do
             {   
-                xoa(4,29,40);
-                xoa(4,30,40);
-                
-                gotoXY(4, 29);cout << "Enter ID Of Bill Want To Pay: ";
+                L.clear();
+                xoa(4,30,100);
+                xoa(4,31,100);
+                xoa(4,32,100);
+                xoa(4,33,100);
+                xoa(4,34,100);
+                xoa(4,35,100);
+                xoa(4,36,100);
+                gotoXY(4, 30);cout << "Enter ID Of Bill Want To Pay: ";
                 getline(cin, ID);
+                if(ID =="exit") break;
                 HoaDon::find_bill_id(ID, L);
                 if (ID.size() && L.getSize() == 0)
                 {
-                    gotoXY(4, 30);cout << "ID does not exist!!!Try Again." << endl;
+                    gotoXY(4, 31);cout << "ID does not exist!!!Try Again." << endl;
                     getch();
                 }
-            } while (ID.size() && L.getSize() == 0);
-            if (ID.size() == 0)
-                break;
-            HoaDon::Pay_bill(L[0], 30);
+                HoaDon::Pay_bill(L[0], 30);
+            } while ((ID.size() && L.getSize() == 0) || ID.size() == 0 || true);
             break;
 
         case 6:
             gotoXY(67,4);cout << "***Edit Information BiLL***" << endl;
+            gotoXY(4,4);cout << "Find Information BiLL";
             HoaDon::find_hoa_don(L);
             sz = L.getSize();
             page = (sz-1)/10;
@@ -1682,6 +1690,7 @@ void menu_Manager_Dien_Nuoc()
             break;
         case 8:
             gotoXY(60,4);cout << "***Edit Information Electric Water***";
+            gotoXY(4,4); cout << "Find Informatin Electric Water";
             DienNuoc::find_dien_nuoc(L);
             sz = L.getSize();
             page = (sz-1)/10;
@@ -2289,7 +2298,7 @@ void menu()
             p = 0;
             while (true) {
                 xoa(4,5,140,32);
-                box_roomempty(50, 6, L, p);
+                box_roomempty(56, 6, L, p);
                 gotoXY(145,36); cout << p+1 << " / " << page+1 ;
                 ch = getch();
                 if (ch == 'l') {
